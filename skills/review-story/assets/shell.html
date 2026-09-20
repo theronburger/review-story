@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>__TITLE__</title>
+    <style>
+      __CSS__
+    </style>
+  </head>
+  <body>
+    <main id="operations-map">
+      <header>
+        <div>
+          <h1>__TITLE__</h1>
+          <p>__SUBTITLE__</p>
+        </div>
+        <div class="legend">
+          <span><i></i>__PURPLE__</span><span><i></i>__BLUE__</span>
+        </div>
+      </header>
+      <section class="tour" aria-label="Spoken walkthrough">
+        <div class="tour-controls">
+          <button type="button" id="tour-play" aria-label="Play walkthrough">
+            ▶ Play</button
+          ><button
+            type="button"
+            id="tour-restart"
+            aria-label="Restart walkthrough"
+          >
+            ↺</button
+          ><button type="button" id="tour-prev" aria-label="Previous chapter">
+            ←</button
+          ><button type="button" id="tour-next" aria-label="Next chapter">
+            →</button
+          ><label class="advance-label"
+            ><select id="tour-advance" aria-label="Beat advancement">
+              <option value="auto">Auto advance</option>
+              <option value="manual">Manual · Space</option>
+            </select></label
+          ><label class="cursor-path-toggle"
+            ><input type="checkbox" id="show-cursor-path" /> Cursor path</label
+          ><input
+            type="range"
+            id="tour-seek"
+            min="0"
+            step="0.05"
+            value="0"
+            aria-label="Walkthrough position"
+          /><span id="tour-time"></span>
+        </div>
+        <div class="tour-heading">
+          <span id="tour-title"></span
+          ><span class="tour-note"
+            >Spoken walkthrough · Select a tab to change pages</span
+          >
+        </div>
+        <p id="tour-caption"></p>
+        <p id="tour-status" role="status"></p>
+        <audio id="tour-audio" preload="metadata" src="__MAP_AUDIO__"></audio
+        ><audio
+          id="sequence-audio"
+          preload="metadata"
+          src="__SEQUENCE_AUDIO__"
+        ></audio>
+      </section>
+      <nav class="page-tabs" role="tablist" aria-label="Review pages">
+        <button
+          id="map-tab"
+          type="button"
+          role="tab"
+          aria-controls="page-map"
+          aria-selected="true"
+          data-page="map"
+        >
+          1 · Territory map</button
+        ><button
+          id="sequences-tab"
+          type="button"
+          role="tab"
+          aria-controls="page-sequences"
+          aria-selected="false"
+          tabindex="-1"
+          data-page="sequences"
+        >
+          2 · Sequences
+        </button>
+      </nav>
+      <section id="page-map" role="tabpanel" aria-labelledby="map-tab">
+        <div class="diagram">
+          <svg
+            viewBox="0 0 __MAP_WIDTH__ __MAP_HEIGHT__"
+            role="group"
+            aria-label="Architecture map"
+          >
+            <defs>
+              <marker
+                id="arrow-main"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto"
+              >
+                <path
+                  d="M0 1L9 5L0 9"
+                  fill="none"
+                  stroke="#536e89"
+                  stroke-width="1.5"
+                />
+              </marker>
+              <marker
+                id="arrow-secondary"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto"
+              >
+                <path
+                  d="M0 1L9 5L0 9"
+                  fill="none"
+                  stroke="#a6b3c4"
+                  stroke-width="1.5"
+                />
+              </marker>
+            </defs>
+            <g id="edges"></g>
+            <g id="nodes"></g>
+            <g id="tour-pointer" aria-hidden="true">
+              <path
+                d="M0 0 L7.1 17 L9.6 9.6 L17 7.1 Z"
+                fill="#7044c3"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              />
+            </g>
+          </svg>
+        </div>
+        <aside class="detail" hidden aria-label="Node details">
+          <button class="close" type="button" aria-label="Close details">
+            ×
+          </button>
+          <div class="identity">
+            <span class="kind"></span>
+            <h2></h2>
+            <a target="_blank" rel="noopener noreferrer"
+              >View implementation ↗</a
+            >
+          </div>
+          <p class="description"></p>
+          <p class="boundary-note"></p>
+        </aside>
+        <footer class="hint">
+          <p>
+            Hover to trace connections · Click for details and code · Esc to
+            close
+          </p>
+          <p>Esc clears selection · __REVISION__</p>
+        </footer>
+      </section>
+      <section
+        id="page-sequences"
+        role="tabpanel"
+        aria-labelledby="sequences-tab"
+        hidden
+      >
+        <nav
+          class="sequence-tabs"
+          role="tablist"
+          aria-label="Sequence diagrams"
+        ></nav>
+        <div class="sequence-heading">
+          <div>
+            <h2 id="sequence-title"></h2>
+            <p id="sequence-subtitle"></p>
+          </div>
+          <a id="sequence-source" target="_blank" rel="noopener noreferrer"
+            >View implementation ↗</a
+          >
+        </div>
+        <div class="sequence-legend">
+          <span><b>→</b> Call</span><span><b>⇢</b> Return (dashed)</span
+          ><span><b>↳</b> Local work (loop)</span>
+        </div>
+        <div class="sequence-canvas">
+          <div class="sequence-participants" aria-hidden="true">
+            <svg viewBox="0 0 900 86"></svg>
+          </div>
+          <svg
+            id="sequence-svg"
+            role="group"
+            aria-label="Sequence diagram"
+          ></svg>
+        </div>
+        <p class="sequence-hint">
+          Read top to bottom · Click a message to inspect its code · Helper and
+          framework internals are condensed; displayed returns are explicit.
+        </p>
+      </section>
+      <aside
+        id="code-pane"
+        aria-label="Source for the current narrated step"
+        hidden
+      >
+        <div class="code-pane-head">
+          <span class="eyebrow">SOURCE WORKSPACE</span>
+          <h2 id="code-step"></h2>
+          <p>
+            Related blocks stay visible. Strong highlights follow the narrated
+            phrase.
+          </p>
+        </div>
+        <div class="code-focus">
+          <span>FOCUS</span><span id="code-phrase"></span>
+        </div>
+        <div
+          id="code-cards"
+          tabindex="0"
+          role="region"
+          aria-label="Related source excerpts"
+        ></div>
+        <div class="code-pane-foot">
+          __REVISION__ · Source links open the full file
+        </div>
+      </aside>
+    </main>
+    <svg id="cursor-trail-debug" aria-hidden="true">
+      <path
+        id="cursor-trail-planned"
+        fill="none"
+        stroke="#c04cba"
+        stroke-width="1.5"
+        stroke-dasharray="5 5"
+        opacity=".38"
+      />
+      <path
+        id="cursor-trail-actual"
+        fill="none"
+        stroke="#d43cb5"
+        stroke-width="2.3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity=".8"
+      /></svg
+    ><svg id="cross-pane-cursor" aria-hidden="true">
+      <g id="cross-pane-arrow">
+        <path
+          d="M0 0 L7.1 17 L9.6 9.6 L17 7.1 Z"
+          fill="#7044c3"
+          stroke="white"
+          stroke-width="1.5"
+          stroke-linejoin="round"
+        />
+      </g>
+    </svg>
+    <script>
+      const review = __REVIEW_DATA__;
+      __GEOMETRY__;
+      __RUNTIME__;
+    </script>
+  </body>
+</html>

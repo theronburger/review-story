@@ -1,0 +1,673 @@
+{
+  "title": "Stock summary refactor",
+  "subtitle": "Fictional review · Extract layout, validation, and table rendering.",
+  "initialPage": "sequences",
+  "source": {
+    "kind": "snapshot",
+    "root": "after",
+    "revision": "Fictional example · after",
+    "url": "source/{file}.html#L{line}"
+  },
+  "legend": {
+    "changed": "Extracted helpers",
+    "context": "Caller contract"
+  },
+  "map": {
+    "width": 1440,
+    "height": 620,
+    "nodes": [
+      {
+        "id": "caller",
+        "x": 70,
+        "y": 70,
+        "w": 280,
+        "h": 80,
+        "label": "Caller",
+        "subtitle": "items + requested locale",
+        "file": "render.mjs",
+        "description": "Calls the same renderSummary entry point.",
+        "boundary": "Valid inputs retain the same result shape.",
+        "side": "context"
+      },
+      {
+        "id": "renderer",
+        "x": 540,
+        "y": 70,
+        "w": 280,
+        "h": 80,
+        "label": "renderSummary",
+        "subtitle": "coordinates the helpers",
+        "file": "render.mjs",
+        "description": "Selects labels, derives values, then renders the table.",
+        "boundary": "The caller receives locale, title, total, and body.",
+        "side": "context"
+      },
+      {
+        "id": "layouts",
+        "x": 1010,
+        "y": 70,
+        "w": 280,
+        "h": 80,
+        "label": "selectLayout",
+        "subtitle": "language fallback",
+        "file": "layouts.mjs",
+        "description": "Tries the full locale, short language, then English.",
+        "boundary": "fr-CA resolves to fr. Unknown languages resolve to en.",
+        "side": "changed"
+      },
+      {
+        "id": "derive",
+        "x": 540,
+        "y": 290,
+        "w": 280,
+        "h": 80,
+        "label": "deriveSummary",
+        "subtitle": "validate + calculate",
+        "file": "derive.mjs",
+        "description": "Rejects invalid quantities, then builds rows and sums the total.",
+        "boundary": "New behavior: negative and non-finite quantities throw.",
+        "side": "changed"
+      },
+      {
+        "id": "rows",
+        "x": 1010,
+        "y": 290,
+        "w": 280,
+        "h": 80,
+        "label": "renderRows",
+        "subtitle": "escape + format",
+        "file": "rows.mjs",
+        "description": "Escapes item names and builds the table markup.",
+        "boundary": "The helper returns an HTML string.",
+        "side": "changed"
+      },
+      {
+        "id": "result",
+        "x": 70,
+        "y": 490,
+        "w": 280,
+        "h": 80,
+        "label": "Result",
+        "subtitle": "locale · title · total · body",
+        "file": "render.mjs",
+        "description": "Returns the completed summary to the caller.",
+        "boundary": "The return shape is unchanged for valid input.",
+        "side": "context"
+      }
+    ],
+    "edges": [
+      {
+        "from": "caller",
+        "to": "renderer",
+        "d": "M350 110 L535 110"
+      },
+      {
+        "from": "renderer",
+        "to": "layouts",
+        "d": "M820 110 L1005 110"
+      },
+      {
+        "from": "renderer",
+        "to": "derive",
+        "d": "M680 150 L680 285"
+      },
+      {
+        "from": "derive",
+        "to": "rows",
+        "d": "M820 330 L1005 330"
+      },
+      {
+        "from": "rows",
+        "to": "result",
+        "d": "M1150 370 L1150 530 L355 530"
+      }
+    ],
+    "beats": [
+      {
+        "target": "renderer",
+        "title": "Same entry point",
+        "text": "The caller still uses render summary. Three helpers now handle language selection, derived values, and HTML rendering."
+      },
+      {
+        "target": "layouts",
+        "title": "Language selection",
+        "text": "Layout selection tries the requested locale, its short language, then English. The selected layout supplies all table labels."
+      },
+      {
+        "target": "derive",
+        "title": "One behavior change",
+        "text": "Validation is new. Negative and non-finite quantities now throw before rendering. Valid quantities produce the same rows and total."
+      },
+      {
+        "target": "rows",
+        "title": "HTML and result",
+        "text": "The table helper escapes item names and returns HTML. The renderer returns the same result shape as before."
+      }
+    ]
+  },
+  "cards": {
+    "render": {
+      "file": "render.mjs",
+      "start": 1,
+      "end": 10,
+      "label": "Entry point and helper order",
+      "context": [
+        [
+          5,
+          10
+        ]
+      ]
+    },
+    "layouts": {
+      "file": "layouts.mjs",
+      "start": 1,
+      "end": 10,
+      "label": "Available layouts and fallback order",
+      "context": [
+        [
+          6,
+          10
+        ]
+      ]
+    },
+    "derive": {
+      "file": "derive.mjs",
+      "start": 1,
+      "end": 11,
+      "label": "Validation, rows, and total",
+      "context": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    "rows": {
+      "file": "rows.mjs",
+      "start": 1,
+      "end": 13,
+      "label": "Escaping and HTML output",
+      "context": [
+        [
+          7,
+          13
+        ]
+      ]
+    }
+  },
+  "sequences": [
+    {
+      "id": "render",
+      "title": "Render a summary",
+      "subtitle": "Valid input: helper calls and their return values.",
+      "actors": [
+        "Caller",
+        "renderSummary",
+        "selectLayout",
+        "deriveSummary",
+        "renderRows"
+      ],
+      "file": "render.mjs",
+      "rows": [
+        {
+          "text": "The caller passes items and a requested locale. The renderer selects a layout first. That helper returns the resolved locale and labels.",
+          "cards": [
+            "render",
+            "layouts"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "renderSummary(items, requestedLocale)"
+            },
+            {
+              "kind": "call",
+              "from": 1,
+              "to": 2,
+              "label": "selectLayout(requestedLocale)"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 1,
+              "label": "{ locale, labels }"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The caller",
+              "card": "render",
+              "ranges": [
+                [
+                  5,
+                  5
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "selects a layout",
+              "card": "render",
+              "ranges": [
+                [
+                  6,
+                  6
+                ]
+              ],
+              "message": 1,
+              "point": "diagram"
+            },
+            {
+              "phrase": "returns the resolved",
+              "card": "layouts",
+              "ranges": [
+                [
+                  7,
+                  9
+                ]
+              ],
+              "message": 2,
+              "point": "code"
+            }
+          ]
+        },
+        {
+          "text": "Next, the renderer derives the summary. The helper validates every quantity, then builds the rows and total. Those values return to the renderer.",
+          "cards": [
+            "render",
+            "derive"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 1,
+              "to": 3,
+              "label": "deriveSummary(items)"
+            },
+            {
+              "kind": "local",
+              "from": 3,
+              "to": 3,
+              "label": "Validate quantities; derive rows and total"
+            },
+            {
+              "kind": "return",
+              "from": 3,
+              "to": 1,
+              "label": "{ rows, total }"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "the renderer derives",
+              "card": "render",
+              "ranges": [
+                [
+                  7,
+                  7
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "validates every quantity",
+              "card": "derive",
+              "ranges": [
+                [
+                  2,
+                  6
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            },
+            {
+              "phrase": "builds the rows and total",
+              "card": "derive",
+              "ranges": [
+                [
+                  7,
+                  10
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            },
+            {
+              "phrase": "return to the renderer",
+              "card": "render",
+              "ranges": [
+                [
+                  7,
+                  7
+                ]
+              ],
+              "message": 2,
+              "point": "diagram"
+            }
+          ]
+        },
+        {
+          "text": "The renderer passes rows and labels to the table helper. Item names are escaped before insertion. The helper returns the completed HTML table.",
+          "cards": [
+            "render",
+            "rows"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 1,
+              "to": 4,
+              "label": "renderRows(rows, labels)"
+            },
+            {
+              "kind": "return",
+              "from": 4,
+              "to": 1,
+              "label": "HTML table string"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "passes rows and labels",
+              "card": "render",
+              "ranges": [
+                [
+                  8,
+                  8
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Item names are escaped",
+              "card": "rows",
+              "ranges": [
+                [
+                  1,
+                  5
+                ],
+                [
+                  9,
+                  11
+                ]
+              ],
+              "message": 0,
+              "point": "code"
+            },
+            {
+              "phrase": "returns the completed",
+              "card": "rows",
+              "ranges": [
+                [
+                  12,
+                  12
+                ]
+              ],
+              "message": 1,
+              "point": "diagram"
+            }
+          ]
+        },
+        {
+          "text": "Finally, the renderer returns locale, title, total, and body. For valid inputs, this result matches the original implementation.",
+          "cards": [
+            "render"
+          ],
+          "messages": [
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "{ locale, title, total, body }"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "the renderer returns",
+              "card": "render",
+              "ranges": [
+                [
+                  9,
+                  9
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "For valid inputs",
+              "card": "render",
+              "ranges": [
+                [
+                  5,
+                  10
+                ]
+              ],
+              "message": 0,
+              "point": "code"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decisions",
+      "title": "Fallback and rejection",
+      "subtitle": "Example: fr-CA with a negative quantity. Rendering stops at validation.",
+      "actors": [
+        "renderSummary",
+        "selectLayout",
+        "deriveSummary",
+        "Caller"
+      ],
+      "file": "layouts.mjs",
+      "rows": [
+        {
+          "text": "With French Canadian requested, the layout helper extracts French. It tries the full locale, then French, then English. French is the first available layout.",
+          "cards": [
+            "render",
+            "layouts"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "selectLayout(\"fr-CA\")"
+            },
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "Try fr-CA → fr → en"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "{ locale: \"fr\", labels }"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "layout helper extracts French",
+              "card": "layouts",
+              "ranges": [
+                [
+                  7,
+                  7
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "tries the full locale",
+              "card": "layouts",
+              "ranges": [
+                [
+                  8,
+                  8
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            },
+            {
+              "phrase": "first available layout",
+              "card": "layouts",
+              "ranges": [
+                [
+                  1,
+                  4
+                ],
+                [
+                  9,
+                  9
+                ]
+              ],
+              "message": 2,
+              "point": "code"
+            }
+          ]
+        },
+        {
+          "text": "The renderer next calls the summary helper. A negative quantity fails validation. The helper throws a range error before calculating rows or a total.",
+          "cards": [
+            "render",
+            "derive"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 2,
+              "label": "deriveSummary(items)"
+            },
+            {
+              "kind": "local",
+              "from": 2,
+              "to": 2,
+              "label": "Reject negative or non-finite quantity"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "renderer next calls",
+              "card": "render",
+              "ranges": [
+                [
+                  7,
+                  7
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "negative quantity fails",
+              "card": "derive",
+              "ranges": [
+                [
+                  2,
+                  5
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            },
+            {
+              "phrase": "before calculating",
+              "card": "derive",
+              "ranges": [
+                [
+                  7,
+                  10
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            }
+          ]
+        },
+        {
+          "text": "There is no catch in the renderer. The error propagates to the caller, and table rendering never runs. This rejection is a behavior change from the original implementation.",
+          "cards": [
+            "render",
+            "derive"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 0,
+              "to": 0,
+              "label": "Exit on the thrown error; skip renderRows"
+            },
+            {
+              "kind": "return",
+              "from": 0,
+              "to": 3,
+              "label": "RangeError propagates (exceptional completion)"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "no catch in the renderer",
+              "card": "render",
+              "ranges": [
+                [
+                  5,
+                  10
+                ]
+              ],
+              "message": 0,
+              "point": "code"
+            },
+            {
+              "phrase": "error propagates",
+              "card": "derive",
+              "ranges": [
+                [
+                  3,
+                  4
+                ]
+              ],
+              "message": 1,
+              "point": "diagram"
+            },
+            {
+              "phrase": "table rendering never runs",
+              "card": "render",
+              "ranges": [
+                [
+                  8,
+                  9
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            },
+            {
+              "phrase": "behavior change",
+              "card": "derive",
+              "ranges": [
+                [
+                  2,
+                  6
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Story"
+  short_description: "Narrated code reviews with diagrams and source"
+  default_prompt: "Use $review-story to explain this PR with a narrated map, sequence diagrams, and synchronized source highlights."

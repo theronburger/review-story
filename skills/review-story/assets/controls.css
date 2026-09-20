@@ -1,0 +1,116 @@
+.tour {
+  margin: 20px 0 4px;
+  padding: 16px 18px;
+  border: 1px solid #d9e2ef;
+  border-radius: 12px;
+  background: #f8faff;
+}
+.tour-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tour button {
+  border: 1px solid #ced8e6;
+  border-radius: 7px;
+  padding: 7px 11px;
+  background: white;
+  color: #304d70;
+  cursor: pointer;
+  font-size: 13px;
+}
+.tour button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.tour button:focus-visible,
+.tour input:focus-visible {
+  outline: 2px solid #7950b6;
+  outline-offset: 3px;
+}
+#tour-play {
+  background: #54318b;
+  color: white;
+  border-color: #54318b;
+  min-width: 87px;
+}
+#tour-seek {
+  flex: 1;
+  min-width: 100px;
+  accent-color: #7044c3;
+}
+#tour-time {
+  font-size: 12px;
+  color: #657084;
+  font-variant-numeric: tabular-nums;
+}
+.tour-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 13px 0 6px;
+}
+#tour-title {
+  font-size: 13px;
+  color: #54318b;
+  font-weight: 650;
+}
+.tour-note {
+  font-size: 11px;
+  color: #7b8796;
+}
+#tour-caption {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #425269;
+  margin: 0;
+  min-height: 46px;
+}
+#tour-caption mark {
+  color: inherit;
+  background: #e4d8f7;
+  border-radius: 3px;
+  padding: 2px 0;
+}
+#tour-status {
+  font-size: 12px;
+  color: #657084;
+  margin: 6px 0 0;
+}
+#tour-status:empty {
+  display: none;
+}
+#tour-pointer {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  filter: drop-shadow(0 2px 3px #20317f30);
+}
+.node.tour-focus .surface {
+  stroke: #7044c3 !important;
+  stroke-width: 3;
+  fill: #f0e9fb !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #tour-pointer {
+    transition: none;
+  }
+}
+@media (max-width: 760px) {
+  .tour {
+    padding: 12px;
+  }
+  .tour-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  #tour-caption {
+    min-height: 115px;
+  }
+  .tour-note {
+    font-size: 10px;
+  }
+}
