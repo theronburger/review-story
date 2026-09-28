@@ -5,7 +5,7 @@ const path = require("node:path");
 const assert = require("node:assert/strict");
 const scope = { innerHeight: 1000, innerWidth: 1800 };
 vm.createContext(scope);
-for (const file of ["geometry", "visibility"])
+for (const file of ["geometry", "visibility", "proximity"])
   vm.runInContext(
     fs.readFileSync(
       path.join(__dirname, "../skills/review-story/assets", file + ".js"),
@@ -53,6 +53,78 @@ test("cursor sits on the boundary ellipse and aims inward across target shapes",
   assert(headings.size > 8);
 });
 vm.runInContext("this.evalDirection = pointerDirection;", scope);
+
+test("nearby targets slide with steady orientation and at most a four-pixel hop", () => {
+  const box = (left, top) => ({ left, top, width: 35, height: 18 }),
+    bounds = { left: 10, top: 10, right: 900, bottom: 900 };
+  for (const boxes of [
+    [box(250, 200), box(250, 240), box(250, 280)],
+    [box(250, 200), box(320, 200), box(400, 200)],
+  ]) {
+    const destinations = boxes.map((box) =>
+      scope.groupedDestination(box, bounds, boxes),
+    );
+    for (let i = 1; i < boxes.length; i++) {
+      assert(scope.nearbyTargets(boxes[i - 1], boxes[i]));
+      const from = destinations[i - 1],
+        to = destinations[i],
+        points = scope.localPointerPath(from, to),
+        dx = to.x - from.x,
+        dy = to.y - from.y,
+        distance = Math.hypot(dx, dy);
+      assert.equal(from.angle, to.angle);
+      let previous = -1;
+      for (const point of points) {
+        const progress =
+          ((point.x - from.x) * dx + (point.y - from.y) * dy) / distance ** 2;
+        assert(progress >= previous - 1e-9 && progress <= 1 + 1e-9);
+        assert(
+          Math.abs((point.x - from.x) * dy - (point.y - from.y) * dx) /
+            distance <=
+            4.001,
+        );
+        assert.equal(point.angle, to.angle);
+        previous = progress;
+      }
+      assert(Math.hypot(points.at(-1).x - to.x, points.at(-1).y - to.y) < 1e-8);
+    }
+  }
+  assert(!scope.nearbyTargets(box(0, 0), box(0, 400)));
+  assert(!scope.nearbyTargets(box(0, 0), null));
+  const reverse = scope.localPointerPath(
+    { x: 100, y: 100, angle: 765 },
+    { x: 50, y: 100, angle: 45 },
+  );
+  assert(reverse.every((p) => Math.abs(p.angle - 765) < 1e-8));
+  assert(
+    scope.pointerTravelDuration({ x: 0, y: 0 }, { x: 0, y: 50 }, true, 0.2) <
+      0.2,
+  );
+});
+
+test("precise token pointing stays close to the text without covering it", () => {
+  for (const width of [7, 42, 100]) {
+    const box = { left: 500, top: 300, width, height: 18 },
+      target = ellipseDestination(
+        box,
+        { left: 400, top: 200, right: 900, bottom: 600 },
+        "token",
+        { gap: 4, clearance: 3 },
+      ),
+      distance = Math.hypot(
+        Math.max(box.left - target.x, 0, target.x - box.left - width),
+        Math.max(box.top - target.y, 0, target.y - box.top - box.height),
+      ),
+      direction = scope.evalDirection(target.angle);
+    assert(distance >= 3 && distance <= 6);
+    assert(
+      Math.abs(
+        direction.x * (target.cy - target.y) -
+          direction.y * (target.cx - target.x),
+      ) < 1e-8,
+    );
+  }
+});
 
 test("travel stays nose-first for 144 heading pairs; reversal loops before moving back", () => {
   for (let first = 0; first < 360; first += 30)

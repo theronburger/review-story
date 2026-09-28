@@ -1,0 +1,5913 @@
+{
+  "text": "A pull request starts the gate. The checkout includes the merge commit and its first parent. The command compares those revisions, so the change list describes this pull request. The runner gives the changed paths to the selector. An English shipment edit adds that notice identifier to the affected set. The catalog then supplies its English, French, and German variants. A French only edit selects one file. Changing shared inputs selects the whole catalog instead. This distinction keeps small reviews fast without skipping consumers of a shared definition. Partner notices are separate source identities. They share a contract, but an English shipment text edit does not select the partner text. Keep source dependencies separate from contract dependencies; that distinction matters in the final finding. The runner resolves the English source before comparing any translation. It loads the contract selected by the catalog entry. Missing sources or unreadable contracts become file errors, rather than silently passing. The allowed set combines three sources. Shared inputs provide the brand name and support link. Direct inputs supply the recipient and tracking link. Derived values add the item table, which is built before rendering. All three are allowed in the template. The inspector parses data, not executable template code. It requires a nonempty body, then reads placeholders separately from each field. Repeated names collapse into a set; their order and repetition are not part of this contract. Unknown inputs are reported with their field and source side. Malformed placeholders become document errors. If English is invalid, validation returns immediately; blaming every translation for a broken source would hide the real cause. Once English is valid, the candidate translation is inspected with the same allowed set. A broken document returns its parse error. Otherwise, comparison continues, retaining any unknown input errors already found. Each field is compared independently. Removing the subject produces a field presence issue. Moving the item table from the body into the preview also fails; preserving a name somewhere in the document is not enough. The validator compares the names in both directions. Missing names appear in English but not in the translation. Unexpected names appear in the translation but not in English. Moving the item table into the preview produces one mismatch in each field, even though the contract allows that input. A valid French translation returns no issues. This proves placeholder parity and basic syntax, not translation quality or visual layout. Reordering a sentence or repeating a recipient is permitted; the gate compares sets rather than prose. The runner processes every selected catalog entry. A load failure is attached to that file, and the remaining entries still run. This lets one check report several independent problems instead of stopping at the first exception. The result includes the checked count and every file report. If any file has issues, the exit code is one. The command prints the report and forwards that status to the workflow, so a validation failure blocks the check. A manual audit selects the entire catalog. That full run is useful for investigating a suspicious green pull request check. A zero exit code only describes the selected files; it says nothing about files the selector forgot. Here is a reproduced review finding. Remove the tracking link input from the shipment contract without editing any templates. Five notices still use that input: three language variants, plus two partner overrides. The selector only recognizes template edits and a fixed list of shared files. Contract data paths match neither branch. It returns an empty selection, and the runner reports success after checking zero files. The full audit fails on all five dependents, confirming the validator works. The fix belongs in selection: map changed contracts to every catalog entry using them, including partner overrides. Keep this reproduction as a regression test before calling the gate reliable.",
+  "beats": [
+    {
+      "text": "A pull request starts the gate. The checkout includes the merge commit and its first parent. The command compares those revisions, so the change list describes this pull request.",
+      "cards": [
+        "workflow",
+        "cli"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 1,
+          "label": "node cli.mjs --base HEAD^1"
+        },
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "git diff --name-only -z base HEAD"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "A pull request",
+          "card": "workflow",
+          "ranges": [
+            [
+              17,
+              19
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 0.0
+        },
+        {
+          "phrase": "checkout includes",
+          "card": "workflow",
+          "ranges": [
+            [
+              11,
+              13
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 13,
+            "text": "2"
+          },
+          "start": 2.5125
+        },
+        {
+          "phrase": "compares those revisions",
+          "card": "cli",
+          "ranges": [
+            [
+              11,
+              13
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 12,
+            "text": "process.argv[baseIndex + 1]"
+          },
+          "start": 6.7
+        }
+      ],
+      "target": "selection-0",
+      "diagram": "selection",
+      "row": 0,
+      "title": "Select affected files · 1 / 4",
+      "start": 0.0,
+      "charStart": 0
+    },
+    {
+      "text": "The runner gives the changed paths to the selector. An English shipment edit adds that notice identifier to the affected set. The catalog then supplies its English, French, and German variants.",
+      "cards": [
+        "runner",
+        "selector",
+        "catalog"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 1,
+          "to": 2,
+          "label": "selectAffected(changed, catalog)"
+        },
+        {
+          "kind": "call",
+          "from": 2,
+          "to": 3,
+          "label": "Match source IDs and their variants"
+        },
+        {
+          "kind": "return",
+          "from": 3,
+          "to": 2,
+          "label": "shipment: en, fr, de"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The runner",
+          "card": "runner",
+          "ranges": [
+            [
+              6,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 11.3
+        },
+        {
+          "phrase": "An English shipment edit",
+          "card": "selector",
+          "ranges": [
+            [
+              7,
+              9
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 8,
+            "text": "entry.locale === 'en'"
+          },
+          "start": 14.7125
+        },
+        {
+          "phrase": "its English",
+          "card": "catalog",
+          "ranges": [
+            [
+              2,
+              4
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 2,
+            "text": "'en'"
+          },
+          "start": 20.9
+        },
+        {
+          "phrase": "French",
+          "card": "catalog",
+          "ranges": [
+            [
+              2,
+              4
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 3,
+            "text": "'fr'"
+          },
+          "start": 21.8875
+        },
+        {
+          "phrase": "German variants",
+          "card": "catalog",
+          "ranges": [
+            [
+              2,
+              4
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 4,
+            "text": "'de'"
+          },
+          "start": 22.6375
+        }
+      ],
+      "target": "selection-1",
+      "diagram": "selection",
+      "row": 1,
+      "title": "Select affected files · 2 / 4",
+      "start": 11.3,
+      "charStart": 179
+    },
+    {
+      "text": "A French only edit selects one file. Changing shared inputs selects the whole catalog instead. This distinction keeps small reviews fast without skipping consumers of a shared definition.",
+      "cards": [
+        "selector",
+        "shared"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 2,
+          "to": 2,
+          "label": "Translation edit → one entry"
+        },
+        {
+          "kind": "local",
+          "from": 2,
+          "to": 2,
+          "label": "shared.mjs edit → every entry"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 1,
+          "label": "Selected catalog entries"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "A French only edit",
+          "card": "selector",
+          "ranges": [
+            [
+              10,
+              11
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 11,
+            "text": "changed.includes(entry.file)"
+          },
+          "start": 24.05
+        },
+        {
+          "phrase": "Changing shared inputs",
+          "card": "selector",
+          "ranges": [
+            [
+              2,
+              5
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 2,
+            "text": "changed.includes('shared.mjs')"
+          },
+          "start": 26.9625
+        },
+        {
+          "phrase": "shared definition",
+          "card": "shared",
+          "ranges": [
+            [
+              2,
+              2
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 2,
+            "text": "sharedInputs"
+          },
+          "start": 34.875
+        }
+      ],
+      "target": "selection-2",
+      "diagram": "selection",
+      "row": 2,
+      "title": "Select affected files · 3 / 4",
+      "start": 24.05,
+      "charStart": 373
+    },
+    {
+      "text": "Partner notices are separate source identities. They share a contract, but an English shipment text edit does not select the partner text. Keep source dependencies separate from contract dependencies; that distinction matters in the final finding.",
+      "cards": [
+        "catalog",
+        "partner",
+        "selector"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 2,
+          "to": 2,
+          "label": "Text identity ≠ contract identity"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 1,
+          "label": "Only the matching source family"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "Partner notices",
+          "card": "catalog",
+          "ranges": [
+            [
+              5,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 36.325
+        },
+        {
+          "phrase": "share a contract",
+          "card": "catalog",
+          "ranges": [
+            [
+              5,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 5,
+            "text": "contract: 'shipment'"
+          },
+          "start": 39.9625
+        },
+        {
+          "phrase": "does not select",
+          "card": "selector",
+          "ranges": [
+            [
+              9,
+              11
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 11,
+            "text": "changedSources.has(entry.id)"
+          },
+          "start": 42.975
+        }
+      ],
+      "target": "selection-3",
+      "diagram": "selection",
+      "row": 3,
+      "title": "Select affected files · 4 / 4",
+      "start": 36.325,
+      "charStart": 561
+    },
+    {
+      "text": "The runner resolves the English source before comparing any translation. It loads the contract selected by the catalog entry. Missing sources or unreadable contracts become file errors, rather than silently passing.",
+      "cards": [
+        "runner",
+        "contract"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 0,
+          "to": 0,
+          "label": "Find English source for the same notice ID"
+        },
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 1,
+          "label": "loadContract(entry.contract, read)"
+        },
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 0,
+          "label": "Allowed input names, or load error"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The runner resolves",
+          "card": "runner",
+          "ranges": [
+            [
+              9,
+              10
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 51.95
+        },
+        {
+          "phrase": "loads the contract",
+          "card": "contract",
+          "ranges": [
+            [
+              3,
+              5
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 4,
+            "text": "JSON.parse(read(`contracts/${name}.json`))"
+          },
+          "start": 56.85
+        },
+        {
+          "phrase": "become file errors",
+          "card": "runner",
+          "ranges": [
+            [
+              15,
+              16
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 16,
+            "text": "'load-error'"
+          },
+          "start": 62.8
+        }
+      ],
+      "target": "source-0",
+      "diagram": "source",
+      "row": 0,
+      "title": "Validate the source · 1 / 4",
+      "start": 51.95,
+      "charStart": 809
+    },
+    {
+      "text": "The allowed set combines three sources. Shared inputs provide the brand name and support link. Direct inputs supply the recipient and tracking link. Derived values add the item table, which is built before rendering. All three are allowed in the template.",
+      "cards": [
+        "contract",
+        "shipment-contract",
+        "shared"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "Union shared + inputs + derived"
+        },
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 0,
+          "label": "brandName, supportUrl, recipient, trackingUrl, itemTable"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The allowed set",
+          "card": "contract",
+          "ranges": [
+            [
+              3,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 66.55
+        },
+        {
+          "phrase": "Shared inputs",
+          "card": "contract",
+          "ranges": [
+            [
+              3,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 5,
+            "text": "sharedInputs"
+          },
+          "start": 69.5
+        },
+        {
+          "phrase": "Direct inputs",
+          "card": "contract",
+          "ranges": [
+            [
+              3,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 5,
+            "text": "inputs"
+          },
+          "start": 72.7375
+        },
+        {
+          "phrase": "Derived values",
+          "card": "contract",
+          "ranges": [
+            [
+              3,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 5,
+            "text": "derived"
+          },
+          "start": 76.0625
+        },
+        {
+          "phrase": "All three",
+          "card": "contract",
+          "ranges": [
+            [
+              3,
+              6
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 5,
+            "text": "new Set([...sharedInputs, ...inputs, ...derived])"
+          },
+          "start": 80.5375
+        }
+      ],
+      "target": "source-1",
+      "diagram": "source",
+      "row": 1,
+      "title": "Validate the source · 2 / 4",
+      "start": 66.55,
+      "charStart": 1025
+    },
+    {
+      "text": "The inspector parses data, not executable template code. It requires a nonempty body, then reads placeholders separately from each field. Repeated names collapse into a set; their order and repetition are not part of this contract.",
+      "cards": [
+        "inspector",
+        "english"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 2,
+          "to": 3,
+          "label": "inspect(sourceText)"
+        },
+        {
+          "kind": "local",
+          "from": 3,
+          "to": 3,
+          "label": "Parse JSON, validate body, collect names"
+        },
+        {
+          "kind": "return",
+          "from": 3,
+          "to": 2,
+          "label": "Tokens grouped by subject, preview, body"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The inspector parses",
+          "card": "inspector",
+          "ranges": [
+            [
+              4,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 82.925
+        },
+        {
+          "phrase": "requires a nonempty body",
+          "card": "inspector",
+          "ranges": [
+            [
+              8,
+              9
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 8,
+            "text": "!document.body.trim()"
+          },
+          "start": 87.4875
+        },
+        {
+          "phrase": "reads placeholders separately",
+          "card": "inspector",
+          "ranges": [
+            [
+              12,
+              17
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 12,
+            "text": "field"
+          },
+          "start": 89.6125
+        },
+        {
+          "phrase": "Repeated names collapse",
+          "card": "inspector",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 21,
+            "text": "new Set(names)"
+          },
+          "start": 92.6125
+        }
+      ],
+      "target": "source-2",
+      "diagram": "source",
+      "row": 2,
+      "title": "Validate the source · 3 / 4",
+      "start": 82.925,
+      "charStart": 1281
+    },
+    {
+      "text": "Unknown inputs are reported with their field and source side. Malformed placeholders become document errors. If English is invalid, validation returns immediately; blaming every translation for a broken source would hide the real cause.",
+      "cards": [
+        "document-check",
+        "inspector",
+        "parity"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 2,
+          "to": 2,
+          "label": "Reject names outside the allowed set"
+        },
+        {
+          "kind": "return",
+          "from": 3,
+          "to": 2,
+          "label": "Exception: malformed placeholder"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 0,
+          "label": "Source issues; skip translation comparison"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "Unknown inputs",
+          "card": "document-check",
+          "ranges": [
+            [
+              7,
+              9
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 98.4
+        },
+        {
+          "phrase": "Malformed placeholders",
+          "card": "inspector",
+          "ranges": [
+            [
+              18,
+              19
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 18,
+            "text": "remainder.includes('{{')"
+          },
+          "start": 102.475
+        },
+        {
+          "phrase": "returns immediately",
+          "card": "parity",
+          "ranges": [
+            [
+              17,
+              18
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 18,
+            "text": "return original.issues"
+          },
+          "start": 108.025
+        }
+      ],
+      "target": "source-3",
+      "diagram": "source",
+      "row": 3,
+      "title": "Validate the source · 4 / 4",
+      "start": 98.4,
+      "charStart": 1513
+    },
+    {
+      "text": "Once English is valid, the candidate translation is inspected with the same allowed set. A broken document returns its parse error. Otherwise, comparison continues, retaining any unknown input errors already found.",
+      "cards": [
+        "parity",
+        "document-check",
+        "french"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 1,
+          "label": "validate(English, French, allowed)"
+        },
+        {
+          "kind": "call",
+          "from": 1,
+          "to": 2,
+          "label": "checkDocument(translation)"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 1,
+          "label": "Tokens and candidate issues"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "Once English is valid",
+          "card": "parity",
+          "ranges": [
+            [
+              19,
+              21
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 114.1
+        },
+        {
+          "phrase": "same allowed set",
+          "card": "document-check",
+          "ranges": [
+            [
+              7,
+              9
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 8,
+            "text": "allowed.has(name)"
+          },
+          "start": 118.5
+        },
+        {
+          "phrase": "comparison continues",
+          "card": "parity",
+          "ranges": [
+            [
+              20,
+              21
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 21,
+            "text": "...candidate.issues"
+          },
+          "start": 124.075
+        }
+      ],
+      "target": "translation-0",
+      "diagram": "translation",
+      "row": 0,
+      "title": "Compare translations · 1 / 4",
+      "start": 114.1,
+      "charStart": 1750
+    },
+    {
+      "text": "Each field is compared independently. Removing the subject produces a field presence issue. Moving the item table from the body into the preview also fails; preserving a name somewhere in the document is not enough.",
+      "cards": [
+        "parity",
+        "english"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "Compare subject, preview, and body separately"
+        },
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "Missing field → field-presence issue"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "Each field",
+          "card": "parity",
+          "ranges": [
+            [
+              22,
+              24
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 129.325
+        },
+        {
+          "phrase": "Removing the subject",
+          "card": "parity",
+          "ranges": [
+            [
+              25,
+              27
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 26,
+            "text": "'field-presence'"
+          },
+          "start": 132.4125
+        },
+        {
+          "phrase": "Moving the item table",
+          "card": "english",
+          "ranges": [
+            [
+              3,
+              4
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 4,
+            "text": "{{itemTable}}"
+          },
+          "start": 135.925
+        }
+      ],
+      "target": "translation-1",
+      "diagram": "translation",
+      "row": 1,
+      "title": "Compare translations · 2 / 4",
+      "start": 129.325,
+      "charStart": 1965
+    },
+    {
+      "text": "The validator compares the names in both directions. Missing names appear in English but not in the translation. Unexpected names appear in the translation but not in English. Moving the item table into the preview produces one mismatch in each field, even though the contract allows that input.",
+      "cards": [
+        "parity",
+        "shipment-contract"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "missing = expected − actual"
+        },
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "unexpected = actual − expected"
+        },
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 3,
+          "label": "token-mismatch per affected field"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The validator",
+          "card": "parity",
+          "ranges": [
+            [
+              29,
+              33
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 143.3
+        },
+        {
+          "phrase": "Missing names",
+          "card": "parity",
+          "ranges": [
+            [
+              29,
+              33
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 29,
+            "text": "!actual.includes(name)"
+          },
+          "start": 146.85
+        },
+        {
+          "phrase": "Unexpected names",
+          "card": "parity",
+          "ranges": [
+            [
+              29,
+              33
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 30,
+            "text": "!expected.includes(name)"
+          },
+          "start": 150.4875
+        },
+        {
+          "phrase": "one mismatch in each field",
+          "card": "parity",
+          "ranges": [
+            [
+              29,
+              33
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 32,
+            "text": "field, missing, unexpected"
+          },
+          "start": 157.6
+        },
+        {
+          "phrase": "contract allows",
+          "card": "shipment-contract",
+          "ranges": [
+            [
+              2,
+              3
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 3,
+            "text": "\"itemTable\""
+          },
+          "start": 160.05
+        }
+      ],
+      "target": "translation-2",
+      "diagram": "translation",
+      "row": 2,
+      "title": "Compare translations · 3 / 4",
+      "start": 143.3,
+      "charStart": 2181
+    },
+    {
+      "text": "A valid French translation returns no issues. This proves placeholder parity and basic syntax, not translation quality or visual layout. Reordering a sentence or repeating a recipient is permitted; the gate compares sets rather than prose.",
+      "cards": [
+        "parity",
+        "inspector",
+        "french"
+      ],
+      "messages": [
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 0,
+          "label": "[] — no syntax or contract issues"
+        },
+        {
+          "kind": "local",
+          "from": 0,
+          "to": 0,
+          "label": "Meaning and layout still need human review"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "A valid French translation",
+          "card": "parity",
+          "ranges": [
+            [
+              35,
+              35
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 162.3
+        },
+        {
+          "phrase": "placeholder parity",
+          "card": "french",
+          "ranges": [
+            [
+              2,
+              4
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "start": 166.6625
+        },
+        {
+          "phrase": "compares sets",
+          "card": "inspector",
+          "ranges": [
+            [
+              21,
+              21
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 21,
+            "text": "new Set(names)"
+          },
+          "start": 176.425
+        }
+      ],
+      "target": "translation-3",
+      "diagram": "translation",
+      "row": 3,
+      "title": "Compare translations · 4 / 4",
+      "start": 162.3,
+      "charStart": 2477
+    },
+    {
+      "text": "The runner processes every selected catalog entry. A load failure is attached to that file, and the remaining entries still run. This lets one check report several independent problems instead of stopping at the first exception.",
+      "cards": [
+        "runner"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 1,
+          "to": 2,
+          "label": "run(selected catalog entries)"
+        },
+        {
+          "kind": "call",
+          "from": 2,
+          "to": 3,
+          "label": "validate each entry"
+        },
+        {
+          "kind": "return",
+          "from": 3,
+          "to": 2,
+          "label": "Issues for this file; continue the batch"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "every selected catalog entry",
+          "card": "runner",
+          "ranges": [
+            [
+              7,
+              8
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 178.75
+        },
+        {
+          "phrase": "A load failure",
+          "card": "runner",
+          "ranges": [
+            [
+              15,
+              16
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 16,
+            "text": "'load-error'"
+          },
+          "start": 182.675
+        },
+        {
+          "phrase": "remaining entries still run",
+          "card": "runner",
+          "ranges": [
+            [
+              7,
+              7
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 7,
+            "text": "selected.map"
+          },
+          "start": 185.6
+        }
+      ],
+      "target": "result-0",
+      "diagram": "result",
+      "row": 0,
+      "title": "Return a CI result · 1 / 3",
+      "start": 178.75,
+      "charStart": 2717
+    },
+    {
+      "text": "The result includes the checked count and every file report. If any file has issues, the exit code is one. The command prints the report and forwards that status to the workflow, so a validation failure blocks the check.",
+      "cards": [
+        "runner",
+        "cli",
+        "workflow"
+      ],
+      "messages": [
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 1,
+          "label": "{ checked, results, exitCode }"
+        },
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "Print report; set process.exitCode"
+        },
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 0,
+          "label": "Exit 1 if any file failed"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The result includes",
+          "card": "runner",
+          "ranges": [
+            [
+              19,
+              20
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 193.925
+        },
+        {
+          "phrase": "prints the report",
+          "card": "cli",
+          "ranges": [
+            [
+              16,
+              17
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 16,
+            "text": "JSON.stringify(report, null, 2)"
+          },
+          "start": 202.3625
+        },
+        {
+          "phrase": "blocks the check",
+          "card": "workflow",
+          "ranges": [
+            [
+              17,
+              19
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 19,
+            "text": "--base HEAD^1"
+          },
+          "start": 207.2
+        }
+      ],
+      "target": "result-1",
+      "diagram": "result",
+      "row": 1,
+      "title": "Return a CI result · 2 / 3",
+      "start": 193.925,
+      "charStart": 2946
+    },
+    {
+      "text": "A manual audit selects the entire catalog. That full run is useful for investigating a suspicious green pull request check. A zero exit code only describes the selected files; it says nothing about files the selector forgot.",
+      "cards": [
+        "workflow",
+        "selector",
+        "runner"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 1,
+          "label": "node cli.mjs --all"
+        },
+        {
+          "kind": "local",
+          "from": 2,
+          "to": 2,
+          "label": "Return every catalog entry"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 1,
+          "label": "Complete audit report"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "A manual audit",
+          "card": "workflow",
+          "ranges": [
+            [
+              20,
+              22
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 208.525
+        },
+        {
+          "phrase": "entire catalog",
+          "card": "selector",
+          "ranges": [
+            [
+              2,
+              5
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 2,
+            "text": "all"
+          },
+          "start": 210.35
+        },
+        {
+          "phrase": "selected files",
+          "card": "runner",
+          "ranges": [
+            [
+              19,
+              20
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 19,
+            "text": "results.length"
+          },
+          "start": 219.675
+        }
+      ],
+      "target": "result-2",
+      "diagram": "result",
+      "row": 2,
+      "title": "Return a CI result · 3 / 3",
+      "start": 208.525,
+      "charStart": 3167
+    },
+    {
+      "text": "Here is a reproduced review finding. Remove the tracking link input from the shipment contract without editing any templates. Five notices still use that input: three language variants, plus two partner overrides.",
+      "cards": [
+        "repro",
+        "shipment-contract",
+        "catalog"
+      ],
+      "messages": [
+        {
+          "kind": "local",
+          "from": 0,
+          "to": 0,
+          "label": "Remove trackingUrl from shipment contract"
+        },
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 2,
+          "label": "run(contract-only changed path)"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "reproduced review finding",
+          "card": "repro",
+          "ranges": [
+            [
+              6,
+              6
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 224.225
+        },
+        {
+          "phrase": "Remove the tracking link",
+          "card": "repro",
+          "ranges": [
+            [
+              10,
+              12
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 11,
+            "text": "name !== 'trackingUrl'"
+          },
+          "start": 227.0375
+        },
+        {
+          "phrase": "Five notices still use",
+          "card": "catalog",
+          "ranges": [
+            [
+              2,
+              6
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "start": 232.2
+        }
+      ],
+      "target": "finding-0",
+      "diagram": "finding",
+      "row": 0,
+      "title": "A false green check · 1 / 3",
+      "start": 224.225,
+      "charStart": 3392
+    },
+    {
+      "text": "The selector only recognizes template edits and a fixed list of shared files. Contract data paths match neither branch. It returns an empty selection, and the runner reports success after checking zero files.",
+      "cards": [
+        "selector",
+        "runner",
+        "repro"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 2,
+          "to": 1,
+          "label": "selectAffected([contracts/shipment.json])"
+        },
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 2,
+          "label": "[] — no selected entries"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 0,
+          "label": "checked: 0, exitCode: 0"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The selector only recognizes",
+          "card": "selector",
+          "ranges": [
+            [
+              2,
+              11
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 238.025
+        },
+        {
+          "phrase": "empty selection",
+          "card": "repro",
+          "ranges": [
+            [
+              16,
+              17
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 16,
+            "text": "scoped.checked, 0"
+          },
+          "start": 247.3125
+        },
+        {
+          "phrase": "reports success",
+          "card": "runner",
+          "ranges": [
+            [
+              19,
+              20
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 20,
+            "text": "results.some(result => result.issues.length)"
+          },
+          "start": 249.1
+        }
+      ],
+      "target": "finding-1",
+      "diagram": "finding",
+      "row": 1,
+      "title": "A false green check · 2 / 3",
+      "start": 238.025,
+      "charStart": 3606
+    },
+    {
+      "text": "The full audit fails on all five dependents, confirming the validator works. The fix belongs in selection: map changed contracts to every catalog entry using them, including partner overrides. Keep this reproduction as a regression test before calling the gate reliable.",
+      "cards": [
+        "repro",
+        "catalog",
+        "selector"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 2,
+          "label": "run(all: true)"
+        },
+        {
+          "kind": "call",
+          "from": 2,
+          "to": 3,
+          "label": "Load the modified contract for all dependents"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 0,
+          "label": "Exit 1; five affected notices fail"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The full audit fails",
+          "card": "repro",
+          "ranges": [
+            [
+              18,
+              19
+            ]
+          ],
+          "message": 2,
+          "point": "diagram",
+          "start": 252.3
+        },
+        {
+          "phrase": "fix belongs in selection",
+          "card": "selector",
+          "ranges": [
+            [
+              7,
+              11
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 11,
+            "text": "changedSources.has(entry.id)"
+          },
+          "start": 258.0125
+        },
+        {
+          "phrase": "including partner overrides",
+          "card": "catalog",
+          "ranges": [
+            [
+              5,
+              6
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 5,
+            "text": "contract: 'shipment'"
+          },
+          "start": 263.7
+        },
+        {
+          "phrase": "regression test",
+          "card": "repro",
+          "ranges": [
+            [
+              14,
+              19
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 19,
+            "text": "full.results.filter(result => result.issues.length).length, 5"
+          },
+          "start": 267.25
+        }
+      ],
+      "target": "finding-2",
+      "diagram": "finding",
+      "row": 2,
+      "title": "A false green check · 3 / 3",
+      "start": 252.3,
+      "charStart": 3815
+    }
+  ],
+  "clip": {
+    "durationMs": 270525.0,
+    "voice": "af_heart",
+    "words": [
+      {
+        "charIndex": 0,
+        "charLength": 1,
+        "startMs": 250.0,
+        "endMs": 337.5
+      },
+      {
+        "charIndex": 2,
+        "charLength": 4,
+        "startMs": 337.5,
+        "endMs": 600.0
+      },
+      {
+        "charIndex": 7,
+        "charLength": 7,
+        "startMs": 600.0,
+        "endMs": 1100.0
+      },
+      {
+        "charIndex": 15,
+        "charLength": 6,
+        "startMs": 1100.0,
+        "endMs": 1450.0
+      },
+      {
+        "charIndex": 22,
+        "charLength": 3,
+        "startMs": 1450.0,
+        "endMs": 1550.0
+      },
+      {
+        "charIndex": 26,
+        "charLength": 4,
+        "startMs": 1550.0,
+        "endMs": 2250.0
+      },
+      {
+        "charIndex": 30,
+        "charLength": 1,
+        "startMs": 2250.0,
+        "endMs": 2375.0
+      },
+      {
+        "charIndex": 32,
+        "charLength": 3,
+        "startMs": 2375.0,
+        "endMs": 2512.5
+      },
+      {
+        "charIndex": 36,
+        "charLength": 8,
+        "startMs": 2512.5,
+        "endMs": 3000.0
+      },
+      {
+        "charIndex": 45,
+        "charLength": 8,
+        "startMs": 3000.0,
+        "endMs": 3475.0
+      },
+      {
+        "charIndex": 54,
+        "charLength": 3,
+        "startMs": 3475.0,
+        "endMs": 3612.5
+      },
+      {
+        "charIndex": 58,
+        "charLength": 5,
+        "startMs": 3612.5,
+        "endMs": 3925.0
+      },
+      {
+        "charIndex": 64,
+        "charLength": 6,
+        "startMs": 3925.0,
+        "endMs": 4500.0
+      },
+      {
+        "charIndex": 71,
+        "charLength": 3,
+        "startMs": 4500.0,
+        "endMs": 4637.5
+      },
+      {
+        "charIndex": 75,
+        "charLength": 3,
+        "startMs": 4637.5,
+        "endMs": 4825.0
+      },
+      {
+        "charIndex": 79,
+        "charLength": 5,
+        "startMs": 4825.0,
+        "endMs": 5100.0
+      },
+      {
+        "charIndex": 85,
+        "charLength": 6,
+        "startMs": 5100.0,
+        "endMs": 5925.0
+      },
+      {
+        "charIndex": 91,
+        "charLength": 1,
+        "startMs": 5925.0,
+        "endMs": 6062.5
+      },
+      {
+        "charIndex": 93,
+        "charLength": 3,
+        "startMs": 6062.5,
+        "endMs": 6175.0
+      },
+      {
+        "charIndex": 97,
+        "charLength": 7,
+        "startMs": 6175.0,
+        "endMs": 6700.0
+      },
+      {
+        "charIndex": 105,
+        "charLength": 8,
+        "startMs": 6700.0,
+        "endMs": 7175.0
+      },
+      {
+        "charIndex": 114,
+        "charLength": 5,
+        "startMs": 7175.0,
+        "endMs": 7425.0
+      },
+      {
+        "charIndex": 120,
+        "charLength": 9,
+        "startMs": 7425.0,
+        "endMs": 8225.0
+      },
+      {
+        "charIndex": 129,
+        "charLength": 1,
+        "startMs": 8225.0,
+        "endMs": 8325.0
+      },
+      {
+        "charIndex": 131,
+        "charLength": 2,
+        "startMs": 8325.0,
+        "endMs": 8487.5
+      },
+      {
+        "charIndex": 134,
+        "charLength": 3,
+        "startMs": 8487.5,
+        "endMs": 8612.5
+      },
+      {
+        "charIndex": 138,
+        "charLength": 6,
+        "startMs": 8612.5,
+        "endMs": 9025.0
+      },
+      {
+        "charIndex": 145,
+        "charLength": 4,
+        "startMs": 9025.0,
+        "endMs": 9300.0
+      },
+      {
+        "charIndex": 150,
+        "charLength": 9,
+        "startMs": 9300.0,
+        "endMs": 9900.0
+      },
+      {
+        "charIndex": 160,
+        "charLength": 4,
+        "startMs": 9900.0,
+        "endMs": 10100.0
+      },
+      {
+        "charIndex": 165,
+        "charLength": 4,
+        "startMs": 10100.0,
+        "endMs": 10337.5
+      },
+      {
+        "charIndex": 170,
+        "charLength": 7,
+        "startMs": 10337.5,
+        "endMs": 11050.0
+      },
+      {
+        "charIndex": 177,
+        "charLength": 1,
+        "startMs": 11050.0,
+        "endMs": 11200.0
+      },
+      {
+        "charIndex": 179,
+        "charLength": 3,
+        "startMs": 11550.0,
+        "endMs": 11662.5
+      },
+      {
+        "charIndex": 183,
+        "charLength": 6,
+        "startMs": 11662.5,
+        "endMs": 12075.0
+      },
+      {
+        "charIndex": 190,
+        "charLength": 5,
+        "startMs": 12075.0,
+        "endMs": 12350.0
+      },
+      {
+        "charIndex": 196,
+        "charLength": 3,
+        "startMs": 12350.0,
+        "endMs": 12487.5
+      },
+      {
+        "charIndex": 200,
+        "charLength": 7,
+        "startMs": 12487.5,
+        "endMs": 12962.5
+      },
+      {
+        "charIndex": 208,
+        "charLength": 5,
+        "startMs": 12962.5,
+        "endMs": 13450.0
+      },
+      {
+        "charIndex": 214,
+        "charLength": 2,
+        "startMs": 13450.0,
+        "endMs": 13537.5
+      },
+      {
+        "charIndex": 217,
+        "charLength": 3,
+        "startMs": 13537.5,
+        "endMs": 13625.0
+      },
+      {
+        "charIndex": 221,
+        "charLength": 8,
+        "startMs": 13625.0,
+        "endMs": 14550.0
+      },
+      {
+        "charIndex": 229,
+        "charLength": 1,
+        "startMs": 14550.0,
+        "endMs": 14712.5
+      },
+      {
+        "charIndex": 231,
+        "charLength": 2,
+        "startMs": 14712.5,
+        "endMs": 14887.5
+      },
+      {
+        "charIndex": 234,
+        "charLength": 7,
+        "startMs": 14887.5,
+        "endMs": 15312.5
+      },
+      {
+        "charIndex": 242,
+        "charLength": 8,
+        "startMs": 15312.5,
+        "endMs": 15650.0
+      },
+      {
+        "charIndex": 251,
+        "charLength": 4,
+        "startMs": 15650.0,
+        "endMs": 16200.0
+      },
+      {
+        "charIndex": 256,
+        "charLength": 4,
+        "startMs": 16200.0,
+        "endMs": 16550.0
+      },
+      {
+        "charIndex": 261,
+        "charLength": 4,
+        "startMs": 16550.0,
+        "endMs": 16762.5
+      },
+      {
+        "charIndex": 266,
+        "charLength": 6,
+        "startMs": 16762.5,
+        "endMs": 17137.5
+      },
+      {
+        "charIndex": 273,
+        "charLength": 10,
+        "startMs": 17137.5,
+        "endMs": 17875.0
+      },
+      {
+        "charIndex": 284,
+        "charLength": 2,
+        "startMs": 17875.0,
+        "endMs": 17962.5
+      },
+      {
+        "charIndex": 287,
+        "charLength": 3,
+        "startMs": 17962.5,
+        "endMs": 18100.0
+      },
+      {
+        "charIndex": 291,
+        "charLength": 8,
+        "startMs": 18100.0,
+        "endMs": 18612.5
+      },
+      {
+        "charIndex": 300,
+        "charLength": 3,
+        "startMs": 18612.5,
+        "endMs": 19350.0
+      },
+      {
+        "charIndex": 303,
+        "charLength": 1,
+        "startMs": 19350.0,
+        "endMs": 19475.0
+      },
+      {
+        "charIndex": 305,
+        "charLength": 3,
+        "startMs": 19475.0,
+        "endMs": 19575.0
+      },
+      {
+        "charIndex": 309,
+        "charLength": 7,
+        "startMs": 19575.0,
+        "endMs": 20125.0
+      },
+      {
+        "charIndex": 317,
+        "charLength": 4,
+        "startMs": 20125.0,
+        "endMs": 20325.0
+      },
+      {
+        "charIndex": 322,
+        "charLength": 8,
+        "startMs": 20325.0,
+        "endMs": 20900.0
+      },
+      {
+        "charIndex": 331,
+        "charLength": 3,
+        "startMs": 20900.0,
+        "endMs": 21112.5
+      },
+      {
+        "charIndex": 335,
+        "charLength": 7,
+        "startMs": 21112.5,
+        "endMs": 21775.0
+      },
+      {
+        "charIndex": 342,
+        "charLength": 1,
+        "startMs": 21775.0,
+        "endMs": 21887.5
+      },
+      {
+        "charIndex": 344,
+        "charLength": 6,
+        "startMs": 21887.5,
+        "endMs": 22400.0
+      },
+      {
+        "charIndex": 350,
+        "charLength": 1,
+        "startMs": 22400.0,
+        "endMs": 22500.0
+      },
+      {
+        "charIndex": 352,
+        "charLength": 3,
+        "startMs": 22500.0,
+        "endMs": 22637.5
+      },
+      {
+        "charIndex": 356,
+        "charLength": 6,
+        "startMs": 22637.5,
+        "endMs": 23000.0
+      },
+      {
+        "charIndex": 363,
+        "charLength": 8,
+        "startMs": 23000.0,
+        "endMs": 23800.0
+      },
+      {
+        "charIndex": 371,
+        "charLength": 1,
+        "startMs": 23800.0,
+        "endMs": 23950.0
+      },
+      {
+        "charIndex": 373,
+        "charLength": 1,
+        "startMs": 24300.0,
+        "endMs": 24387.5
+      },
+      {
+        "charIndex": 375,
+        "charLength": 6,
+        "startMs": 24387.5,
+        "endMs": 24750.0
+      },
+      {
+        "charIndex": 382,
+        "charLength": 4,
+        "startMs": 24750.0,
+        "endMs": 25050.0
+      },
+      {
+        "charIndex": 387,
+        "charLength": 4,
+        "startMs": 25050.0,
+        "endMs": 25462.5
+      },
+      {
+        "charIndex": 392,
+        "charLength": 7,
+        "startMs": 25462.5,
+        "endMs": 25875.0
+      },
+      {
+        "charIndex": 400,
+        "charLength": 3,
+        "startMs": 25875.0,
+        "endMs": 26112.5
+      },
+      {
+        "charIndex": 404,
+        "charLength": 4,
+        "startMs": 26112.5,
+        "endMs": 26825.0
+      },
+      {
+        "charIndex": 408,
+        "charLength": 1,
+        "startMs": 26825.0,
+        "endMs": 26962.5
+      },
+      {
+        "charIndex": 410,
+        "charLength": 8,
+        "startMs": 26962.5,
+        "endMs": 27412.5
+      },
+      {
+        "charIndex": 419,
+        "charLength": 6,
+        "startMs": 27412.5,
+        "endMs": 27725.0
+      },
+      {
+        "charIndex": 426,
+        "charLength": 6,
+        "startMs": 27725.0,
+        "endMs": 28337.5
+      },
+      {
+        "charIndex": 433,
+        "charLength": 7,
+        "startMs": 28337.5,
+        "endMs": 28725.0
+      },
+      {
+        "charIndex": 441,
+        "charLength": 3,
+        "startMs": 28725.0,
+        "endMs": 28825.0
+      },
+      {
+        "charIndex": 445,
+        "charLength": 5,
+        "startMs": 28825.0,
+        "endMs": 29075.0
+      },
+      {
+        "charIndex": 451,
+        "charLength": 7,
+        "startMs": 29075.0,
+        "endMs": 29625.0
+      },
+      {
+        "charIndex": 459,
+        "charLength": 7,
+        "startMs": 29625.0,
+        "endMs": 30600.0
+      },
+      {
+        "charIndex": 466,
+        "charLength": 1,
+        "startMs": 30600.0,
+        "endMs": 30762.5
+      },
+      {
+        "charIndex": 468,
+        "charLength": 4,
+        "startMs": 30762.5,
+        "endMs": 31000.0
+      },
+      {
+        "charIndex": 473,
+        "charLength": 11,
+        "startMs": 31000.0,
+        "endMs": 31637.5
+      },
+      {
+        "charIndex": 485,
+        "charLength": 5,
+        "startMs": 31637.5,
+        "endMs": 31950.0
+      },
+      {
+        "charIndex": 491,
+        "charLength": 5,
+        "startMs": 31950.0,
+        "endMs": 32350.0
+      },
+      {
+        "charIndex": 497,
+        "charLength": 7,
+        "startMs": 32350.0,
+        "endMs": 32862.5
+      },
+      {
+        "charIndex": 505,
+        "charLength": 4,
+        "startMs": 32862.5,
+        "endMs": 33300.0
+      },
+      {
+        "charIndex": 510,
+        "charLength": 7,
+        "startMs": 33300.0,
+        "endMs": 33662.5
+      },
+      {
+        "charIndex": 518,
+        "charLength": 8,
+        "startMs": 33662.5,
+        "endMs": 34050.0
+      },
+      {
+        "charIndex": 527,
+        "charLength": 9,
+        "startMs": 34050.0,
+        "endMs": 34675.0
+      },
+      {
+        "charIndex": 537,
+        "charLength": 2,
+        "startMs": 34675.0,
+        "endMs": 34762.5
+      },
+      {
+        "charIndex": 540,
+        "charLength": 1,
+        "startMs": 34762.5,
+        "endMs": 34875.0
+      },
+      {
+        "charIndex": 542,
+        "charLength": 6,
+        "startMs": 34875.0,
+        "endMs": 35175.0
+      },
+      {
+        "charIndex": 549,
+        "charLength": 10,
+        "startMs": 35175.0,
+        "endMs": 36075.0
+      },
+      {
+        "charIndex": 559,
+        "charLength": 1,
+        "startMs": 36075.0,
+        "endMs": 36225.0
+      },
+      {
+        "charIndex": 561,
+        "charLength": 7,
+        "startMs": 36575.0,
+        "endMs": 36975.0
+      },
+      {
+        "charIndex": 569,
+        "charLength": 7,
+        "startMs": 36975.0,
+        "endMs": 37587.5
+      },
+      {
+        "charIndex": 577,
+        "charLength": 3,
+        "startMs": 37587.5,
+        "endMs": 37775.0
+      },
+      {
+        "charIndex": 581,
+        "charLength": 8,
+        "startMs": 37775.0,
+        "endMs": 38237.5
+      },
+      {
+        "charIndex": 590,
+        "charLength": 6,
+        "startMs": 38237.5,
+        "endMs": 38562.5
+      },
+      {
+        "charIndex": 597,
+        "charLength": 10,
+        "startMs": 38562.5,
+        "endMs": 39675.0
+      },
+      {
+        "charIndex": 607,
+        "charLength": 1,
+        "startMs": 39675.0,
+        "endMs": 39775.0
+      },
+      {
+        "charIndex": 609,
+        "charLength": 4,
+        "startMs": 39775.0,
+        "endMs": 39962.5
+      },
+      {
+        "charIndex": 614,
+        "charLength": 5,
+        "startMs": 39962.5,
+        "endMs": 40225.0
+      },
+      {
+        "charIndex": 620,
+        "charLength": 1,
+        "startMs": 40225.0,
+        "endMs": 40300.0
+      },
+      {
+        "charIndex": 622,
+        "charLength": 8,
+        "startMs": 40300.0,
+        "endMs": 41125.0
+      },
+      {
+        "charIndex": 630,
+        "charLength": 1,
+        "startMs": 41125.0,
+        "endMs": 41200.0
+      },
+      {
+        "charIndex": 632,
+        "charLength": 3,
+        "startMs": 41200.0,
+        "endMs": 41337.5
+      },
+      {
+        "charIndex": 636,
+        "charLength": 2,
+        "startMs": 41337.5,
+        "endMs": 41462.5
+      },
+      {
+        "charIndex": 639,
+        "charLength": 7,
+        "startMs": 41462.5,
+        "endMs": 41887.5
+      },
+      {
+        "charIndex": 647,
+        "charLength": 8,
+        "startMs": 41887.5,
+        "endMs": 42275.0
+      },
+      {
+        "charIndex": 656,
+        "charLength": 4,
+        "startMs": 42275.0,
+        "endMs": 42600.0
+      },
+      {
+        "charIndex": 661,
+        "charLength": 4,
+        "startMs": 42600.0,
+        "endMs": 42975.0
+      },
+      {
+        "charIndex": 666,
+        "charLength": 4,
+        "startMs": 42975.0,
+        "endMs": 43200.0
+      },
+      {
+        "charIndex": 671,
+        "charLength": 3,
+        "startMs": 43200.0,
+        "endMs": 43450.0
+      },
+      {
+        "charIndex": 675,
+        "charLength": 6,
+        "startMs": 43450.0,
+        "endMs": 43837.5
+      },
+      {
+        "charIndex": 682,
+        "charLength": 3,
+        "startMs": 43837.5,
+        "endMs": 43925.0
+      },
+      {
+        "charIndex": 686,
+        "charLength": 7,
+        "startMs": 43925.0,
+        "endMs": 44300.0
+      },
+      {
+        "charIndex": 694,
+        "charLength": 4,
+        "startMs": 44300.0,
+        "endMs": 45125.0
+      },
+      {
+        "charIndex": 698,
+        "charLength": 1,
+        "startMs": 45125.0,
+        "endMs": 45287.5
+      },
+      {
+        "charIndex": 700,
+        "charLength": 4,
+        "startMs": 45287.5,
+        "endMs": 45587.5
+      },
+      {
+        "charIndex": 705,
+        "charLength": 6,
+        "startMs": 45587.5,
+        "endMs": 45875.0
+      },
+      {
+        "charIndex": 712,
+        "charLength": 12,
+        "startMs": 45875.0,
+        "endMs": 46762.5
+      },
+      {
+        "charIndex": 725,
+        "charLength": 8,
+        "startMs": 46762.5,
+        "endMs": 47200.0
+      },
+      {
+        "charIndex": 734,
+        "charLength": 4,
+        "startMs": 47200.0,
+        "endMs": 47400.0
+      },
+      {
+        "charIndex": 739,
+        "charLength": 8,
+        "startMs": 47400.0,
+        "endMs": 47912.5
+      },
+      {
+        "charIndex": 748,
+        "charLength": 12,
+        "startMs": 47912.5,
+        "endMs": 48975.0
+      },
+      {
+        "charIndex": 760,
+        "charLength": 1,
+        "startMs": 48975.0,
+        "endMs": 49075.0
+      },
+      {
+        "charIndex": 762,
+        "charLength": 4,
+        "startMs": 49075.0,
+        "endMs": 49275.0
+      },
+      {
+        "charIndex": 767,
+        "charLength": 11,
+        "startMs": 49275.0,
+        "endMs": 49887.5
+      },
+      {
+        "charIndex": 779,
+        "charLength": 7,
+        "startMs": 49887.5,
+        "endMs": 50350.0
+      },
+      {
+        "charIndex": 787,
+        "charLength": 2,
+        "startMs": 50350.0,
+        "endMs": 50437.5
+      },
+      {
+        "charIndex": 790,
+        "charLength": 3,
+        "startMs": 50437.5,
+        "endMs": 50537.5
+      },
+      {
+        "charIndex": 794,
+        "charLength": 5,
+        "startMs": 50537.5,
+        "endMs": 50925.0
+      },
+      {
+        "charIndex": 800,
+        "charLength": 7,
+        "startMs": 50925.0,
+        "endMs": 51700.0
+      },
+      {
+        "charIndex": 807,
+        "charLength": 1,
+        "startMs": 51700.0,
+        "endMs": 51850.0
+      },
+      {
+        "charIndex": 809,
+        "charLength": 3,
+        "startMs": 52225.0,
+        "endMs": 52337.5
+      },
+      {
+        "charIndex": 813,
+        "charLength": 6,
+        "startMs": 52337.5,
+        "endMs": 52775.0
+      },
+      {
+        "charIndex": 820,
+        "charLength": 8,
+        "startMs": 52775.0,
+        "endMs": 53350.0
+      },
+      {
+        "charIndex": 829,
+        "charLength": 3,
+        "startMs": 53350.0,
+        "endMs": 53475.0
+      },
+      {
+        "charIndex": 833,
+        "charLength": 7,
+        "startMs": 53475.0,
+        "endMs": 53862.5
+      },
+      {
+        "charIndex": 841,
+        "charLength": 6,
+        "startMs": 53862.5,
+        "endMs": 54325.0
+      },
+      {
+        "charIndex": 848,
+        "charLength": 6,
+        "startMs": 54325.0,
+        "endMs": 54675.0
+      },
+      {
+        "charIndex": 855,
+        "charLength": 9,
+        "startMs": 54675.0,
+        "endMs": 55212.5
+      },
+      {
+        "charIndex": 865,
+        "charLength": 3,
+        "startMs": 55212.5,
+        "endMs": 55475.0
+      },
+      {
+        "charIndex": 869,
+        "charLength": 11,
+        "startMs": 55475.0,
+        "endMs": 56575.0
+      },
+      {
+        "charIndex": 880,
+        "charLength": 1,
+        "startMs": 56575.0,
+        "endMs": 56675.0
+      },
+      {
+        "charIndex": 882,
+        "charLength": 2,
+        "startMs": 56675.0,
+        "endMs": 56850.0
+      },
+      {
+        "charIndex": 885,
+        "charLength": 5,
+        "startMs": 56850.0,
+        "endMs": 57225.0
+      },
+      {
+        "charIndex": 891,
+        "charLength": 3,
+        "startMs": 57225.0,
+        "endMs": 57325.0
+      },
+      {
+        "charIndex": 895,
+        "charLength": 8,
+        "startMs": 57325.0,
+        "endMs": 57925.0
+      },
+      {
+        "charIndex": 904,
+        "charLength": 8,
+        "startMs": 57925.0,
+        "endMs": 58450.0
+      },
+      {
+        "charIndex": 913,
+        "charLength": 2,
+        "startMs": 58450.0,
+        "endMs": 58612.5
+      },
+      {
+        "charIndex": 916,
+        "charLength": 3,
+        "startMs": 58612.5,
+        "endMs": 58700.0
+      },
+      {
+        "charIndex": 920,
+        "charLength": 7,
+        "startMs": 58700.0,
+        "endMs": 59250.0
+      },
+      {
+        "charIndex": 928,
+        "charLength": 5,
+        "startMs": 59250.0,
+        "endMs": 60100.0
+      },
+      {
+        "charIndex": 933,
+        "charLength": 1,
+        "startMs": 60100.0,
+        "endMs": 60325.0
+      },
+      {
+        "charIndex": 935,
+        "charLength": 7,
+        "startMs": 60325.0,
+        "endMs": 60712.5
+      },
+      {
+        "charIndex": 943,
+        "charLength": 7,
+        "startMs": 60712.5,
+        "endMs": 61312.5
+      },
+      {
+        "charIndex": 951,
+        "charLength": 2,
+        "startMs": 61312.5,
+        "endMs": 61512.5
+      },
+      {
+        "charIndex": 954,
+        "charLength": 10,
+        "startMs": 61512.5,
+        "endMs": 62150.0
+      },
+      {
+        "charIndex": 965,
+        "charLength": 9,
+        "startMs": 62150.0,
+        "endMs": 62800.0
+      },
+      {
+        "charIndex": 975,
+        "charLength": 6,
+        "startMs": 62800.0,
+        "endMs": 63212.5
+      },
+      {
+        "charIndex": 982,
+        "charLength": 4,
+        "startMs": 63212.5,
+        "endMs": 63625.0
+      },
+      {
+        "charIndex": 987,
+        "charLength": 6,
+        "startMs": 63625.0,
+        "endMs": 64300.0
+      },
+      {
+        "charIndex": 993,
+        "charLength": 1,
+        "startMs": 64300.0,
+        "endMs": 64412.5
+      },
+      {
+        "charIndex": 995,
+        "charLength": 6,
+        "startMs": 64412.5,
+        "endMs": 64800.0
+      },
+      {
+        "charIndex": 1002,
+        "charLength": 4,
+        "startMs": 64800.0,
+        "endMs": 64987.5
+      },
+      {
+        "charIndex": 1007,
+        "charLength": 8,
+        "startMs": 64987.5,
+        "endMs": 65500.0
+      },
+      {
+        "charIndex": 1016,
+        "charLength": 7,
+        "startMs": 65500.0,
+        "endMs": 66325.0
+      },
+      {
+        "charIndex": 1023,
+        "charLength": 1,
+        "startMs": 66325.0,
+        "endMs": 66450.0
+      },
+      {
+        "charIndex": 1025,
+        "charLength": 3,
+        "startMs": 66800.0,
+        "endMs": 66925.0
+      },
+      {
+        "charIndex": 1029,
+        "charLength": 7,
+        "startMs": 66925.0,
+        "endMs": 67325.0
+      },
+      {
+        "charIndex": 1037,
+        "charLength": 3,
+        "startMs": 67325.0,
+        "endMs": 67575.0
+      },
+      {
+        "charIndex": 1041,
+        "charLength": 8,
+        "startMs": 67575.0,
+        "endMs": 68137.5
+      },
+      {
+        "charIndex": 1050,
+        "charLength": 5,
+        "startMs": 68137.5,
+        "endMs": 68462.5
+      },
+      {
+        "charIndex": 1056,
+        "charLength": 7,
+        "startMs": 68462.5,
+        "endMs": 69350.0
+      },
+      {
+        "charIndex": 1063,
+        "charLength": 1,
+        "startMs": 69350.0,
+        "endMs": 69500.0
+      },
+      {
+        "charIndex": 1065,
+        "charLength": 6,
+        "startMs": 69500.0,
+        "endMs": 69850.0
+      },
+      {
+        "charIndex": 1072,
+        "charLength": 6,
+        "startMs": 69850.0,
+        "endMs": 70325.0
+      },
+      {
+        "charIndex": 1079,
+        "charLength": 7,
+        "startMs": 70325.0,
+        "endMs": 70687.5
+      },
+      {
+        "charIndex": 1087,
+        "charLength": 3,
+        "startMs": 70687.5,
+        "endMs": 70775.0
+      },
+      {
+        "charIndex": 1091,
+        "charLength": 5,
+        "startMs": 70775.0,
+        "endMs": 71125.0
+      },
+      {
+        "charIndex": 1097,
+        "charLength": 4,
+        "startMs": 71125.0,
+        "endMs": 71475.0
+      },
+      {
+        "charIndex": 1102,
+        "charLength": 3,
+        "startMs": 71475.0,
+        "endMs": 71600.0
+      },
+      {
+        "charIndex": 1106,
+        "charLength": 7,
+        "startMs": 71600.0,
+        "endMs": 71987.5
+      },
+      {
+        "charIndex": 1114,
+        "charLength": 4,
+        "startMs": 71987.5,
+        "endMs": 72600.0
+      },
+      {
+        "charIndex": 1118,
+        "charLength": 1,
+        "startMs": 72600.0,
+        "endMs": 72737.5
+      },
+      {
+        "charIndex": 1120,
+        "charLength": 6,
+        "startMs": 72737.5,
+        "endMs": 73175.0
+      },
+      {
+        "charIndex": 1127,
+        "charLength": 6,
+        "startMs": 73175.0,
+        "endMs": 73662.5
+      },
+      {
+        "charIndex": 1134,
+        "charLength": 6,
+        "startMs": 73662.5,
+        "endMs": 74075.0
+      },
+      {
+        "charIndex": 1141,
+        "charLength": 3,
+        "startMs": 74075.0,
+        "endMs": 74175.0
+      },
+      {
+        "charIndex": 1145,
+        "charLength": 9,
+        "startMs": 74175.0,
+        "endMs": 74825.0
+      },
+      {
+        "charIndex": 1155,
+        "charLength": 3,
+        "startMs": 74825.0,
+        "endMs": 74950.0
+      },
+      {
+        "charIndex": 1159,
+        "charLength": 8,
+        "startMs": 74950.0,
+        "endMs": 75350.0
+      },
+      {
+        "charIndex": 1168,
+        "charLength": 4,
+        "startMs": 75350.0,
+        "endMs": 75950.0
+      },
+      {
+        "charIndex": 1172,
+        "charLength": 1,
+        "startMs": 75950.0,
+        "endMs": 76062.5
+      },
+      {
+        "charIndex": 1174,
+        "charLength": 7,
+        "startMs": 76062.5,
+        "endMs": 76600.0
+      },
+      {
+        "charIndex": 1182,
+        "charLength": 6,
+        "startMs": 76600.0,
+        "endMs": 77162.5
+      },
+      {
+        "charIndex": 1189,
+        "charLength": 3,
+        "startMs": 77162.5,
+        "endMs": 77387.5
+      },
+      {
+        "charIndex": 1193,
+        "charLength": 3,
+        "startMs": 77387.5,
+        "endMs": 77512.5
+      },
+      {
+        "charIndex": 1197,
+        "charLength": 4,
+        "startMs": 77512.5,
+        "endMs": 77850.0
+      },
+      {
+        "charIndex": 1202,
+        "charLength": 5,
+        "startMs": 77850.0,
+        "endMs": 78425.0
+      },
+      {
+        "charIndex": 1207,
+        "charLength": 1,
+        "startMs": 78425.0,
+        "endMs": 78500.0
+      },
+      {
+        "charIndex": 1209,
+        "charLength": 5,
+        "startMs": 78500.0,
+        "endMs": 78700.0
+      },
+      {
+        "charIndex": 1215,
+        "charLength": 2,
+        "startMs": 78700.0,
+        "endMs": 78850.0
+      },
+      {
+        "charIndex": 1218,
+        "charLength": 5,
+        "startMs": 78850.0,
+        "endMs": 79125.0
+      },
+      {
+        "charIndex": 1224,
+        "charLength": 6,
+        "startMs": 79125.0,
+        "endMs": 79500.0
+      },
+      {
+        "charIndex": 1231,
+        "charLength": 9,
+        "startMs": 79500.0,
+        "endMs": 80375.0
+      },
+      {
+        "charIndex": 1240,
+        "charLength": 1,
+        "startMs": 80375.0,
+        "endMs": 80537.5
+      },
+      {
+        "charIndex": 1242,
+        "charLength": 3,
+        "startMs": 80537.5,
+        "endMs": 80850.0
+      },
+      {
+        "charIndex": 1246,
+        "charLength": 5,
+        "startMs": 80850.0,
+        "endMs": 81225.0
+      },
+      {
+        "charIndex": 1252,
+        "charLength": 3,
+        "startMs": 81225.0,
+        "endMs": 81350.0
+      },
+      {
+        "charIndex": 1256,
+        "charLength": 7,
+        "startMs": 81350.0,
+        "endMs": 81762.5
+      },
+      {
+        "charIndex": 1264,
+        "charLength": 2,
+        "startMs": 81762.5,
+        "endMs": 81837.5
+      },
+      {
+        "charIndex": 1267,
+        "charLength": 3,
+        "startMs": 81837.5,
+        "endMs": 81925.0
+      },
+      {
+        "charIndex": 1271,
+        "charLength": 8,
+        "startMs": 81925.0,
+        "endMs": 82675.0
+      },
+      {
+        "charIndex": 1279,
+        "charLength": 1,
+        "startMs": 82675.0,
+        "endMs": 82825.0
+      },
+      {
+        "charIndex": 1281,
+        "charLength": 3,
+        "startMs": 83175.0,
+        "endMs": 83300.0
+      },
+      {
+        "charIndex": 1285,
+        "charLength": 9,
+        "startMs": 83300.0,
+        "endMs": 83875.0
+      },
+      {
+        "charIndex": 1295,
+        "charLength": 6,
+        "startMs": 83875.0,
+        "endMs": 84350.0
+      },
+      {
+        "charIndex": 1302,
+        "charLength": 4,
+        "startMs": 84350.0,
+        "endMs": 84900.0
+      },
+      {
+        "charIndex": 1306,
+        "charLength": 1,
+        "startMs": 84900.0,
+        "endMs": 85037.5
+      },
+      {
+        "charIndex": 1308,
+        "charLength": 3,
+        "startMs": 85037.5,
+        "endMs": 85312.5
+      },
+      {
+        "charIndex": 1312,
+        "charLength": 10,
+        "startMs": 85312.5,
+        "endMs": 86025.0
+      },
+      {
+        "charIndex": 1323,
+        "charLength": 8,
+        "startMs": 86025.0,
+        "endMs": 86450.0
+      },
+      {
+        "charIndex": 1332,
+        "charLength": 4,
+        "startMs": 86450.0,
+        "endMs": 87225.0
+      },
+      {
+        "charIndex": 1336,
+        "charLength": 1,
+        "startMs": 87225.0,
+        "endMs": 87350.0
+      },
+      {
+        "charIndex": 1338,
+        "charLength": 2,
+        "startMs": 87350.0,
+        "endMs": 87487.5
+      },
+      {
+        "charIndex": 1341,
+        "charLength": 8,
+        "startMs": 87487.5,
+        "endMs": 88100.0
+      },
+      {
+        "charIndex": 1350,
+        "charLength": 1,
+        "startMs": 88100.0,
+        "endMs": 88200.0
+      },
+      {
+        "charIndex": 1352,
+        "charLength": 8,
+        "startMs": 88200.0,
+        "endMs": 88725.0
+      },
+      {
+        "charIndex": 1361,
+        "charLength": 4,
+        "startMs": 88725.0,
+        "endMs": 89275.0
+      },
+      {
+        "charIndex": 1365,
+        "charLength": 1,
+        "startMs": 89275.0,
+        "endMs": 89375.0
+      },
+      {
+        "charIndex": 1367,
+        "charLength": 4,
+        "startMs": 89375.0,
+        "endMs": 89612.5
+      },
+      {
+        "charIndex": 1372,
+        "charLength": 5,
+        "startMs": 89612.5,
+        "endMs": 89987.5
+      },
+      {
+        "charIndex": 1378,
+        "charLength": 12,
+        "startMs": 89987.5,
+        "endMs": 90750.0
+      },
+      {
+        "charIndex": 1391,
+        "charLength": 10,
+        "startMs": 90750.0,
+        "endMs": 91250.0
+      },
+      {
+        "charIndex": 1402,
+        "charLength": 4,
+        "startMs": 91250.0,
+        "endMs": 91425.0
+      },
+      {
+        "charIndex": 1407,
+        "charLength": 4,
+        "startMs": 91425.0,
+        "endMs": 91675.0
+      },
+      {
+        "charIndex": 1412,
+        "charLength": 5,
+        "startMs": 91675.0,
+        "endMs": 92450.0
+      },
+      {
+        "charIndex": 1417,
+        "charLength": 1,
+        "startMs": 92450.0,
+        "endMs": 92612.5
+      },
+      {
+        "charIndex": 1419,
+        "charLength": 8,
+        "startMs": 92612.5,
+        "endMs": 93100.0
+      },
+      {
+        "charIndex": 1428,
+        "charLength": 5,
+        "startMs": 93100.0,
+        "endMs": 93450.0
+      },
+      {
+        "charIndex": 1434,
+        "charLength": 8,
+        "startMs": 93450.0,
+        "endMs": 93862.5
+      },
+      {
+        "charIndex": 1443,
+        "charLength": 4,
+        "startMs": 93862.5,
+        "endMs": 94100.0
+      },
+      {
+        "charIndex": 1448,
+        "charLength": 1,
+        "startMs": 94100.0,
+        "endMs": 94212.5
+      },
+      {
+        "charIndex": 1450,
+        "charLength": 3,
+        "startMs": 94212.5,
+        "endMs": 94775.0
+      },
+      {
+        "charIndex": 1453,
+        "charLength": 1,
+        "startMs": 94775.0,
+        "endMs": 94875.0
+      },
+      {
+        "charIndex": 1455,
+        "charLength": 5,
+        "startMs": 94875.0,
+        "endMs": 95087.5
+      },
+      {
+        "charIndex": 1461,
+        "charLength": 5,
+        "startMs": 95087.5,
+        "endMs": 95450.0
+      },
+      {
+        "charIndex": 1467,
+        "charLength": 3,
+        "startMs": 95450.0,
+        "endMs": 95575.0
+      },
+      {
+        "charIndex": 1471,
+        "charLength": 10,
+        "startMs": 95575.0,
+        "endMs": 96337.5
+      },
+      {
+        "charIndex": 1482,
+        "charLength": 3,
+        "startMs": 96337.5,
+        "endMs": 96500.0
+      },
+      {
+        "charIndex": 1486,
+        "charLength": 3,
+        "startMs": 96500.0,
+        "endMs": 96750.0
+      },
+      {
+        "charIndex": 1490,
+        "charLength": 4,
+        "startMs": 96750.0,
+        "endMs": 97012.5
+      },
+      {
+        "charIndex": 1495,
+        "charLength": 2,
+        "startMs": 97012.5,
+        "endMs": 97087.5
+      },
+      {
+        "charIndex": 1498,
+        "charLength": 4,
+        "startMs": 97087.5,
+        "endMs": 97275.0
+      },
+      {
+        "charIndex": 1503,
+        "charLength": 8,
+        "startMs": 97275.0,
+        "endMs": 98150.0
+      },
+      {
+        "charIndex": 1511,
+        "charLength": 1,
+        "startMs": 98150.0,
+        "endMs": 98300.0
+      },
+      {
+        "charIndex": 1513,
+        "charLength": 7,
+        "startMs": 98700.0,
+        "endMs": 99175.0
+      },
+      {
+        "charIndex": 1521,
+        "charLength": 6,
+        "startMs": 99175.0,
+        "endMs": 99675.0
+      },
+      {
+        "charIndex": 1528,
+        "charLength": 3,
+        "startMs": 99675.0,
+        "endMs": 99775.0
+      },
+      {
+        "charIndex": 1532,
+        "charLength": 8,
+        "startMs": 99775.0,
+        "endMs": 100287.5
+      },
+      {
+        "charIndex": 1541,
+        "charLength": 4,
+        "startMs": 100287.5,
+        "endMs": 100412.5
+      },
+      {
+        "charIndex": 1546,
+        "charLength": 5,
+        "startMs": 100412.5,
+        "endMs": 100637.5
+      },
+      {
+        "charIndex": 1552,
+        "charLength": 5,
+        "startMs": 100637.5,
+        "endMs": 101112.5
+      },
+      {
+        "charIndex": 1558,
+        "charLength": 3,
+        "startMs": 101112.5,
+        "endMs": 101287.5
+      },
+      {
+        "charIndex": 1562,
+        "charLength": 6,
+        "startMs": 101287.5,
+        "endMs": 101575.0
+      },
+      {
+        "charIndex": 1569,
+        "charLength": 4,
+        "startMs": 101575.0,
+        "endMs": 102300.0
+      },
+      {
+        "charIndex": 1573,
+        "charLength": 1,
+        "startMs": 102300.0,
+        "endMs": 102475.0
+      },
+      {
+        "charIndex": 1575,
+        "charLength": 9,
+        "startMs": 102475.0,
+        "endMs": 103150.0
+      },
+      {
+        "charIndex": 1585,
+        "charLength": 12,
+        "startMs": 103150.0,
+        "endMs": 103875.0
+      },
+      {
+        "charIndex": 1598,
+        "charLength": 6,
+        "startMs": 103875.0,
+        "endMs": 104250.0
+      },
+      {
+        "charIndex": 1605,
+        "charLength": 8,
+        "startMs": 104250.0,
+        "endMs": 104700.0
+      },
+      {
+        "charIndex": 1614,
+        "charLength": 6,
+        "startMs": 104700.0,
+        "endMs": 105550.0
+      },
+      {
+        "charIndex": 1620,
+        "charLength": 1,
+        "startMs": 105550.0,
+        "endMs": 105650.0
+      },
+      {
+        "charIndex": 1622,
+        "charLength": 2,
+        "startMs": 105650.0,
+        "endMs": 105862.5
+      },
+      {
+        "charIndex": 1625,
+        "charLength": 7,
+        "startMs": 105862.5,
+        "endMs": 106300.0
+      },
+      {
+        "charIndex": 1633,
+        "charLength": 2,
+        "startMs": 106300.0,
+        "endMs": 106425.0
+      },
+      {
+        "charIndex": 1636,
+        "charLength": 7,
+        "startMs": 106425.0,
+        "endMs": 107175.0
+      },
+      {
+        "charIndex": 1643,
+        "charLength": 1,
+        "startMs": 107175.0,
+        "endMs": 107287.5
+      },
+      {
+        "charIndex": 1645,
+        "charLength": 10,
+        "startMs": 107287.5,
+        "endMs": 108025.0
+      },
+      {
+        "charIndex": 1656,
+        "charLength": 7,
+        "startMs": 108025.0,
+        "endMs": 108550.0
+      },
+      {
+        "charIndex": 1664,
+        "charLength": 11,
+        "startMs": 108550.0,
+        "endMs": 109575.0
+      },
+      {
+        "charIndex": 1675,
+        "charLength": 1,
+        "startMs": 109575.0,
+        "endMs": 109737.5
+      },
+      {
+        "charIndex": 1677,
+        "charLength": 7,
+        "startMs": 109737.5,
+        "endMs": 110262.5
+      },
+      {
+        "charIndex": 1685,
+        "charLength": 5,
+        "startMs": 110262.5,
+        "endMs": 110575.0
+      },
+      {
+        "charIndex": 1691,
+        "charLength": 11,
+        "startMs": 110575.0,
+        "endMs": 111375.0
+      },
+      {
+        "charIndex": 1703,
+        "charLength": 3,
+        "startMs": 111375.0,
+        "endMs": 111487.5
+      },
+      {
+        "charIndex": 1707,
+        "charLength": 1,
+        "startMs": 111487.5,
+        "endMs": 111550.0
+      },
+      {
+        "charIndex": 1709,
+        "charLength": 6,
+        "startMs": 111550.0,
+        "endMs": 111987.5
+      },
+      {
+        "charIndex": 1716,
+        "charLength": 6,
+        "startMs": 111987.5,
+        "endMs": 112450.0
+      },
+      {
+        "charIndex": 1723,
+        "charLength": 5,
+        "startMs": 112450.0,
+        "endMs": 112575.0
+      },
+      {
+        "charIndex": 1729,
+        "charLength": 4,
+        "startMs": 112575.0,
+        "endMs": 112787.5
+      },
+      {
+        "charIndex": 1734,
+        "charLength": 3,
+        "startMs": 112787.5,
+        "endMs": 112875.0
+      },
+      {
+        "charIndex": 1738,
+        "charLength": 4,
+        "startMs": 112875.0,
+        "endMs": 113150.0
+      },
+      {
+        "charIndex": 1743,
+        "charLength": 5,
+        "startMs": 113150.0,
+        "endMs": 113850.0
+      },
+      {
+        "charIndex": 1748,
+        "charLength": 1,
+        "startMs": 113850.0,
+        "endMs": 114000.0
+      },
+      {
+        "charIndex": 1750,
+        "charLength": 4,
+        "startMs": 114375.0,
+        "endMs": 114662.5
+      },
+      {
+        "charIndex": 1755,
+        "charLength": 7,
+        "startMs": 114662.5,
+        "endMs": 115075.0
+      },
+      {
+        "charIndex": 1763,
+        "charLength": 2,
+        "startMs": 115075.0,
+        "endMs": 115225.0
+      },
+      {
+        "charIndex": 1766,
+        "charLength": 5,
+        "startMs": 115225.0,
+        "endMs": 115875.0
+      },
+      {
+        "charIndex": 1771,
+        "charLength": 1,
+        "startMs": 115875.0,
+        "endMs": 115975.0
+      },
+      {
+        "charIndex": 1773,
+        "charLength": 3,
+        "startMs": 115975.0,
+        "endMs": 116100.0
+      },
+      {
+        "charIndex": 1777,
+        "charLength": 9,
+        "startMs": 116100.0,
+        "endMs": 116650.0
+      },
+      {
+        "charIndex": 1787,
+        "charLength": 11,
+        "startMs": 116650.0,
+        "endMs": 117425.0
+      },
+      {
+        "charIndex": 1799,
+        "charLength": 2,
+        "startMs": 117425.0,
+        "endMs": 117550.0
+      },
+      {
+        "charIndex": 1802,
+        "charLength": 9,
+        "startMs": 117550.0,
+        "endMs": 118225.0
+      },
+      {
+        "charIndex": 1812,
+        "charLength": 4,
+        "startMs": 118225.0,
+        "endMs": 118362.5
+      },
+      {
+        "charIndex": 1817,
+        "charLength": 3,
+        "startMs": 118362.5,
+        "endMs": 118500.0
+      },
+      {
+        "charIndex": 1821,
+        "charLength": 4,
+        "startMs": 118500.0,
+        "endMs": 118875.0
+      },
+      {
+        "charIndex": 1826,
+        "charLength": 7,
+        "startMs": 118875.0,
+        "endMs": 119287.5
+      },
+      {
+        "charIndex": 1834,
+        "charLength": 3,
+        "startMs": 119287.5,
+        "endMs": 120025.0
+      },
+      {
+        "charIndex": 1837,
+        "charLength": 1,
+        "startMs": 120025.0,
+        "endMs": 120162.5
+      },
+      {
+        "charIndex": 1839,
+        "charLength": 1,
+        "startMs": 120162.5,
+        "endMs": 120275.0
+      },
+      {
+        "charIndex": 1841,
+        "charLength": 6,
+        "startMs": 120275.0,
+        "endMs": 120700.0
+      },
+      {
+        "charIndex": 1848,
+        "charLength": 8,
+        "startMs": 120700.0,
+        "endMs": 121275.0
+      },
+      {
+        "charIndex": 1857,
+        "charLength": 7,
+        "startMs": 121275.0,
+        "endMs": 121762.5
+      },
+      {
+        "charIndex": 1865,
+        "charLength": 3,
+        "startMs": 121762.5,
+        "endMs": 121925.0
+      },
+      {
+        "charIndex": 1869,
+        "charLength": 5,
+        "startMs": 121925.0,
+        "endMs": 122250.0
+      },
+      {
+        "charIndex": 1875,
+        "charLength": 5,
+        "startMs": 122250.0,
+        "endMs": 123000.0
+      },
+      {
+        "charIndex": 1880,
+        "charLength": 1,
+        "startMs": 123000.0,
+        "endMs": 123162.5
+      },
+      {
+        "charIndex": 1882,
+        "charLength": 9,
+        "startMs": 123162.5,
+        "endMs": 123975.0
+      },
+      {
+        "charIndex": 1891,
+        "charLength": 1,
+        "startMs": 123975.0,
+        "endMs": 124075.0
+      },
+      {
+        "charIndex": 1893,
+        "charLength": 10,
+        "startMs": 124075.0,
+        "endMs": 124750.0
+      },
+      {
+        "charIndex": 1904,
+        "charLength": 9,
+        "startMs": 124750.0,
+        "endMs": 125650.0
+      },
+      {
+        "charIndex": 1913,
+        "charLength": 1,
+        "startMs": 125650.0,
+        "endMs": 125750.0
+      },
+      {
+        "charIndex": 1915,
+        "charLength": 9,
+        "startMs": 125750.0,
+        "endMs": 126262.5
+      },
+      {
+        "charIndex": 1925,
+        "charLength": 3,
+        "startMs": 126262.5,
+        "endMs": 126587.5
+      },
+      {
+        "charIndex": 1929,
+        "charLength": 7,
+        "startMs": 126587.5,
+        "endMs": 127187.5
+      },
+      {
+        "charIndex": 1937,
+        "charLength": 5,
+        "startMs": 127187.5,
+        "endMs": 127600.0
+      },
+      {
+        "charIndex": 1943,
+        "charLength": 6,
+        "startMs": 127600.0,
+        "endMs": 127975.0
+      },
+      {
+        "charIndex": 1950,
+        "charLength": 7,
+        "startMs": 127975.0,
+        "endMs": 128362.5
+      },
+      {
+        "charIndex": 1958,
+        "charLength": 5,
+        "startMs": 128362.5,
+        "endMs": 129075.0
+      },
+      {
+        "charIndex": 1963,
+        "charLength": 1,
+        "startMs": 129075.0,
+        "endMs": 129225.0
+      },
+      {
+        "charIndex": 1965,
+        "charLength": 4,
+        "startMs": 129625.0,
+        "endMs": 129912.5
+      },
+      {
+        "charIndex": 1970,
+        "charLength": 5,
+        "startMs": 129912.5,
+        "endMs": 130275.0
+      },
+      {
+        "charIndex": 1976,
+        "charLength": 2,
+        "startMs": 130275.0,
+        "endMs": 130425.0
+      },
+      {
+        "charIndex": 1979,
+        "charLength": 8,
+        "startMs": 130425.0,
+        "endMs": 131037.5
+      },
+      {
+        "charIndex": 1988,
+        "charLength": 13,
+        "startMs": 131037.5,
+        "endMs": 132250.0
+      },
+      {
+        "charIndex": 2001,
+        "charLength": 1,
+        "startMs": 132250.0,
+        "endMs": 132412.5
+      },
+      {
+        "charIndex": 2003,
+        "charLength": 8,
+        "startMs": 132412.5,
+        "endMs": 132925.0
+      },
+      {
+        "charIndex": 2012,
+        "charLength": 3,
+        "startMs": 132925.0,
+        "endMs": 133037.5
+      },
+      {
+        "charIndex": 2016,
+        "charLength": 7,
+        "startMs": 133037.5,
+        "endMs": 133550.0
+      },
+      {
+        "charIndex": 2024,
+        "charLength": 8,
+        "startMs": 133550.0,
+        "endMs": 134075.0
+      },
+      {
+        "charIndex": 2033,
+        "charLength": 1,
+        "startMs": 134075.0,
+        "endMs": 134200.0
+      },
+      {
+        "charIndex": 2035,
+        "charLength": 5,
+        "startMs": 134200.0,
+        "endMs": 134550.0
+      },
+      {
+        "charIndex": 2041,
+        "charLength": 8,
+        "startMs": 134550.0,
+        "endMs": 134975.0
+      },
+      {
+        "charIndex": 2050,
+        "charLength": 5,
+        "startMs": 134975.0,
+        "endMs": 135725.0
+      },
+      {
+        "charIndex": 2055,
+        "charLength": 1,
+        "startMs": 135725.0,
+        "endMs": 135925.0
+      },
+      {
+        "charIndex": 2057,
+        "charLength": 6,
+        "startMs": 135925.0,
+        "endMs": 136262.5
+      },
+      {
+        "charIndex": 2064,
+        "charLength": 3,
+        "startMs": 136262.5,
+        "endMs": 136412.5
+      },
+      {
+        "charIndex": 2068,
+        "charLength": 4,
+        "startMs": 136412.5,
+        "endMs": 136837.5
+      },
+      {
+        "charIndex": 2073,
+        "charLength": 5,
+        "startMs": 136837.5,
+        "endMs": 137250.0
+      },
+      {
+        "charIndex": 2079,
+        "charLength": 4,
+        "startMs": 137250.0,
+        "endMs": 137387.5
+      },
+      {
+        "charIndex": 2084,
+        "charLength": 3,
+        "startMs": 137387.5,
+        "endMs": 137475.0
+      },
+      {
+        "charIndex": 2088,
+        "charLength": 4,
+        "startMs": 137475.0,
+        "endMs": 137850.0
+      },
+      {
+        "charIndex": 2093,
+        "charLength": 4,
+        "startMs": 137850.0,
+        "endMs": 138037.5
+      },
+      {
+        "charIndex": 2098,
+        "charLength": 3,
+        "startMs": 138037.5,
+        "endMs": 138125.0
+      },
+      {
+        "charIndex": 2102,
+        "charLength": 7,
+        "startMs": 138125.0,
+        "endMs": 138562.5
+      },
+      {
+        "charIndex": 2110,
+        "charLength": 4,
+        "startMs": 138562.5,
+        "endMs": 138987.5
+      },
+      {
+        "charIndex": 2115,
+        "charLength": 5,
+        "startMs": 138987.5,
+        "endMs": 139725.0
+      },
+      {
+        "charIndex": 2120,
+        "charLength": 1,
+        "startMs": 139725.0,
+        "endMs": 139825.0
+      },
+      {
+        "charIndex": 2122,
+        "charLength": 10,
+        "startMs": 139825.0,
+        "endMs": 140350.0
+      },
+      {
+        "charIndex": 2133,
+        "charLength": 1,
+        "startMs": 140350.0,
+        "endMs": 140425.0
+      },
+      {
+        "charIndex": 2135,
+        "charLength": 4,
+        "startMs": 140425.0,
+        "endMs": 140775.0
+      },
+      {
+        "charIndex": 2140,
+        "charLength": 9,
+        "startMs": 140775.0,
+        "endMs": 141275.0
+      },
+      {
+        "charIndex": 2150,
+        "charLength": 2,
+        "startMs": 141275.0,
+        "endMs": 141362.5
+      },
+      {
+        "charIndex": 2153,
+        "charLength": 3,
+        "startMs": 141362.5,
+        "endMs": 141450.0
+      },
+      {
+        "charIndex": 2157,
+        "charLength": 8,
+        "startMs": 141450.0,
+        "endMs": 142037.5
+      },
+      {
+        "charIndex": 2166,
+        "charLength": 2,
+        "startMs": 142037.5,
+        "endMs": 142200.0
+      },
+      {
+        "charIndex": 2169,
+        "charLength": 3,
+        "startMs": 142200.0,
+        "endMs": 142387.5
+      },
+      {
+        "charIndex": 2173,
+        "charLength": 6,
+        "startMs": 142387.5,
+        "endMs": 143050.0
+      },
+      {
+        "charIndex": 2179,
+        "charLength": 1,
+        "startMs": 143050.0,
+        "endMs": 143200.0
+      },
+      {
+        "charIndex": 2181,
+        "charLength": 3,
+        "startMs": 143575.0,
+        "endMs": 143650.0
+      },
+      {
+        "charIndex": 2185,
+        "charLength": 9,
+        "startMs": 143650.0,
+        "endMs": 144275.0
+      },
+      {
+        "charIndex": 2195,
+        "charLength": 8,
+        "startMs": 144275.0,
+        "endMs": 144750.0
+      },
+      {
+        "charIndex": 2204,
+        "charLength": 3,
+        "startMs": 144750.0,
+        "endMs": 144850.0
+      },
+      {
+        "charIndex": 2208,
+        "charLength": 5,
+        "startMs": 144850.0,
+        "endMs": 145250.0
+      },
+      {
+        "charIndex": 2214,
+        "charLength": 2,
+        "startMs": 145250.0,
+        "endMs": 145400.0
+      },
+      {
+        "charIndex": 2217,
+        "charLength": 4,
+        "startMs": 145400.0,
+        "endMs": 145675.0
+      },
+      {
+        "charIndex": 2222,
+        "charLength": 10,
+        "startMs": 145675.0,
+        "endMs": 146700.0
+      },
+      {
+        "charIndex": 2232,
+        "charLength": 1,
+        "startMs": 146700.0,
+        "endMs": 146850.0
+      },
+      {
+        "charIndex": 2234,
+        "charLength": 7,
+        "startMs": 146850.0,
+        "endMs": 147200.0
+      },
+      {
+        "charIndex": 2242,
+        "charLength": 5,
+        "startMs": 147200.0,
+        "endMs": 147550.0
+      },
+      {
+        "charIndex": 2248,
+        "charLength": 6,
+        "startMs": 147550.0,
+        "endMs": 147950.0
+      },
+      {
+        "charIndex": 2255,
+        "charLength": 2,
+        "startMs": 147950.0,
+        "endMs": 148075.0
+      },
+      {
+        "charIndex": 2258,
+        "charLength": 7,
+        "startMs": 148075.0,
+        "endMs": 148600.0
+      },
+      {
+        "charIndex": 2266,
+        "charLength": 3,
+        "startMs": 148600.0,
+        "endMs": 148762.5
+      },
+      {
+        "charIndex": 2270,
+        "charLength": 3,
+        "startMs": 148762.5,
+        "endMs": 149000.0
+      },
+      {
+        "charIndex": 2274,
+        "charLength": 2,
+        "startMs": 149000.0,
+        "endMs": 149087.5
+      },
+      {
+        "charIndex": 2277,
+        "charLength": 3,
+        "startMs": 149087.5,
+        "endMs": 149175.0
+      },
+      {
+        "charIndex": 2281,
+        "charLength": 11,
+        "startMs": 149175.0,
+        "endMs": 150350.0
+      },
+      {
+        "charIndex": 2292,
+        "charLength": 1,
+        "startMs": 150350.0,
+        "endMs": 150487.5
+      },
+      {
+        "charIndex": 2294,
+        "charLength": 10,
+        "startMs": 150487.5,
+        "endMs": 151250.0
+      },
+      {
+        "charIndex": 2305,
+        "charLength": 5,
+        "startMs": 151250.0,
+        "endMs": 151625.0
+      },
+      {
+        "charIndex": 2311,
+        "charLength": 6,
+        "startMs": 151625.0,
+        "endMs": 152037.5
+      },
+      {
+        "charIndex": 2318,
+        "charLength": 2,
+        "startMs": 152037.5,
+        "endMs": 152112.5
+      },
+      {
+        "charIndex": 2321,
+        "charLength": 3,
+        "startMs": 152112.5,
+        "endMs": 152200.0
+      },
+      {
+        "charIndex": 2325,
+        "charLength": 11,
+        "startMs": 152200.0,
+        "endMs": 153287.5
+      },
+      {
+        "charIndex": 2337,
+        "charLength": 3,
+        "startMs": 153287.5,
+        "endMs": 153450.0
+      },
+      {
+        "charIndex": 2341,
+        "charLength": 3,
+        "startMs": 153450.0,
+        "endMs": 153675.0
+      },
+      {
+        "charIndex": 2345,
+        "charLength": 2,
+        "startMs": 153675.0,
+        "endMs": 153775.0
+      },
+      {
+        "charIndex": 2348,
+        "charLength": 7,
+        "startMs": 153775.0,
+        "endMs": 154675.0
+      },
+      {
+        "charIndex": 2355,
+        "charLength": 1,
+        "startMs": 154675.0,
+        "endMs": 154850.0
+      },
+      {
+        "charIndex": 2357,
+        "charLength": 6,
+        "startMs": 154850.0,
+        "endMs": 155187.5
+      },
+      {
+        "charIndex": 2364,
+        "charLength": 3,
+        "startMs": 155187.5,
+        "endMs": 155337.5
+      },
+      {
+        "charIndex": 2368,
+        "charLength": 4,
+        "startMs": 155337.5,
+        "endMs": 155762.5
+      },
+      {
+        "charIndex": 2373,
+        "charLength": 5,
+        "startMs": 155762.5,
+        "endMs": 156175.0
+      },
+      {
+        "charIndex": 2379,
+        "charLength": 4,
+        "startMs": 156175.0,
+        "endMs": 156362.5
+      },
+      {
+        "charIndex": 2384,
+        "charLength": 3,
+        "startMs": 156362.5,
+        "endMs": 156450.0
+      },
+      {
+        "charIndex": 2388,
+        "charLength": 7,
+        "startMs": 156450.0,
+        "endMs": 157012.5
+      },
+      {
+        "charIndex": 2396,
+        "charLength": 8,
+        "startMs": 157012.5,
+        "endMs": 157600.0
+      },
+      {
+        "charIndex": 2405,
+        "charLength": 3,
+        "startMs": 157600.0,
+        "endMs": 157850.0
+      },
+      {
+        "charIndex": 2409,
+        "charLength": 8,
+        "startMs": 157850.0,
+        "endMs": 158375.0
+      },
+      {
+        "charIndex": 2418,
+        "charLength": 2,
+        "startMs": 158375.0,
+        "endMs": 158525.0
+      },
+      {
+        "charIndex": 2421,
+        "charLength": 4,
+        "startMs": 158525.0,
+        "endMs": 158775.0
+      },
+      {
+        "charIndex": 2426,
+        "charLength": 5,
+        "startMs": 158775.0,
+        "endMs": 159400.0
+      },
+      {
+        "charIndex": 2431,
+        "charLength": 1,
+        "startMs": 159400.0,
+        "endMs": 159525.0
+      },
+      {
+        "charIndex": 2433,
+        "charLength": 4,
+        "startMs": 159525.0,
+        "endMs": 159787.5
+      },
+      {
+        "charIndex": 2438,
+        "charLength": 6,
+        "startMs": 159787.5,
+        "endMs": 159950.0
+      },
+      {
+        "charIndex": 2445,
+        "charLength": 3,
+        "startMs": 159950.0,
+        "endMs": 160050.0
+      },
+      {
+        "charIndex": 2449,
+        "charLength": 8,
+        "startMs": 160050.0,
+        "endMs": 160650.0
+      },
+      {
+        "charIndex": 2458,
+        "charLength": 6,
+        "startMs": 160650.0,
+        "endMs": 161125.0
+      },
+      {
+        "charIndex": 2465,
+        "charLength": 4,
+        "startMs": 161125.0,
+        "endMs": 161325.0
+      },
+      {
+        "charIndex": 2470,
+        "charLength": 5,
+        "startMs": 161325.0,
+        "endMs": 162050.0
+      },
+      {
+        "charIndex": 2475,
+        "charLength": 1,
+        "startMs": 162050.0,
+        "endMs": 162200.0
+      },
+      {
+        "charIndex": 2477,
+        "charLength": 1,
+        "startMs": 162575.0,
+        "endMs": 162662.5
+      },
+      {
+        "charIndex": 2479,
+        "charLength": 5,
+        "startMs": 162662.5,
+        "endMs": 163087.5
+      },
+      {
+        "charIndex": 2485,
+        "charLength": 6,
+        "startMs": 163087.5,
+        "endMs": 163400.0
+      },
+      {
+        "charIndex": 2492,
+        "charLength": 11,
+        "startMs": 163400.0,
+        "endMs": 164225.0
+      },
+      {
+        "charIndex": 2504,
+        "charLength": 7,
+        "startMs": 164225.0,
+        "endMs": 164762.5
+      },
+      {
+        "charIndex": 2512,
+        "charLength": 2,
+        "startMs": 164762.5,
+        "endMs": 164975.0
+      },
+      {
+        "charIndex": 2515,
+        "charLength": 6,
+        "startMs": 164975.0,
+        "endMs": 165875.0
+      },
+      {
+        "charIndex": 2521,
+        "charLength": 1,
+        "startMs": 165875.0,
+        "endMs": 165987.5
+      },
+      {
+        "charIndex": 2523,
+        "charLength": 4,
+        "startMs": 165987.5,
+        "endMs": 166262.5
+      },
+      {
+        "charIndex": 2528,
+        "charLength": 6,
+        "startMs": 166262.5,
+        "endMs": 166662.5
+      },
+      {
+        "charIndex": 2535,
+        "charLength": 11,
+        "startMs": 166662.5,
+        "endMs": 167325.0
+      },
+      {
+        "charIndex": 2547,
+        "charLength": 6,
+        "startMs": 167325.0,
+        "endMs": 167862.5
+      },
+      {
+        "charIndex": 2554,
+        "charLength": 3,
+        "startMs": 167862.5,
+        "endMs": 168000.0
+      },
+      {
+        "charIndex": 2558,
+        "charLength": 5,
+        "startMs": 168000.0,
+        "endMs": 168425.0
+      },
+      {
+        "charIndex": 2564,
+        "charLength": 6,
+        "startMs": 168425.0,
+        "endMs": 169275.0
+      },
+      {
+        "charIndex": 2570,
+        "charLength": 1,
+        "startMs": 169275.0,
+        "endMs": 169375.0
+      },
+      {
+        "charIndex": 2572,
+        "charLength": 3,
+        "startMs": 169375.0,
+        "endMs": 169600.0
+      },
+      {
+        "charIndex": 2576,
+        "charLength": 11,
+        "startMs": 169600.0,
+        "endMs": 170350.0
+      },
+      {
+        "charIndex": 2588,
+        "charLength": 7,
+        "startMs": 170350.0,
+        "endMs": 170925.0
+      },
+      {
+        "charIndex": 2596,
+        "charLength": 2,
+        "startMs": 170925.0,
+        "endMs": 171100.0
+      },
+      {
+        "charIndex": 2599,
+        "charLength": 6,
+        "startMs": 171100.0,
+        "endMs": 171450.0
+      },
+      {
+        "charIndex": 2606,
+        "charLength": 6,
+        "startMs": 171450.0,
+        "endMs": 172300.0
+      },
+      {
+        "charIndex": 2612,
+        "charLength": 1,
+        "startMs": 172300.0,
+        "endMs": 172462.5
+      },
+      {
+        "charIndex": 2614,
+        "charLength": 10,
+        "startMs": 172462.5,
+        "endMs": 173000.0
+      },
+      {
+        "charIndex": 2625,
+        "charLength": 1,
+        "startMs": 173000.0,
+        "endMs": 173112.5
+      },
+      {
+        "charIndex": 2627,
+        "charLength": 8,
+        "startMs": 173112.5,
+        "endMs": 173712.5
+      },
+      {
+        "charIndex": 2636,
+        "charLength": 2,
+        "startMs": 173712.5,
+        "endMs": 173875.0
+      },
+      {
+        "charIndex": 2639,
+        "charLength": 9,
+        "startMs": 173875.0,
+        "endMs": 174350.0
+      },
+      {
+        "charIndex": 2649,
+        "charLength": 1,
+        "startMs": 174350.0,
+        "endMs": 174425.0
+      },
+      {
+        "charIndex": 2651,
+        "charLength": 9,
+        "startMs": 174425.0,
+        "endMs": 175037.5
+      },
+      {
+        "charIndex": 2661,
+        "charLength": 2,
+        "startMs": 175037.5,
+        "endMs": 175200.0
+      },
+      {
+        "charIndex": 2664,
+        "charLength": 9,
+        "startMs": 175200.0,
+        "endMs": 175925.0
+      },
+      {
+        "charIndex": 2673,
+        "charLength": 1,
+        "startMs": 175925.0,
+        "endMs": 176025.0
+      },
+      {
+        "charIndex": 2675,
+        "charLength": 3,
+        "startMs": 176025.0,
+        "endMs": 176125.0
+      },
+      {
+        "charIndex": 2679,
+        "charLength": 4,
+        "startMs": 176125.0,
+        "endMs": 176425.0
+      },
+      {
+        "charIndex": 2684,
+        "charLength": 8,
+        "startMs": 176425.0,
+        "endMs": 176887.5
+      },
+      {
+        "charIndex": 2693,
+        "charLength": 4,
+        "startMs": 176887.5,
+        "endMs": 177250.0
+      },
+      {
+        "charIndex": 2698,
+        "charLength": 6,
+        "startMs": 177250.0,
+        "endMs": 177575.0
+      },
+      {
+        "charIndex": 2705,
+        "charLength": 4,
+        "startMs": 177575.0,
+        "endMs": 177725.0
+      },
+      {
+        "charIndex": 2710,
+        "charLength": 5,
+        "startMs": 177725.0,
+        "endMs": 178500.0
+      },
+      {
+        "charIndex": 2715,
+        "charLength": 1,
+        "startMs": 178500.0,
+        "endMs": 178650.0
+      },
+      {
+        "charIndex": 2717,
+        "charLength": 3,
+        "startMs": 179000.0,
+        "endMs": 179100.0
+      },
+      {
+        "charIndex": 2721,
+        "charLength": 6,
+        "startMs": 179100.0,
+        "endMs": 179512.5
+      },
+      {
+        "charIndex": 2728,
+        "charLength": 9,
+        "startMs": 179512.5,
+        "endMs": 180212.5
+      },
+      {
+        "charIndex": 2738,
+        "charLength": 5,
+        "startMs": 180212.5,
+        "endMs": 180587.5
+      },
+      {
+        "charIndex": 2744,
+        "charLength": 8,
+        "startMs": 180587.5,
+        "endMs": 181137.5
+      },
+      {
+        "charIndex": 2753,
+        "charLength": 7,
+        "startMs": 181137.5,
+        "endMs": 181700.0
+      },
+      {
+        "charIndex": 2761,
+        "charLength": 5,
+        "startMs": 181700.0,
+        "endMs": 182500.0
+      },
+      {
+        "charIndex": 2766,
+        "charLength": 1,
+        "startMs": 182500.0,
+        "endMs": 182675.0
+      },
+      {
+        "charIndex": 2768,
+        "charLength": 1,
+        "startMs": 182675.0,
+        "endMs": 182812.5
+      },
+      {
+        "charIndex": 2770,
+        "charLength": 4,
+        "startMs": 182812.5,
+        "endMs": 183187.5
+      },
+      {
+        "charIndex": 2775,
+        "charLength": 7,
+        "startMs": 183187.5,
+        "endMs": 183650.0
+      },
+      {
+        "charIndex": 2783,
+        "charLength": 2,
+        "startMs": 183650.0,
+        "endMs": 183775.0
+      },
+      {
+        "charIndex": 2786,
+        "charLength": 8,
+        "startMs": 183775.0,
+        "endMs": 184300.0
+      },
+      {
+        "charIndex": 2795,
+        "charLength": 2,
+        "startMs": 184300.0,
+        "endMs": 184400.0
+      },
+      {
+        "charIndex": 2798,
+        "charLength": 4,
+        "startMs": 184400.0,
+        "endMs": 184662.5
+      },
+      {
+        "charIndex": 2803,
+        "charLength": 4,
+        "startMs": 184662.5,
+        "endMs": 185300.0
+      },
+      {
+        "charIndex": 2807,
+        "charLength": 1,
+        "startMs": 185300.0,
+        "endMs": 185400.0
+      },
+      {
+        "charIndex": 2809,
+        "charLength": 3,
+        "startMs": 185400.0,
+        "endMs": 185512.5
+      },
+      {
+        "charIndex": 2813,
+        "charLength": 3,
+        "startMs": 185512.5,
+        "endMs": 185600.0
+      },
+      {
+        "charIndex": 2817,
+        "charLength": 9,
+        "startMs": 185600.0,
+        "endMs": 186100.0
+      },
+      {
+        "charIndex": 2827,
+        "charLength": 7,
+        "startMs": 186100.0,
+        "endMs": 186562.5
+      },
+      {
+        "charIndex": 2835,
+        "charLength": 5,
+        "startMs": 186562.5,
+        "endMs": 186850.0
+      },
+      {
+        "charIndex": 2841,
+        "charLength": 3,
+        "startMs": 186850.0,
+        "endMs": 187675.0
+      },
+      {
+        "charIndex": 2844,
+        "charLength": 1,
+        "startMs": 187675.0,
+        "endMs": 187837.5
+      },
+      {
+        "charIndex": 2846,
+        "charLength": 4,
+        "startMs": 187837.5,
+        "endMs": 188075.0
+      },
+      {
+        "charIndex": 2851,
+        "charLength": 4,
+        "startMs": 188075.0,
+        "endMs": 188375.0
+      },
+      {
+        "charIndex": 2856,
+        "charLength": 3,
+        "startMs": 188375.0,
+        "endMs": 188737.5
+      },
+      {
+        "charIndex": 2860,
+        "charLength": 5,
+        "startMs": 188737.5,
+        "endMs": 189050.0
+      },
+      {
+        "charIndex": 2866,
+        "charLength": 6,
+        "startMs": 189050.0,
+        "endMs": 189537.5
+      },
+      {
+        "charIndex": 2873,
+        "charLength": 7,
+        "startMs": 189537.5,
+        "endMs": 189950.0
+      },
+      {
+        "charIndex": 2881,
+        "charLength": 11,
+        "startMs": 189950.0,
+        "endMs": 190525.0
+      },
+      {
+        "charIndex": 2893,
+        "charLength": 8,
+        "startMs": 190525.0,
+        "endMs": 191350.0
+      },
+      {
+        "charIndex": 2902,
+        "charLength": 7,
+        "startMs": 191350.0,
+        "endMs": 191712.5
+      },
+      {
+        "charIndex": 2910,
+        "charLength": 2,
+        "startMs": 191712.5,
+        "endMs": 191825.0
+      },
+      {
+        "charIndex": 2913,
+        "charLength": 8,
+        "startMs": 191825.0,
+        "endMs": 192325.0
+      },
+      {
+        "charIndex": 2922,
+        "charLength": 2,
+        "startMs": 192325.0,
+        "endMs": 192412.5
+      },
+      {
+        "charIndex": 2925,
+        "charLength": 3,
+        "startMs": 192412.5,
+        "endMs": 192512.5
+      },
+      {
+        "charIndex": 2929,
+        "charLength": 5,
+        "startMs": 192512.5,
+        "endMs": 192812.5
+      },
+      {
+        "charIndex": 2935,
+        "charLength": 9,
+        "startMs": 192812.5,
+        "endMs": 193675.0
+      },
+      {
+        "charIndex": 2944,
+        "charLength": 1,
+        "startMs": 193675.0,
+        "endMs": 193825.0
+      },
+      {
+        "charIndex": 2946,
+        "charLength": 3,
+        "startMs": 194200.0,
+        "endMs": 194275.0
+      },
+      {
+        "charIndex": 2950,
+        "charLength": 6,
+        "startMs": 194275.0,
+        "endMs": 194750.0
+      },
+      {
+        "charIndex": 2957,
+        "charLength": 8,
+        "startMs": 194750.0,
+        "endMs": 195250.0
+      },
+      {
+        "charIndex": 2966,
+        "charLength": 3,
+        "startMs": 195250.0,
+        "endMs": 195387.5
+      },
+      {
+        "charIndex": 2970,
+        "charLength": 7,
+        "startMs": 195387.5,
+        "endMs": 195712.5
+      },
+      {
+        "charIndex": 2978,
+        "charLength": 5,
+        "startMs": 195712.5,
+        "endMs": 196275.0
+      },
+      {
+        "charIndex": 2984,
+        "charLength": 3,
+        "startMs": 196275.0,
+        "endMs": 196462.5
+      },
+      {
+        "charIndex": 2988,
+        "charLength": 5,
+        "startMs": 196462.5,
+        "endMs": 196812.5
+      },
+      {
+        "charIndex": 2994,
+        "charLength": 4,
+        "startMs": 196812.5,
+        "endMs": 197150.0
+      },
+      {
+        "charIndex": 2999,
+        "charLength": 6,
+        "startMs": 197150.0,
+        "endMs": 198025.0
+      },
+      {
+        "charIndex": 3005,
+        "charLength": 1,
+        "startMs": 198025.0,
+        "endMs": 198150.0
+      },
+      {
+        "charIndex": 3007,
+        "charLength": 2,
+        "startMs": 198150.0,
+        "endMs": 198325.0
+      },
+      {
+        "charIndex": 3010,
+        "charLength": 3,
+        "startMs": 198325.0,
+        "endMs": 198537.5
+      },
+      {
+        "charIndex": 3014,
+        "charLength": 4,
+        "startMs": 198537.5,
+        "endMs": 198875.0
+      },
+      {
+        "charIndex": 3019,
+        "charLength": 3,
+        "startMs": 198875.0,
+        "endMs": 199075.0
+      },
+      {
+        "charIndex": 3023,
+        "charLength": 6,
+        "startMs": 199075.0,
+        "endMs": 199700.0
+      },
+      {
+        "charIndex": 3029,
+        "charLength": 1,
+        "startMs": 199700.0,
+        "endMs": 199775.0
+      },
+      {
+        "charIndex": 3031,
+        "charLength": 3,
+        "startMs": 199775.0,
+        "endMs": 199925.0
+      },
+      {
+        "charIndex": 3035,
+        "charLength": 4,
+        "startMs": 199925.0,
+        "endMs": 200275.0
+      },
+      {
+        "charIndex": 3040,
+        "charLength": 4,
+        "startMs": 200275.0,
+        "endMs": 200625.0
+      },
+      {
+        "charIndex": 3045,
+        "charLength": 2,
+        "startMs": 200625.0,
+        "endMs": 200775.0
+      },
+      {
+        "charIndex": 3048,
+        "charLength": 3,
+        "startMs": 200775.0,
+        "endMs": 201550.0
+      },
+      {
+        "charIndex": 3051,
+        "charLength": 1,
+        "startMs": 201550.0,
+        "endMs": 201712.5
+      },
+      {
+        "charIndex": 3053,
+        "charLength": 3,
+        "startMs": 201712.5,
+        "endMs": 201825.0
+      },
+      {
+        "charIndex": 3057,
+        "charLength": 7,
+        "startMs": 201825.0,
+        "endMs": 202362.5
+      },
+      {
+        "charIndex": 3065,
+        "charLength": 6,
+        "startMs": 202362.5,
+        "endMs": 202650.0
+      },
+      {
+        "charIndex": 3072,
+        "charLength": 3,
+        "startMs": 202650.0,
+        "endMs": 202750.0
+      },
+      {
+        "charIndex": 3076,
+        "charLength": 6,
+        "startMs": 202750.0,
+        "endMs": 203287.5
+      },
+      {
+        "charIndex": 3083,
+        "charLength": 3,
+        "startMs": 203287.5,
+        "endMs": 203450.0
+      },
+      {
+        "charIndex": 3087,
+        "charLength": 8,
+        "startMs": 203450.0,
+        "endMs": 203950.0
+      },
+      {
+        "charIndex": 3096,
+        "charLength": 4,
+        "startMs": 203950.0,
+        "endMs": 204187.5
+      },
+      {
+        "charIndex": 3101,
+        "charLength": 6,
+        "startMs": 204187.5,
+        "endMs": 204675.0
+      },
+      {
+        "charIndex": 3108,
+        "charLength": 2,
+        "startMs": 204675.0,
+        "endMs": 204762.5
+      },
+      {
+        "charIndex": 3111,
+        "charLength": 3,
+        "startMs": 204762.5,
+        "endMs": 204850.0
+      },
+      {
+        "charIndex": 3115,
+        "charLength": 8,
+        "startMs": 204850.0,
+        "endMs": 205575.0
+      },
+      {
+        "charIndex": 3123,
+        "charLength": 1,
+        "startMs": 205575.0,
+        "endMs": 205712.5
+      },
+      {
+        "charIndex": 3125,
+        "charLength": 2,
+        "startMs": 205712.5,
+        "endMs": 205900.0
+      },
+      {
+        "charIndex": 3128,
+        "charLength": 1,
+        "startMs": 205900.0,
+        "endMs": 205975.0
+      },
+      {
+        "charIndex": 3130,
+        "charLength": 10,
+        "startMs": 205975.0,
+        "endMs": 206700.0
+      },
+      {
+        "charIndex": 3141,
+        "charLength": 7,
+        "startMs": 206700.0,
+        "endMs": 207200.0
+      },
+      {
+        "charIndex": 3149,
+        "charLength": 6,
+        "startMs": 207200.0,
+        "endMs": 207550.0
+      },
+      {
+        "charIndex": 3156,
+        "charLength": 3,
+        "startMs": 207550.0,
+        "endMs": 207662.5
+      },
+      {
+        "charIndex": 3160,
+        "charLength": 5,
+        "startMs": 207662.5,
+        "endMs": 208275.0
+      },
+      {
+        "charIndex": 3165,
+        "charLength": 1,
+        "startMs": 208275.0,
+        "endMs": 208425.0
+      },
+      {
+        "charIndex": 3167,
+        "charLength": 1,
+        "startMs": 208800.0,
+        "endMs": 208887.5
+      },
+      {
+        "charIndex": 3169,
+        "charLength": 6,
+        "startMs": 208887.5,
+        "endMs": 209362.5
+      },
+      {
+        "charIndex": 3176,
+        "charLength": 5,
+        "startMs": 209362.5,
+        "endMs": 209762.5
+      },
+      {
+        "charIndex": 3182,
+        "charLength": 7,
+        "startMs": 209762.5,
+        "endMs": 210225.0
+      },
+      {
+        "charIndex": 3190,
+        "charLength": 3,
+        "startMs": 210225.0,
+        "endMs": 210350.0
+      },
+      {
+        "charIndex": 3194,
+        "charLength": 6,
+        "startMs": 210350.0,
+        "endMs": 210900.0
+      },
+      {
+        "charIndex": 3201,
+        "charLength": 7,
+        "startMs": 210900.0,
+        "endMs": 211825.0
+      },
+      {
+        "charIndex": 3208,
+        "charLength": 1,
+        "startMs": 211825.0,
+        "endMs": 211962.5
+      },
+      {
+        "charIndex": 3210,
+        "charLength": 4,
+        "startMs": 211962.5,
+        "endMs": 212237.5
+      },
+      {
+        "charIndex": 3215,
+        "charLength": 4,
+        "startMs": 212237.5,
+        "endMs": 212525.0
+      },
+      {
+        "charIndex": 3220,
+        "charLength": 3,
+        "startMs": 212525.0,
+        "endMs": 212937.5
+      },
+      {
+        "charIndex": 3224,
+        "charLength": 2,
+        "startMs": 212937.5,
+        "endMs": 213112.5
+      },
+      {
+        "charIndex": 3227,
+        "charLength": 6,
+        "startMs": 213112.5,
+        "endMs": 213575.0
+      },
+      {
+        "charIndex": 3234,
+        "charLength": 3,
+        "startMs": 213575.0,
+        "endMs": 213700.0
+      },
+      {
+        "charIndex": 3238,
+        "charLength": 13,
+        "startMs": 213700.0,
+        "endMs": 214475.0
+      },
+      {
+        "charIndex": 3252,
+        "charLength": 1,
+        "startMs": 214475.0,
+        "endMs": 214575.0
+      },
+      {
+        "charIndex": 3254,
+        "charLength": 10,
+        "startMs": 214575.0,
+        "endMs": 215262.5
+      },
+      {
+        "charIndex": 3265,
+        "charLength": 5,
+        "startMs": 215262.5,
+        "endMs": 215637.5
+      },
+      {
+        "charIndex": 3271,
+        "charLength": 4,
+        "startMs": 215637.5,
+        "endMs": 215925.0
+      },
+      {
+        "charIndex": 3276,
+        "charLength": 7,
+        "startMs": 215925.0,
+        "endMs": 216362.5
+      },
+      {
+        "charIndex": 3284,
+        "charLength": 5,
+        "startMs": 216362.5,
+        "endMs": 217125.0
+      },
+      {
+        "charIndex": 3289,
+        "charLength": 1,
+        "startMs": 217125.0,
+        "endMs": 217312.5
+      },
+      {
+        "charIndex": 3291,
+        "charLength": 1,
+        "startMs": 217312.5,
+        "endMs": 217437.5
+      },
+      {
+        "charIndex": 3293,
+        "charLength": 4,
+        "startMs": 217437.5,
+        "endMs": 217875.0
+      },
+      {
+        "charIndex": 3298,
+        "charLength": 4,
+        "startMs": 217875.0,
+        "endMs": 218250.0
+      },
+      {
+        "charIndex": 3303,
+        "charLength": 4,
+        "startMs": 218250.0,
+        "endMs": 218662.5
+      },
+      {
+        "charIndex": 3308,
+        "charLength": 4,
+        "startMs": 218662.5,
+        "endMs": 218975.0
+      },
+      {
+        "charIndex": 3313,
+        "charLength": 9,
+        "startMs": 218975.0,
+        "endMs": 219575.0
+      },
+      {
+        "charIndex": 3323,
+        "charLength": 3,
+        "startMs": 219575.0,
+        "endMs": 219675.0
+      },
+      {
+        "charIndex": 3327,
+        "charLength": 8,
+        "startMs": 219675.0,
+        "endMs": 220175.0
+      },
+      {
+        "charIndex": 3336,
+        "charLength": 5,
+        "startMs": 220175.0,
+        "endMs": 221000.0
+      },
+      {
+        "charIndex": 3341,
+        "charLength": 1,
+        "startMs": 221000.0,
+        "endMs": 221112.5
+      },
+      {
+        "charIndex": 3343,
+        "charLength": 2,
+        "startMs": 221112.5,
+        "endMs": 221250.0
+      },
+      {
+        "charIndex": 3346,
+        "charLength": 4,
+        "startMs": 221250.0,
+        "endMs": 221487.5
+      },
+      {
+        "charIndex": 3351,
+        "charLength": 7,
+        "startMs": 221487.5,
+        "endMs": 221875.0
+      },
+      {
+        "charIndex": 3359,
+        "charLength": 5,
+        "startMs": 221875.0,
+        "endMs": 222212.5
+      },
+      {
+        "charIndex": 3365,
+        "charLength": 5,
+        "startMs": 222212.5,
+        "endMs": 222650.0
+      },
+      {
+        "charIndex": 3371,
+        "charLength": 3,
+        "startMs": 222650.0,
+        "endMs": 222775.0
+      },
+      {
+        "charIndex": 3375,
+        "charLength": 8,
+        "startMs": 222775.0,
+        "endMs": 223275.0
+      },
+      {
+        "charIndex": 3384,
+        "charLength": 6,
+        "startMs": 223275.0,
+        "endMs": 223975.0
+      },
+      {
+        "charIndex": 3390,
+        "charLength": 1,
+        "startMs": 223975.0,
+        "endMs": 224125.0
+      },
+      {
+        "charIndex": 3392,
+        "charLength": 4,
+        "startMs": 224500.0,
+        "endMs": 224800.0
+      },
+      {
+        "charIndex": 3397,
+        "charLength": 2,
+        "startMs": 224800.0,
+        "endMs": 224925.0
+      },
+      {
+        "charIndex": 3400,
+        "charLength": 1,
+        "startMs": 224925.0,
+        "endMs": 225037.5
+      },
+      {
+        "charIndex": 3402,
+        "charLength": 10,
+        "startMs": 225037.5,
+        "endMs": 225700.0
+      },
+      {
+        "charIndex": 3413,
+        "charLength": 6,
+        "startMs": 225700.0,
+        "endMs": 226062.5
+      },
+      {
+        "charIndex": 3420,
+        "charLength": 7,
+        "startMs": 226062.5,
+        "endMs": 226900.0
+      },
+      {
+        "charIndex": 3427,
+        "charLength": 1,
+        "startMs": 226900.0,
+        "endMs": 227037.5
+      },
+      {
+        "charIndex": 3429,
+        "charLength": 6,
+        "startMs": 227037.5,
+        "endMs": 227450.0
+      },
+      {
+        "charIndex": 3436,
+        "charLength": 3,
+        "startMs": 227450.0,
+        "endMs": 227550.0
+      },
+      {
+        "charIndex": 3440,
+        "charLength": 8,
+        "startMs": 227550.0,
+        "endMs": 227950.0
+      },
+      {
+        "charIndex": 3449,
+        "charLength": 4,
+        "startMs": 227950.0,
+        "endMs": 228262.5
+      },
+      {
+        "charIndex": 3454,
+        "charLength": 5,
+        "startMs": 228262.5,
+        "endMs": 228700.0
+      },
+      {
+        "charIndex": 3460,
+        "charLength": 4,
+        "startMs": 228700.0,
+        "endMs": 228837.5
+      },
+      {
+        "charIndex": 3465,
+        "charLength": 3,
+        "startMs": 228837.5,
+        "endMs": 228962.5
+      },
+      {
+        "charIndex": 3469,
+        "charLength": 8,
+        "startMs": 228962.5,
+        "endMs": 229350.0
+      },
+      {
+        "charIndex": 3478,
+        "charLength": 8,
+        "startMs": 229350.0,
+        "endMs": 230012.5
+      },
+      {
+        "charIndex": 3487,
+        "charLength": 7,
+        "startMs": 230012.5,
+        "endMs": 230400.0
+      },
+      {
+        "charIndex": 3495,
+        "charLength": 7,
+        "startMs": 230400.0,
+        "endMs": 230825.0
+      },
+      {
+        "charIndex": 3503,
+        "charLength": 3,
+        "startMs": 230825.0,
+        "endMs": 231025.0
+      },
+      {
+        "charIndex": 3507,
+        "charLength": 9,
+        "startMs": 231025.0,
+        "endMs": 232050.0
+      },
+      {
+        "charIndex": 3516,
+        "charLength": 1,
+        "startMs": 232050.0,
+        "endMs": 232200.0
+      },
+      {
+        "charIndex": 3518,
+        "charLength": 4,
+        "startMs": 232200.0,
+        "endMs": 232575.0
+      },
+      {
+        "charIndex": 3523,
+        "charLength": 7,
+        "startMs": 232575.0,
+        "endMs": 233112.5
+      },
+      {
+        "charIndex": 3531,
+        "charLength": 5,
+        "startMs": 233112.5,
+        "endMs": 233400.0
+      },
+      {
+        "charIndex": 3537,
+        "charLength": 3,
+        "startMs": 233400.0,
+        "endMs": 233625.0
+      },
+      {
+        "charIndex": 3541,
+        "charLength": 4,
+        "startMs": 233625.0,
+        "endMs": 233850.0
+      },
+      {
+        "charIndex": 3546,
+        "charLength": 5,
+        "startMs": 233850.0,
+        "endMs": 234525.0
+      },
+      {
+        "charIndex": 3551,
+        "charLength": 1,
+        "startMs": 234525.0,
+        "endMs": 234675.0
+      },
+      {
+        "charIndex": 3553,
+        "charLength": 5,
+        "startMs": 234675.0,
+        "endMs": 234925.0
+      },
+      {
+        "charIndex": 3559,
+        "charLength": 8,
+        "startMs": 234925.0,
+        "endMs": 235300.0
+      },
+      {
+        "charIndex": 3568,
+        "charLength": 8,
+        "startMs": 235300.0,
+        "endMs": 235875.0
+      },
+      {
+        "charIndex": 3576,
+        "charLength": 1,
+        "startMs": 235875.0,
+        "endMs": 235950.0
+      },
+      {
+        "charIndex": 3578,
+        "charLength": 4,
+        "startMs": 235950.0,
+        "endMs": 236262.5
+      },
+      {
+        "charIndex": 3583,
+        "charLength": 3,
+        "startMs": 236262.5,
+        "endMs": 236475.0
+      },
+      {
+        "charIndex": 3587,
+        "charLength": 7,
+        "startMs": 236475.0,
+        "endMs": 236900.0
+      },
+      {
+        "charIndex": 3595,
+        "charLength": 9,
+        "startMs": 236900.0,
+        "endMs": 237775.0
+      },
+      {
+        "charIndex": 3604,
+        "charLength": 1,
+        "startMs": 237775.0,
+        "endMs": 237925.0
+      },
+      {
+        "charIndex": 3606,
+        "charLength": 3,
+        "startMs": 238300.0,
+        "endMs": 238400.0
+      },
+      {
+        "charIndex": 3610,
+        "charLength": 8,
+        "startMs": 238400.0,
+        "endMs": 238962.5
+      },
+      {
+        "charIndex": 3619,
+        "charLength": 4,
+        "startMs": 238962.5,
+        "endMs": 239275.0
+      },
+      {
+        "charIndex": 3624,
+        "charLength": 10,
+        "startMs": 239275.0,
+        "endMs": 240012.5
+      },
+      {
+        "charIndex": 3635,
+        "charLength": 8,
+        "startMs": 240012.5,
+        "endMs": 240425.0
+      },
+      {
+        "charIndex": 3644,
+        "charLength": 5,
+        "startMs": 240425.0,
+        "endMs": 241100.0
+      },
+      {
+        "charIndex": 3650,
+        "charLength": 3,
+        "startMs": 241100.0,
+        "endMs": 241237.5
+      },
+      {
+        "charIndex": 3654,
+        "charLength": 1,
+        "startMs": 241237.5,
+        "endMs": 241350.0
+      },
+      {
+        "charIndex": 3656,
+        "charLength": 5,
+        "startMs": 241350.0,
+        "endMs": 241725.0
+      },
+      {
+        "charIndex": 3662,
+        "charLength": 4,
+        "startMs": 241725.0,
+        "endMs": 241987.5
+      },
+      {
+        "charIndex": 3667,
+        "charLength": 2,
+        "startMs": 241987.5,
+        "endMs": 242112.5
+      },
+      {
+        "charIndex": 3670,
+        "charLength": 6,
+        "startMs": 242112.5,
+        "endMs": 242425.0
+      },
+      {
+        "charIndex": 3677,
+        "charLength": 5,
+        "startMs": 242425.0,
+        "endMs": 243350.0
+      },
+      {
+        "charIndex": 3682,
+        "charLength": 1,
+        "startMs": 243350.0,
+        "endMs": 243512.5
+      },
+      {
+        "charIndex": 3684,
+        "charLength": 8,
+        "startMs": 243512.5,
+        "endMs": 244112.5
+      },
+      {
+        "charIndex": 3693,
+        "charLength": 4,
+        "startMs": 244112.5,
+        "endMs": 244437.5
+      },
+      {
+        "charIndex": 3698,
+        "charLength": 5,
+        "startMs": 244437.5,
+        "endMs": 244950.0
+      },
+      {
+        "charIndex": 3704,
+        "charLength": 5,
+        "startMs": 244950.0,
+        "endMs": 245337.5
+      },
+      {
+        "charIndex": 3710,
+        "charLength": 7,
+        "startMs": 245337.5,
+        "endMs": 245625.0
+      },
+      {
+        "charIndex": 3718,
+        "charLength": 6,
+        "startMs": 245625.0,
+        "endMs": 246375.0
+      },
+      {
+        "charIndex": 3724,
+        "charLength": 1,
+        "startMs": 246375.0,
+        "endMs": 246500.0
+      },
+      {
+        "charIndex": 3726,
+        "charLength": 2,
+        "startMs": 246500.0,
+        "endMs": 246650.0
+      },
+      {
+        "charIndex": 3729,
+        "charLength": 7,
+        "startMs": 246650.0,
+        "endMs": 247187.5
+      },
+      {
+        "charIndex": 3737,
+        "charLength": 2,
+        "startMs": 247187.5,
+        "endMs": 247312.5
+      },
+      {
+        "charIndex": 3740,
+        "charLength": 5,
+        "startMs": 247312.5,
+        "endMs": 247650.0
+      },
+      {
+        "charIndex": 3746,
+        "charLength": 9,
+        "startMs": 247650.0,
+        "endMs": 248450.0
+      },
+      {
+        "charIndex": 3755,
+        "charLength": 1,
+        "startMs": 248450.0,
+        "endMs": 248550.0
+      },
+      {
+        "charIndex": 3757,
+        "charLength": 3,
+        "startMs": 248550.0,
+        "endMs": 248662.5
+      },
+      {
+        "charIndex": 3761,
+        "charLength": 3,
+        "startMs": 248662.5,
+        "endMs": 248750.0
+      },
+      {
+        "charIndex": 3765,
+        "charLength": 6,
+        "startMs": 248750.0,
+        "endMs": 249100.0
+      },
+      {
+        "charIndex": 3772,
+        "charLength": 7,
+        "startMs": 249100.0,
+        "endMs": 249550.0
+      },
+      {
+        "charIndex": 3780,
+        "charLength": 7,
+        "startMs": 249550.0,
+        "endMs": 250137.5
+      },
+      {
+        "charIndex": 3788,
+        "charLength": 5,
+        "startMs": 250137.5,
+        "endMs": 250462.5
+      },
+      {
+        "charIndex": 3794,
+        "charLength": 8,
+        "startMs": 250462.5,
+        "endMs": 250887.5
+      },
+      {
+        "charIndex": 3803,
+        "charLength": 4,
+        "startMs": 250887.5,
+        "endMs": 251275.0
+      },
+      {
+        "charIndex": 3808,
+        "charLength": 5,
+        "startMs": 251275.0,
+        "endMs": 252050.0
+      },
+      {
+        "charIndex": 3813,
+        "charLength": 1,
+        "startMs": 252050.0,
+        "endMs": 252200.0
+      },
+      {
+        "charIndex": 3815,
+        "charLength": 3,
+        "startMs": 252550.0,
+        "endMs": 252675.0
+      },
+      {
+        "charIndex": 3819,
+        "charLength": 4,
+        "startMs": 252675.0,
+        "endMs": 252987.5
+      },
+      {
+        "charIndex": 3824,
+        "charLength": 5,
+        "startMs": 252987.5,
+        "endMs": 253362.5
+      },
+      {
+        "charIndex": 3830,
+        "charLength": 5,
+        "startMs": 253362.5,
+        "endMs": 253825.0
+      },
+      {
+        "charIndex": 3836,
+        "charLength": 2,
+        "startMs": 253825.0,
+        "endMs": 254012.5
+      },
+      {
+        "charIndex": 3839,
+        "charLength": 3,
+        "startMs": 254012.5,
+        "endMs": 254312.5
+      },
+      {
+        "charIndex": 3843,
+        "charLength": 4,
+        "startMs": 254312.5,
+        "endMs": 254675.0
+      },
+      {
+        "charIndex": 3848,
+        "charLength": 10,
+        "startMs": 254675.0,
+        "endMs": 255500.0
+      },
+      {
+        "charIndex": 3858,
+        "charLength": 1,
+        "startMs": 255500.0,
+        "endMs": 255600.0
+      },
+      {
+        "charIndex": 3860,
+        "charLength": 10,
+        "startMs": 255600.0,
+        "endMs": 256200.0
+      },
+      {
+        "charIndex": 3871,
+        "charLength": 3,
+        "startMs": 256200.0,
+        "endMs": 256300.0
+      },
+      {
+        "charIndex": 3875,
+        "charLength": 9,
+        "startMs": 256300.0,
+        "endMs": 256900.0
+      },
+      {
+        "charIndex": 3885,
+        "charLength": 5,
+        "startMs": 256900.0,
+        "endMs": 257725.0
+      },
+      {
+        "charIndex": 3890,
+        "charLength": 1,
+        "startMs": 257725.0,
+        "endMs": 257862.5
+      },
+      {
+        "charIndex": 3892,
+        "charLength": 3,
+        "startMs": 257862.5,
+        "endMs": 258012.5
+      },
+      {
+        "charIndex": 3896,
+        "charLength": 3,
+        "startMs": 258012.5,
+        "endMs": 258375.0
+      },
+      {
+        "charIndex": 3900,
+        "charLength": 7,
+        "startMs": 258375.0,
+        "endMs": 258925.0
+      },
+      {
+        "charIndex": 3908,
+        "charLength": 2,
+        "startMs": 258925.0,
+        "endMs": 259075.0
+      },
+      {
+        "charIndex": 3911,
+        "charLength": 9,
+        "startMs": 259075.0,
+        "endMs": 259950.0
+      },
+      {
+        "charIndex": 3920,
+        "charLength": 1,
+        "startMs": 259950.0,
+        "endMs": 260087.5
+      },
+      {
+        "charIndex": 3922,
+        "charLength": 3,
+        "startMs": 260087.5,
+        "endMs": 260462.5
+      },
+      {
+        "charIndex": 3926,
+        "charLength": 7,
+        "startMs": 260462.5,
+        "endMs": 260875.0
+      },
+      {
+        "charIndex": 3934,
+        "charLength": 9,
+        "startMs": 260875.0,
+        "endMs": 261500.0
+      },
+      {
+        "charIndex": 3944,
+        "charLength": 2,
+        "startMs": 261500.0,
+        "endMs": 261637.5
+      },
+      {
+        "charIndex": 3947,
+        "charLength": 5,
+        "startMs": 261637.5,
+        "endMs": 261987.5
+      },
+      {
+        "charIndex": 3953,
+        "charLength": 7,
+        "startMs": 261987.5,
+        "endMs": 262550.0
+      },
+      {
+        "charIndex": 3961,
+        "charLength": 5,
+        "startMs": 262550.0,
+        "endMs": 262850.0
+      },
+      {
+        "charIndex": 3967,
+        "charLength": 5,
+        "startMs": 262850.0,
+        "endMs": 263175.0
+      },
+      {
+        "charIndex": 3973,
+        "charLength": 4,
+        "startMs": 263175.0,
+        "endMs": 263600.0
+      },
+      {
+        "charIndex": 3977,
+        "charLength": 1,
+        "startMs": 263600.0,
+        "endMs": 263700.0
+      },
+      {
+        "charIndex": 3979,
+        "charLength": 9,
+        "startMs": 263700.0,
+        "endMs": 264200.0
+      },
+      {
+        "charIndex": 3989,
+        "charLength": 7,
+        "startMs": 264200.0,
+        "endMs": 264650.0
+      },
+      {
+        "charIndex": 3997,
+        "charLength": 9,
+        "startMs": 264650.0,
+        "endMs": 265700.0
+      },
+      {
+        "charIndex": 4006,
+        "charLength": 1,
+        "startMs": 265700.0,
+        "endMs": 265837.5
+      },
+      {
+        "charIndex": 4008,
+        "charLength": 4,
+        "startMs": 265837.5,
+        "endMs": 266100.0
+      },
+      {
+        "charIndex": 4013,
+        "charLength": 4,
+        "startMs": 266100.0,
+        "endMs": 266300.0
+      },
+      {
+        "charIndex": 4018,
+        "charLength": 12,
+        "startMs": 266300.0,
+        "endMs": 267062.5
+      },
+      {
+        "charIndex": 4031,
+        "charLength": 2,
+        "startMs": 267062.5,
+        "endMs": 267187.5
+      },
+      {
+        "charIndex": 4034,
+        "charLength": 1,
+        "startMs": 267187.5,
+        "endMs": 267250.0
+      },
+      {
+        "charIndex": 4036,
+        "charLength": 10,
+        "startMs": 267250.0,
+        "endMs": 267800.0
+      },
+      {
+        "charIndex": 4047,
+        "charLength": 4,
+        "startMs": 267800.0,
+        "endMs": 268225.0
+      },
+      {
+        "charIndex": 4052,
+        "charLength": 6,
+        "startMs": 268225.0,
+        "endMs": 268612.5
+      },
+      {
+        "charIndex": 4059,
+        "charLength": 7,
+        "startMs": 268612.5,
+        "endMs": 268975.0
+      },
+      {
+        "charIndex": 4067,
+        "charLength": 3,
+        "startMs": 268975.0,
+        "endMs": 269075.0
+      },
+      {
+        "charIndex": 4071,
+        "charLength": 4,
+        "startMs": 269075.0,
+        "endMs": 269375.0
+      },
+      {
+        "charIndex": 4076,
+        "charLength": 8,
+        "startMs": 269375.0,
+        "endMs": 270275.0
+      },
+      {
+        "charIndex": 4084,
+        "charLength": 1,
+        "startMs": 270275.0,
+        "endMs": 270425.0
+      }
+    ]
+  }
+}

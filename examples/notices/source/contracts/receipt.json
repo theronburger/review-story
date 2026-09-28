@@ -1,0 +1,4 @@
+{
+  "inputs": ["recipient", "amount"],
+  "derived": []
+}

@@ -110,6 +110,12 @@ function manageCueVisibility() {
       block = unionRects(targets.code.map((el) => el.getBoundingClientRect()));
     }
     if (block) {
+      const target = unionRects(codeTargetRects());
+      // Keep context when it fits; a precise target takes priority in an oversized block.
+      if (target && block.height > usable) {
+        revealWhole(pane, target, headerHeight + 14, 12);
+        return;
+      }
       const withHeader = unionRects([header.getBoundingClientRect(), block]);
       const fullHeight =
         Math.min(innerHeight, visible.bottom) - Math.max(0, visible.top) - 24;

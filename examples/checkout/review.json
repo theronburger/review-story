@@ -1,0 +1,808 @@
+{
+  "title": "One order. Three consumers.",
+  "subtitle": "A short, fictional walkthrough · from the event to the exact token",
+  "initialPage": "map",
+  "playThrough": true,
+  "source": {
+    "kind": "snapshot",
+    "root": "source",
+    "revision": "Fictional showcase · checkout v1",
+    "url": "source/checkout/{file}.html#L{line}"
+  },
+  "legend": {
+    "changed": "Consumers & recovery",
+    "context": "Events & outcomes"
+  },
+  "map": {
+    "width": 1200,
+    "height": 574,
+    "nodes": [
+      {
+        "id": "paid",
+        "x": 480,
+        "y": 14,
+        "w": 240,
+        "h": 56,
+        "label": "Order paid",
+        "subtitle": "Checkout complete",
+        "description": "A confirmed order becomes an order.paid event.",
+        "boundary": "The demo begins after payment. It performs no real checkout or charge.",
+        "file": "events.mjs",
+        "side": "context",
+        "small": false
+      },
+      {
+        "id": "bus",
+        "x": 100,
+        "y": 108,
+        "w": 1000,
+        "h": 56,
+        "label": "Order paid · event bus",
+        "subtitle": "One event · three independent consumers",
+        "description": "Dispatch the same order to inventory, receipts, and shipping.",
+        "boundary": "This fixture models delivery in process. Persistence and a real message broker are outside the demo.",
+        "file": "events.mjs",
+        "side": "context",
+        "small": false
+      },
+      {
+        "id": "inventory",
+        "x": 70,
+        "y": 218,
+        "w": 260,
+        "h": 58,
+        "label": "Inventory",
+        "subtitle": "Reserve the items",
+        "description": "reserveStock asks the stock adapter to reserve the order items.",
+        "boundary": "An unavailable item enters the review queue; the other consumers keep running.",
+        "file": "fulfillment.mjs",
+        "side": "changed",
+        "small": false
+      },
+      {
+        "id": "inventory-ok",
+        "x": 30,
+        "y": 354,
+        "w": 150,
+        "h": 56,
+        "label": "Stock held",
+        "subtitle": "Complete",
+        "description": "Inventory completed its own work.",
+        "boundary": "Other consumers report their results independently.",
+        "file": "fulfillment.mjs",
+        "side": "context",
+        "small": true
+      },
+      {
+        "id": "inventory-failed",
+        "x": 220,
+        "y": 354,
+        "w": 150,
+        "h": 56,
+        "label": "Out of stock",
+        "subtitle": "Needs recovery",
+        "description": "An unavailable item enters the review queue; the other consumers keep running.",
+        "boundary": "This outcome belongs to this lane, not to the whole order.",
+        "file": "fulfillment.mjs",
+        "side": "context",
+        "small": true
+      },
+      {
+        "id": "inventory-recovery",
+        "x": 220,
+        "y": 478,
+        "w": 150,
+        "h": 56,
+        "label": "Manual review",
+        "subtitle": "This lane only",
+        "description": "An unavailable item enters the review queue; the other consumers keep running.",
+        "boundary": "The demo records a queued job; it does not run the retry worker.",
+        "file": "fulfillment.mjs",
+        "side": "changed",
+        "small": true
+      },
+      {
+        "id": "receipts",
+        "x": 470,
+        "y": 218,
+        "w": 260,
+        "h": 58,
+        "label": "Receipts",
+        "subtitle": "Email the buyer",
+        "description": "sendReceipt builds a message, then calls the mail adapter.",
+        "boundary": "A send failure queues the same message under a stable receipt key.",
+        "file": "receipt.mjs",
+        "side": "changed",
+        "small": false
+      },
+      {
+        "id": "receipts-ok",
+        "x": 430,
+        "y": 354,
+        "w": 150,
+        "h": 56,
+        "label": "Receipt sent",
+        "subtitle": "Complete",
+        "description": "Receipts completed its own work.",
+        "boundary": "Other consumers report their results independently.",
+        "file": "receipt.mjs",
+        "side": "context",
+        "small": true
+      },
+      {
+        "id": "receipts-failed",
+        "x": 620,
+        "y": 354,
+        "w": 150,
+        "h": 56,
+        "label": "Email failed",
+        "subtitle": "Needs recovery",
+        "description": "A send failure queues the same message under a stable receipt key.",
+        "boundary": "This outcome belongs to this lane, not to the whole order.",
+        "file": "receipt.mjs",
+        "side": "context",
+        "small": true
+      },
+      {
+        "id": "receipts-recovery",
+        "x": 620,
+        "y": 478,
+        "w": 150,
+        "h": 56,
+        "label": "Retry email",
+        "subtitle": "This lane only",
+        "description": "A send failure queues the same message under a stable receipt key.",
+        "boundary": "The demo records a queued job; it does not run the retry worker.",
+        "file": "receipt.mjs",
+        "side": "changed",
+        "small": true
+      },
+      {
+        "id": "shipping",
+        "x": 870,
+        "y": 218,
+        "w": 260,
+        "h": 58,
+        "label": "Shipping",
+        "subtitle": "Book the parcel",
+        "description": "createShipment asks the carrier adapter for a shipping label.",
+        "boundary": "A carrier failure queues the order under a stable shipment key.",
+        "file": "fulfillment.mjs",
+        "side": "changed",
+        "small": false
+      },
+      {
+        "id": "shipping-ok",
+        "x": 830,
+        "y": 354,
+        "w": 150,
+        "h": 56,
+        "label": "Label ready",
+        "subtitle": "Complete",
+        "description": "Shipping completed its own work.",
+        "boundary": "Other consumers report their results independently.",
+        "file": "fulfillment.mjs",
+        "side": "context",
+        "small": true
+      },
+      {
+        "id": "shipping-failed",
+        "x": 1020,
+        "y": 354,
+        "w": 150,
+        "h": 56,
+        "label": "Carrier offline",
+        "subtitle": "Needs recovery",
+        "description": "A carrier failure queues the order under a stable shipment key.",
+        "boundary": "This outcome belongs to this lane, not to the whole order.",
+        "file": "fulfillment.mjs",
+        "side": "context",
+        "small": true
+      },
+      {
+        "id": "shipping-recovery",
+        "x": 1020,
+        "y": 478,
+        "w": 150,
+        "h": 56,
+        "label": "Retry booking",
+        "subtitle": "This lane only",
+        "description": "A carrier failure queues the order under a stable shipment key.",
+        "boundary": "The demo records a queued job; it does not run the retry worker.",
+        "file": "fulfillment.mjs",
+        "side": "changed",
+        "small": true
+      }
+    ],
+    "edges": [
+      {
+        "from": "paid",
+        "to": "bus",
+        "d": "M600 70V108",
+        "label": "publish",
+        "x": 645,
+        "y": 94
+      },
+      {
+        "from": "bus",
+        "to": "inventory",
+        "d": "M200 164V218",
+        "label": "deliver",
+        "x": 235,
+        "y": 198
+      },
+      {
+        "from": "inventory",
+        "to": "inventory-ok",
+        "d": "M200 276V312H105V354",
+        "label": "success",
+        "x": 105,
+        "y": 336
+      },
+      {
+        "from": "inventory",
+        "to": "inventory-failed",
+        "d": "M200 276V312H295V354",
+        "label": "otherwise",
+        "x": 295,
+        "y": 336
+      },
+      {
+        "from": "inventory-failed",
+        "to": "inventory-recovery",
+        "d": "M295 410V478",
+        "label": "queue",
+        "x": 333,
+        "y": 449
+      },
+      {
+        "from": "bus",
+        "to": "receipts",
+        "d": "M600 164V218",
+        "label": "deliver",
+        "x": 635,
+        "y": 198
+      },
+      {
+        "from": "receipts",
+        "to": "receipts-ok",
+        "d": "M600 276V312H505V354",
+        "label": "success",
+        "x": 505,
+        "y": 336
+      },
+      {
+        "from": "receipts",
+        "to": "receipts-failed",
+        "d": "M600 276V312H695V354",
+        "label": "otherwise",
+        "x": 695,
+        "y": 336
+      },
+      {
+        "from": "receipts-failed",
+        "to": "receipts-recovery",
+        "d": "M695 410V478",
+        "label": "queue",
+        "x": 733,
+        "y": 449
+      },
+      {
+        "from": "bus",
+        "to": "shipping",
+        "d": "M1000 164V218",
+        "label": "deliver",
+        "x": 1035,
+        "y": 198
+      },
+      {
+        "from": "shipping",
+        "to": "shipping-ok",
+        "d": "M1000 276V312H905V354",
+        "label": "success",
+        "x": 905,
+        "y": 336
+      },
+      {
+        "from": "shipping",
+        "to": "shipping-failed",
+        "d": "M1000 276V312H1095V354",
+        "label": "otherwise",
+        "x": 1095,
+        "y": 336
+      },
+      {
+        "from": "shipping-failed",
+        "to": "shipping-recovery",
+        "d": "M1095 410V478",
+        "label": "queue",
+        "x": 1133,
+        "y": 449
+      }
+    ],
+    "beats": [
+      {
+        "target": "bus",
+        "title": "One event",
+        "text": "An order is paid. One event wakes three independent consumers."
+      },
+      {
+        "target": "inventory",
+        "title": "Inventory",
+        "text": "Inventory reserves the items."
+      },
+      {
+        "target": "receipts",
+        "title": "Receipts",
+        "text": "Receipts emails the buyer."
+      },
+      {
+        "target": "shipping",
+        "title": "Shipping",
+        "text": "Shipping books the parcel."
+      },
+      {
+        "target": "receipts-recovery",
+        "title": "Now follow the code",
+        "text": "Each lane has its own recovery path. A real walkthrough would explore these too. For this demo, let's jump straight to the code."
+      }
+    ],
+    "sections": [
+      {
+        "label": "ONE EVENT",
+        "x": 30,
+        "y": 30,
+        "width": 390
+      },
+      {
+        "label": "THREE INDEPENDENT LANES",
+        "x": 780,
+        "y": 30,
+        "width": 390
+      }
+    ],
+    "boundaries": [],
+    "captions": [
+      {
+        "text": "Each lane owns its outcome. A failure in one lane does not stop the others.",
+        "x": 600,
+        "y": 565,
+        "anchor": "middle"
+      }
+    ]
+  },
+  "cards": {
+    "dispatch": {
+      "file": "events.mjs",
+      "start": 5,
+      "end": 12,
+      "label": "Start all three consumers",
+      "context": [
+        [
+          5,
+          12
+        ]
+      ]
+    },
+    "receipt": {
+      "file": "receipt.mjs",
+      "start": 1,
+      "end": 9,
+      "label": "Build the receipt",
+      "context": [
+        [
+          1,
+          9
+        ]
+      ]
+    },
+    "delivery": {
+      "file": "receipt.mjs",
+      "start": 11,
+      "end": 20,
+      "label": "Send or queue the same message",
+      "context": [
+        [
+          11,
+          20
+        ]
+      ]
+    }
+  },
+  "sequences": [
+    {
+      "id": "fanout",
+      "title": "One event, three calls",
+      "subtitle": "The consumers start together and settle independently.",
+      "file": "events.mjs",
+      "actors": [
+        "Event bus",
+        "Inventory",
+        "Receipts",
+        "Shipping"
+      ],
+      "rows": [
+        {
+          "text": "One event starts three calls. Inventory reserves the stock. Receipts sends the email. Shipping books the parcel. All three start together; each keeps its own result.",
+          "cards": [
+            "dispatch"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "inventory(order)"
+            },
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 2,
+              "label": "receipts(order)"
+            },
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 3,
+              "label": "shipping(order)"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "Stock reserved, or review queued"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 0,
+              "label": "Email sent, or retry queued"
+            },
+            {
+              "kind": "return",
+              "from": 3,
+              "to": 0,
+              "label": "Label ready, or retry queued"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "One event",
+              "card": "dispatch",
+              "ranges": [
+                [
+                  6,
+                  11
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Inventory",
+              "card": "dispatch",
+              "ranges": [
+                [
+                  7,
+                  11
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 8,
+                "text": "inventory"
+              }
+            },
+            {
+              "phrase": "Receipts",
+              "card": "dispatch",
+              "ranges": [
+                [
+                  7,
+                  11
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 9,
+                "text": "receipts"
+              }
+            },
+            {
+              "phrase": "Shipping",
+              "card": "dispatch",
+              "ranges": [
+                [
+                  7,
+                  11
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 10,
+                "text": "shipping"
+              }
+            },
+            {
+              "phrase": "All three",
+              "card": "dispatch",
+              "ranges": [
+                [
+                  7,
+                  11
+                ]
+              ],
+              "message": 3,
+              "point": "code",
+              "codeTarget": {
+                "line": 7,
+                "text": "Promise.allSettled"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "receipt",
+      "title": "Build and send a receipt",
+      "subtitle": "Follow the arithmetic, the payload, and one failure path.",
+      "file": "receipt.mjs",
+      "actors": [
+        "Receipt worker",
+        "Composer",
+        "Mail service",
+        "Retry queue"
+      ],
+      "rows": [
+        {
+          "text": "Now the receipt. Subtotal starts at fifty dollars. Shipping adds five. Discount takes ten off. The total is forty five dollars.",
+          "cards": [
+            "receipt"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "receiptFor(order)"
+            },
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "subtotal + shipping − discount"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "{ to, subject, text }"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "Now the receipt",
+              "card": "receipt",
+              "ranges": [
+                [
+                  1,
+                  9
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Subtotal",
+              "card": "receipt",
+              "ranges": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 3,
+                "text": "subtotal"
+              }
+            },
+            {
+              "phrase": "Shipping",
+              "card": "receipt",
+              "ranges": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 3,
+                "text": "shipping"
+              }
+            },
+            {
+              "phrase": "Discount",
+              "card": "receipt",
+              "ranges": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 3,
+                "text": "discount"
+              }
+            },
+            {
+              "phrase": "The total",
+              "card": "receipt",
+              "ranges": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 3,
+                "text": "total",
+                "occurrence": 1
+              }
+            }
+          ]
+        },
+        {
+          "text": "The payload has a recipient, a subject, and the message text. Send it once. If email is unavailable, keep this same payload in the retry queue. That's the demo: the diagram shows the route, and the pointer explains the code.",
+          "cards": [
+            "receipt",
+            "delivery"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 2,
+              "label": "send(message)"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 0,
+              "label": "Exception: delivery unavailable"
+            },
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 3,
+              "label": "enqueue({ key, message })"
+            },
+            {
+              "kind": "return",
+              "from": 3,
+              "to": 0,
+              "label": "{ status: queued }"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The payload",
+              "card": "receipt",
+              "ranges": [
+                [
+                  4,
+                  8
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 5,
+                "text": "to"
+              }
+            },
+            {
+              "phrase": "a subject",
+              "card": "receipt",
+              "ranges": [
+                [
+                  4,
+                  8
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 6,
+                "text": "subject"
+              }
+            },
+            {
+              "phrase": "message text",
+              "card": "receipt",
+              "ranges": [
+                [
+                  4,
+                  8
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 7,
+                "text": "text"
+              }
+            },
+            {
+              "phrase": "Send it once",
+              "card": "delivery",
+              "ranges": [
+                [
+                  12,
+                  15
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 14,
+                "text": "mail.send(message)"
+              }
+            },
+            {
+              "phrase": "If email is unavailable",
+              "card": "delivery",
+              "ranges": [
+                [
+                  16,
+                  19
+                ]
+              ],
+              "message": 1,
+              "point": "diagram"
+            },
+            {
+              "phrase": "same payload",
+              "card": "delivery",
+              "ranges": [
+                [
+                  16,
+                  19
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 17,
+                "text": "message"
+              }
+            },
+            {
+              "phrase": "That's the demo",
+              "card": "delivery",
+              "ranges": [
+                [
+                  16,
+                  19
+                ]
+              ],
+              "message": 3,
+              "point": "diagram"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

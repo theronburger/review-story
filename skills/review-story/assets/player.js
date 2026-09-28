@@ -32,7 +32,6 @@ function syncTour(force = false) {
     pi = activePage === "sequences" ? phaseAt(beat, time) : 0,
     phase = activePage === "sequences" ? beat.phases[pi] : null,
     key = `${activePage}:${index}:${pi}`;
-  trailBeatCheck(`${activePage}:${index}`);
   if (index !== tourIndex || force) {
     tourIndex = index;
     tourWord = -1;
@@ -120,8 +119,9 @@ async function playTour() {
   }
 }
 function seekTour(time) {
-  resetCursorTrail();
   manualWaiting = false;
+  tourStatus.textContent =
+    advanceMode === "manual" ? "Manual · Space advances" : "";
   manualHasStarted = !tourAudio.paused;
   crossInstant = true;
   tourAudio.currentTime = Math.max(0, Math.min(tourDuration, time));
@@ -140,12 +140,12 @@ function releaseTour() {
     .forEach((el) => el.classList.remove("tour-focus"));
 }
 function switchPage(page) {
-  resetCursorTrail();
   manualWaiting = false;
   manualHasStarted = false;
   crossCursor.style.opacity = "0";
   crossKey = "";
   crossPosition = null;
+  crossGroup = "";
   crossInstant = false;
   pauseTour();
   savedTimes[activePage] = tourAudio.currentTime;
@@ -212,6 +212,18 @@ for (const audio of [mapAudio, sequenceAudio]) {
   });
   audio.addEventListener("ended", () => {
     if (audio === tourAudio) {
+      if (
+        review.playThrough &&
+        activePage === "map" &&
+        advanceMode === "auto" &&
+        tourFollowing
+      ) {
+        switchPage("sequences");
+        seekTour(0);
+        window.scrollTo(0, 0);
+        playTour();
+        return;
+      }
       pauseTour();
       tourStatus.textContent = "Walkthrough complete. Explore or replay.";
     }

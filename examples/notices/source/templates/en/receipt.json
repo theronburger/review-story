@@ -1,0 +1,4 @@
+{
+  "subject": "Receipt from {{brandName}}",
+  "body": "Thank you {{recipient}}. Total: {{amount}}"
+}

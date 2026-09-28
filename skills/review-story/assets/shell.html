@@ -38,8 +38,6 @@
               <option value="auto">Auto advance</option>
               <option value="manual">Manual · Space</option>
             </select></label
-          ><label class="cursor-path-toggle"
-            ><input type="checkbox" id="show-cursor-path" /> Cursor path</label
           ><input
             type="range"
             id="tour-seek"
@@ -127,6 +125,7 @@
                 />
               </marker>
             </defs>
+            <g id="map-annotations"></g>
             <g id="edges"></g>
             <g id="nodes"></g>
             <g id="tour-pointer" aria-hidden="true">
@@ -140,20 +139,22 @@
             </g>
           </svg>
         </div>
-        <aside class="detail" hidden aria-label="Node details">
-          <button class="close" type="button" aria-label="Close details">
-            ×
-          </button>
-          <div class="identity">
-            <span class="kind"></span>
-            <h2></h2>
-            <a target="_blank" rel="noopener noreferrer"
-              >View implementation ↗</a
-            >
-          </div>
-          <p class="description"></p>
-          <p class="boundary-note"></p>
-        </aside>
+        <div class="detail-slot">
+          <aside class="detail" hidden aria-label="Node details">
+            <button class="close" type="button" aria-label="Close details">
+              ×
+            </button>
+            <div class="identity">
+              <span class="kind"></span>
+              <h2></h2>
+              <a target="_blank" rel="noopener noreferrer"
+                >View implementation ↗</a
+              >
+            </div>
+            <p class="description"></p>
+            <p class="boundary-note"></p>
+          </aside>
+        </div>
         <footer class="hint">
           <p>
             Hover to trace connections · Click for details and code · Esc to
@@ -228,25 +229,7 @@
         </div>
       </aside>
     </main>
-    <svg id="cursor-trail-debug" aria-hidden="true">
-      <path
-        id="cursor-trail-planned"
-        fill="none"
-        stroke="#c04cba"
-        stroke-width="1.5"
-        stroke-dasharray="5 5"
-        opacity=".38"
-      />
-      <path
-        id="cursor-trail-actual"
-        fill="none"
-        stroke="#d43cb5"
-        stroke-width="2.3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        opacity=".8"
-      /></svg
-    ><svg id="cross-pane-cursor" aria-hidden="true">
+    <svg id="cross-pane-cursor" aria-hidden="true">
       <g id="cross-pane-arrow">
         <path
           d="M0 0 L7.1 17 L9.6 9.6 L17 7.1 Z"

@@ -1,11 +1,30 @@
 """Review input and audio cue validation."""
 import json
+import math
 import re
 from pathlib import Path
 
 
 def utf16_length(text):
     return len(text.encode('utf-16-le')) // 2
+
+
+def validate_map_annotations(map_spec):
+    for collection, coordinates, text_key in (
+        ('sections', ('x', 'y', 'width'), 'label'),
+        ('boundaries', ('x1', 'y1', 'x2', 'y2', 'labelX', 'labelY'), 'label'),
+        ('captions', ('x', 'y'), 'text'),
+    ):
+        for item in map_spec.get(collection, []):
+            if not isinstance(item.get(text_key), str) or not item[text_key].strip():
+                raise ValueError(f'Map {collection} need text')
+            if any(type(item.get(key)) not in (int, float) or not math.isfinite(item[key])
+                   for key in coordinates):
+                raise ValueError(f'Map {collection} need finite coordinates')
+            if collection == 'sections' and item['width'] <= 0:
+                raise ValueError('Map section width must be positive')
+            if item.get('anchor', 'start') not in ('start', 'middle', 'end'):
+                raise ValueError('Invalid map text anchor')
 
 
 def read_review(path):
@@ -15,9 +34,12 @@ def read_review(path):
             raise ValueError(f'Missing review field: {key}')
     if review.get('initialPage', 'sequences') not in ('map', 'sequences'):
         raise ValueError('Unknown initial page')
+    if 'playThrough' in review and type(review['playThrough']) is not bool:
+        raise ValueError('playThrough must be a boolean')
     if not review['map']['beats'] or not review['sequences']:
         raise ValueError('Both pages need narration')
     nodes = review['map']['nodes']
+    validate_map_annotations(review['map'])
     if any(node['side'] not in ('changed', 'context') for node in nodes):
         raise ValueError('Unknown map legend category')
     node_ids = [node['id'] for node in nodes]
@@ -63,6 +85,17 @@ def read_review(path):
                     raise ValueError('Cue message is out of range')
                 if phase.get('point', 'diagram') not in ('diagram', 'code'):
                     raise ValueError('Pointer target must be diagram or code')
+                if 'codeTarget' in phase:
+                    target = phase['codeTarget']
+                    if phase.get('point') != 'code' or not isinstance(target, dict):
+                        raise ValueError('codeTarget requires a code pointer')
+                    if type(target.get('line')) is not int or target['line'] < 1:
+                        raise ValueError('codeTarget needs a positive source line')
+                    text = target.get('text')
+                    if not isinstance(text, str) or not text.strip() or '\n' in text or '\r' in text:
+                        raise ValueError('codeTarget text must be nonempty and on one source line')
+                    if 'occurrence' in target and (type(target['occurrence']) is not int or target['occurrence'] < 1):
+                        raise ValueError('codeTarget occurrence must be a positive integer')
             if not positions or positions != sorted(set(positions)):
                 raise ValueError('Cues must follow narration order')
     return review

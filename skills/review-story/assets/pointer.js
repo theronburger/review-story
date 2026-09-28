@@ -1,11 +1,23 @@
 function destination(beat, phase) {
   if (activePage === "map") {
-    const n = nodes.find((n) => n.id === beat.target);
-    return pointerDestination(
-      [{ left: n.x, top: n.y, width: n.w, height: n.h }],
-      review.map.width,
-      beat.target,
-    );
+    const n = nodes.find((n) => n.id === beat.target),
+      box = { left: n.x, top: n.y, width: n.w, height: n.h },
+      group = mapPointerGroup(beat);
+    if (group)
+      return {
+        ...groupedDestination(
+          box,
+          {
+            left: 24,
+            top: 24,
+            right: review.map.width - 24,
+            bottom: review.map.height - 20,
+          },
+          group.boxes,
+        ),
+        group: group.id,
+      };
+    return pointerDestination([box], review.map.width, beat.target);
   }
   const spec = sequenceSpecs.find((s) => s.id === beat.diagram),
     g = messageGeometry(spec, beat.row, phase.message);
@@ -40,7 +52,15 @@ function preparePointer(beat, phase, time) {
       ? destination(prev.beat, prev.phase)
       : { ...to, x: to.x - 36, y: to.y + 18 };
   }
-  pointerPathNow = pointerPath(from, to);
+  const local = Boolean(to.group && from.group === to.group);
+  pointerGrouped = Boolean(to.group);
+  pointerPathNow = local ? localPointerPath(from, to) : pointerPath(from, to);
+  pointerDuration = pointerTravelDuration(
+    from,
+    to,
+    local,
+    (tourData.beats[tourIndex + 1]?.start || tourDuration) - beat.start,
+  );
   pointerStart = activePage === "map" ? beat.start : phase.start;
 }
 function samplePointer(time) {
@@ -54,21 +74,16 @@ function samplePointer(time) {
   const path = pointerPathNow,
     p = reducedMotion.matches
       ? 1
-      : Math.max(0, Math.min(1, (time - pointerStart) / 0.62)),
+      : Math.max(0, Math.min(1, (time - pointerStart) / pointerDuration)),
     index = p * (path.length - 1),
     a = path[Math.floor(index)],
     b = path[Math.min(path.length - 1, Math.floor(index) + 1)],
     t = index - Math.floor(index);
   tourPointer.setAttribute(
     "transform",
-    `translate(${a.x + (b.x - a.x) * t} ${a.y + (b.y - a.y) * t}) rotate(${a.angle + (b.angle - a.angle) * t + (reducedMotion.matches ? 0 : pointerWiggle(time - pointerStart - 0.62))}) scale(1.45)`,
+    `translate(${a.x + (b.x - a.x) * t} ${a.y + (b.y - a.y) * t}) rotate(${a.angle + (b.angle - a.angle) * t + (reducedMotion.matches || pointerGrouped ? 0 : pointerWiggle(time - pointerStart - pointerDuration))}) scale(1.45)`,
   );
   tourPointer.style.opacity = "1";
-  recordCursorTrail(
-    { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t },
-    path,
-    false,
-  );
 }
 // The narration clock remains the only motion clock, including visits to code.
 const crossCursor = document.getElementById("cross-pane-cursor"),
@@ -77,6 +92,9 @@ let crossPath = null,
   crossStart = 0,
   crossKey = "",
   crossPosition = null,
+  crossGroup = "",
+  crossLocal = false,
+  crossDuration = 0.62,
   crossInstant = false;
 function visibleCodeTarget() {
   const pane = document.getElementById("code-cards").getBoundingClientRect(),
@@ -139,18 +157,59 @@ function visibleCodeTarget() {
     },
   };
 }
+function visibleTokenTarget() {
+  const pane = document.getElementById("code-cards").getBoundingClientRect(),
+    header = document
+      .querySelector(".code-card.active header")
+      ?.getBoundingClientRect(),
+    top = Math.max(pane.top, header?.bottom || 0, 0),
+    bottom = Math.min(pane.bottom, innerHeight),
+    rects = codeTargetRects();
+  // Aim at a real text fragment, never the empty space between wrapped fragments.
+  for (const rect of rects) {
+    const left = Math.max(rect.left, pane.left, 0),
+      right = Math.min(rect.right, pane.right, innerWidth),
+      visibleTop = Math.max(rect.top, top),
+      visibleBottom = Math.min(rect.bottom, bottom);
+    if (right > left && visibleBottom > visibleTop)
+      return {
+        box: {
+          left,
+          top: visibleTop,
+          width: right - left,
+          height: visibleBottom - visibleTop,
+        },
+        bounds: {
+          left: Math.max(30, pane.left + 12),
+          right: Math.min(innerWidth - 30, pane.right - 12),
+          top: Math.max(30, top + 12),
+          bottom: Math.min(innerHeight - 30, bottom - 12),
+        },
+      };
+  }
+  return null;
+}
 function crossTarget(beat, phase) {
   if (phase.point === "code") {
-    const target = visibleCodeTarget();
-    if (target)
+    const target = phase.codeTarget
+      ? visibleTokenTarget()
+      : visibleCodeTarget();
+    if (target) {
+      const group = phase.codeTarget ? codePointerGroup(beat, phase) : null;
       return {
-        ...ellipseDestination(
-          target.box,
-          target.bounds,
-          beat.target + phase.phrase,
-        ),
+        ...(group
+          ? groupedDestination(target.box, target.bounds, group.boxes)
+          : ellipseDestination(
+              target.box,
+              target.bounds,
+              beat.target + phase.phrase,
+              phase.codeTarget ? { gap: 4, clearance: 3 } : {},
+            )),
         side: "code",
+        text: phase.codeTarget?.text || "",
+        group: group?.id || "",
       };
+    }
     return null;
   }
   const message = cueElements().message;
@@ -188,6 +247,16 @@ function crossTarget(beat, phase) {
   };
 }
 
+function crossTravel(from, target) {
+  return crossLocal
+    ? localPointerPath(from, target)
+    : pointerPath(from, target, {
+        left: 18,
+        top: 18,
+        right: innerWidth - 18,
+        bottom: innerHeight - 18,
+      });
+}
 function sampleCrossPointer(time, force = false) {
   if (activePage !== "sequences" || !tourFollowing) {
     crossCursor.style.opacity = "0";
@@ -200,6 +269,8 @@ function sampleCrossPointer(time, force = false) {
   const target = crossTarget(beat, phase);
   if (!target) {
     crossCursor.style.opacity = "0";
+    delete crossCursor.dataset.codeTarget;
+    crossGroup = "";
     return;
   }
   if (key !== crossKey || force) {
@@ -208,14 +279,27 @@ function sampleCrossPointer(time, force = false) {
       x: target.x - 36,
       y: target.y + 18,
     };
-    crossPath = pointerPath(from, target, {
-      left: 18,
-      top: 18,
-      right: innerWidth - 18,
-      bottom: innerHeight - 18,
-    });
+    crossLocal = Boolean(
+      target.group &&
+      target.group === crossGroup &&
+      !crossInstant &&
+      !force &&
+      Math.hypot(target.x - from.x, target.y - from.y) <= 200,
+    );
+    const nextStart =
+      beat.phases[pi + 1]?.start ||
+      tourData.beats[tourIndex + 1]?.start ||
+      tourDuration;
+    crossDuration = pointerTravelDuration(
+      from,
+      target,
+      crossLocal,
+      nextStart - phase.start,
+    );
+    crossPath = crossTravel(from, target);
     crossStart = phase.start;
     crossKey = key;
+    crossGroup = target.group || "";
   }
   if (!crossPath) return;
   // DOM geometry changes on internal scrolling; update the endpoint without starting a new clock.
@@ -225,16 +309,11 @@ function sampleCrossPointer(time, force = false) {
     Math.abs(end.y - target.y) > 1 ||
     Math.abs(Math.sin(((end.angle - target.angle) * Math.PI) / 180)) > 0.01
   )
-    crossPath = pointerPath(crossPath[0], target, {
-      left: 18,
-      top: 18,
-      right: innerWidth - 18,
-      bottom: innerHeight - 18,
-    });
+    crossPath = crossTravel(crossPath[0], target);
   const progress =
       crossInstant || reducedMotion.matches
         ? 1
-        : Math.max(0, Math.min(1, (time - crossStart) / 0.62)),
+        : Math.max(0, Math.min(1, (time - crossStart) / crossDuration)),
     step = progress * (crossPath.length - 1),
     a = crossPath[Math.floor(step)],
     b = crossPath[Math.min(crossPath.length - 1, Math.floor(step) + 1)],
@@ -244,12 +323,13 @@ function sampleCrossPointer(time, force = false) {
     y: a.y + (b.y - a.y) * t,
     angle: a.angle + (b.angle - a.angle) * t,
   };
-  recordCursorTrail(crossPosition, crossPath);
   crossArrow.setAttribute(
     "transform",
-    `translate(${crossPosition.x} ${crossPosition.y}) rotate(${crossPosition.angle + (reducedMotion.matches ? 0 : pointerWiggle(time - crossStart - 0.62))}) scale(1.45)`,
+    `translate(${crossPosition.x} ${crossPosition.y}) rotate(${crossPosition.angle + (reducedMotion.matches || target.group ? 0 : pointerWiggle(time - crossStart - crossDuration))}) scale(1.45)`,
   );
   crossCursor.dataset.target = target.side;
+  crossCursor.dataset.codeTarget = target.text || "";
+  crossCursor.dataset.motion = crossLocal ? "slide" : "curve";
   crossCursor.style.opacity = "1";
   crossInstant = false;
 }

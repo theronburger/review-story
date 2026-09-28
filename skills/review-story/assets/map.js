@@ -11,6 +11,20 @@ const escapeText = (value) =>
     .replaceAll(">", "&gt;")
     .replaceAll('\"', "&quot;")
     .replaceAll("'", "&#39;");
+root.querySelector("#map-annotations").innerHTML = [
+  ...(review.map.sections || []).map(
+    (section) =>
+      `<text class="section-label" x="${section.x}" y="${section.y}">${escapeText(section.label)}</text><line class="phase-line" x1="${section.x}" y1="${section.y + 12}" x2="${section.x + section.width}" y2="${section.y + 12}"/>`,
+  ),
+  ...(review.map.boundaries || []).map(
+    (boundary) =>
+      `<line class="boundary" x1="${boundary.x1}" y1="${boundary.y1}" x2="${boundary.x2}" y2="${boundary.y2}"/><text class="boundary-label" x="${boundary.labelX}" y="${boundary.labelY}" text-anchor="${boundary.anchor || "start"}">${escapeText(boundary.label)}</text>`,
+  ),
+  ...(review.map.captions || []).map(
+    (caption) =>
+      `<text class="caption" x="${caption.x}" y="${caption.y}" text-anchor="${caption.anchor || "start"}">${escapeText(caption.text)}</text>`,
+  ),
+].join("");
 root.querySelector("#nodes").innerHTML = nodes
   .map(
     (node) =>

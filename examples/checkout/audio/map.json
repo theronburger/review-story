@@ -1,0 +1,370 @@
+{
+  "text": "An order is paid. One event wakes three independent consumers. Inventory reserves the items. Receipts emails the buyer. Shipping books the parcel. Each lane has its own recovery path. A real walkthrough would explore these too. For this demo, let's jump straight to the code.",
+  "beats": [
+    {
+      "target": "bus",
+      "title": "One event",
+      "text": "An order is paid. One event wakes three independent consumers.",
+      "start": 0.0,
+      "charStart": 0
+    },
+    {
+      "target": "inventory",
+      "title": "Inventory",
+      "text": "Inventory reserves the items.",
+      "start": 4.575,
+      "charStart": 63
+    },
+    {
+      "target": "receipts",
+      "title": "Receipts",
+      "text": "Receipts emails the buyer.",
+      "start": 7.15,
+      "charStart": 93
+    },
+    {
+      "target": "shipping",
+      "title": "Shipping",
+      "text": "Shipping books the parcel.",
+      "start": 9.225,
+      "charStart": 120
+    },
+    {
+      "target": "receipts-recovery",
+      "title": "Now follow the code",
+      "text": "Each lane has its own recovery path. A real walkthrough would explore these too. For this demo, let's jump straight to the code.",
+      "start": 11.225,
+      "charStart": 147
+    }
+  ],
+  "clip": {
+    "durationMs": 19400.0,
+    "voice": "af_heart",
+    "words": [
+      {
+        "charIndex": 0,
+        "charLength": 2,
+        "startMs": 275.0,
+        "endMs": 400.0
+      },
+      {
+        "charIndex": 3,
+        "charLength": 5,
+        "startMs": 400.0,
+        "endMs": 750.0
+      },
+      {
+        "charIndex": 9,
+        "charLength": 2,
+        "startMs": 750.0,
+        "endMs": 912.5
+      },
+      {
+        "charIndex": 12,
+        "charLength": 4,
+        "startMs": 912.5,
+        "endMs": 1575.0
+      },
+      {
+        "charIndex": 16,
+        "charLength": 1,
+        "startMs": 1575.0,
+        "endMs": 1712.5
+      },
+      {
+        "charIndex": 18,
+        "charLength": 3,
+        "startMs": 1712.5,
+        "endMs": 1950.0
+      },
+      {
+        "charIndex": 22,
+        "charLength": 5,
+        "startMs": 1950.0,
+        "endMs": 2300.0
+      },
+      {
+        "charIndex": 28,
+        "charLength": 5,
+        "startMs": 2300.0,
+        "endMs": 2612.5
+      },
+      {
+        "charIndex": 34,
+        "charLength": 5,
+        "startMs": 2612.5,
+        "endMs": 2925.0
+      },
+      {
+        "charIndex": 40,
+        "charLength": 11,
+        "startMs": 2925.0,
+        "endMs": 3450.0
+      },
+      {
+        "charIndex": 52,
+        "charLength": 9,
+        "startMs": 3450.0,
+        "endMs": 4325.0
+      },
+      {
+        "charIndex": 61,
+        "charLength": 1,
+        "startMs": 4325.0,
+        "endMs": 4475.0
+      },
+      {
+        "charIndex": 63,
+        "charLength": 9,
+        "startMs": 4850.0,
+        "endMs": 5575.0
+      },
+      {
+        "charIndex": 73,
+        "charLength": 8,
+        "startMs": 5575.0,
+        "endMs": 6037.5
+      },
+      {
+        "charIndex": 82,
+        "charLength": 3,
+        "startMs": 6037.5,
+        "endMs": 6175.0
+      },
+      {
+        "charIndex": 86,
+        "charLength": 5,
+        "startMs": 6175.0,
+        "endMs": 6900.0
+      },
+      {
+        "charIndex": 91,
+        "charLength": 1,
+        "startMs": 6900.0,
+        "endMs": 7050.0
+      },
+      {
+        "charIndex": 93,
+        "charLength": 8,
+        "startMs": 7425.0,
+        "endMs": 7837.5
+      },
+      {
+        "charIndex": 102,
+        "charLength": 6,
+        "startMs": 7837.5,
+        "endMs": 8237.5
+      },
+      {
+        "charIndex": 109,
+        "charLength": 3,
+        "startMs": 8237.5,
+        "endMs": 8325.0
+      },
+      {
+        "charIndex": 113,
+        "charLength": 5,
+        "startMs": 8325.0,
+        "endMs": 8950.0
+      },
+      {
+        "charIndex": 118,
+        "charLength": 1,
+        "startMs": 8950.0,
+        "endMs": 9125.0
+      },
+      {
+        "charIndex": 120,
+        "charLength": 8,
+        "startMs": 9550.0,
+        "endMs": 9875.0
+      },
+      {
+        "charIndex": 129,
+        "charLength": 5,
+        "startMs": 9875.0,
+        "endMs": 10137.5
+      },
+      {
+        "charIndex": 135,
+        "charLength": 3,
+        "startMs": 10137.5,
+        "endMs": 10225.0
+      },
+      {
+        "charIndex": 139,
+        "charLength": 6,
+        "startMs": 10225.0,
+        "endMs": 10975.0
+      },
+      {
+        "charIndex": 145,
+        "charLength": 1,
+        "startMs": 10975.0,
+        "endMs": 11125.0
+      },
+      {
+        "charIndex": 147,
+        "charLength": 4,
+        "startMs": 11525.0,
+        "endMs": 11800.0
+      },
+      {
+        "charIndex": 152,
+        "charLength": 4,
+        "startMs": 11800.0,
+        "endMs": 12150.0
+      },
+      {
+        "charIndex": 157,
+        "charLength": 3,
+        "startMs": 12150.0,
+        "endMs": 12312.5
+      },
+      {
+        "charIndex": 161,
+        "charLength": 3,
+        "startMs": 12312.5,
+        "endMs": 12512.5
+      },
+      {
+        "charIndex": 165,
+        "charLength": 3,
+        "startMs": 12512.5,
+        "endMs": 12775.0
+      },
+      {
+        "charIndex": 169,
+        "charLength": 8,
+        "startMs": 12775.0,
+        "endMs": 13250.0
+      },
+      {
+        "charIndex": 178,
+        "charLength": 4,
+        "startMs": 13250.0,
+        "endMs": 13875.0
+      },
+      {
+        "charIndex": 182,
+        "charLength": 1,
+        "startMs": 13875.0,
+        "endMs": 13987.5
+      },
+      {
+        "charIndex": 184,
+        "charLength": 1,
+        "startMs": 13987.5,
+        "endMs": 14112.5
+      },
+      {
+        "charIndex": 186,
+        "charLength": 4,
+        "startMs": 14112.5,
+        "endMs": 14400.0
+      },
+      {
+        "charIndex": 191,
+        "charLength": 11,
+        "startMs": 14400.0,
+        "endMs": 14925.0
+      },
+      {
+        "charIndex": 203,
+        "charLength": 5,
+        "startMs": 14925.0,
+        "endMs": 15037.5
+      },
+      {
+        "charIndex": 209,
+        "charLength": 7,
+        "startMs": 15037.5,
+        "endMs": 15500.0
+      },
+      {
+        "charIndex": 217,
+        "charLength": 5,
+        "startMs": 15500.0,
+        "endMs": 15737.5
+      },
+      {
+        "charIndex": 223,
+        "charLength": 3,
+        "startMs": 15737.5,
+        "endMs": 16325.0
+      },
+      {
+        "charIndex": 226,
+        "charLength": 1,
+        "startMs": 16325.0,
+        "endMs": 16475.0
+      },
+      {
+        "charIndex": 228,
+        "charLength": 3,
+        "startMs": 16475.0,
+        "endMs": 16625.0
+      },
+      {
+        "charIndex": 232,
+        "charLength": 4,
+        "startMs": 16625.0,
+        "endMs": 16850.0
+      },
+      {
+        "charIndex": 237,
+        "charLength": 4,
+        "startMs": 16850.0,
+        "endMs": 17325.0
+      },
+      {
+        "charIndex": 241,
+        "charLength": 1,
+        "startMs": 17325.0,
+        "endMs": 17462.5
+      },
+      {
+        "charIndex": 243,
+        "charLength": 5,
+        "startMs": 17462.5,
+        "endMs": 17762.5
+      },
+      {
+        "charIndex": 249,
+        "charLength": 4,
+        "startMs": 17762.5,
+        "endMs": 18050.0
+      },
+      {
+        "charIndex": 254,
+        "charLength": 8,
+        "startMs": 18050.0,
+        "endMs": 18325.0
+      },
+      {
+        "charIndex": 263,
+        "charLength": 2,
+        "startMs": 18325.0,
+        "endMs": 18412.5
+      },
+      {
+        "charIndex": 266,
+        "charLength": 3,
+        "startMs": 18412.5,
+        "endMs": 18500.0
+      },
+      {
+        "charIndex": 270,
+        "charLength": 4,
+        "startMs": 18500.0,
+        "endMs": 19150.0
+      },
+      {
+        "charIndex": 274,
+        "charLength": 1,
+        "startMs": 19150.0,
+        "endMs": 19300.0
+      }
+    ]
+  }
+}

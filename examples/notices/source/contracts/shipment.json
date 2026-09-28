@@ -1,0 +1,4 @@
+{
+  "inputs": ["recipient", "trackingUrl"],
+  "derived": ["itemTable"]
+}

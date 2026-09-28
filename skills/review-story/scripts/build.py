@@ -6,6 +6,7 @@ import html
 import json
 import re
 import subprocess
+import tempfile
 import wave
 from pathlib import Path
 from urllib.parse import quote, urlsplit
@@ -101,7 +102,27 @@ def write_source_page(path, file, text):
                     '<h2>' + html.escape(file) + '</h2><pre>' + lines + '</pre>')
 
 
-def build(review_path, audio_dir, output, source_pages=None):
+def resolve_code_target(target, card, ranges):
+    line = target['line']
+    if not card['start'] <= line <= card['end'] or not any(a <= line <= b for a, b in ranges):
+        raise ValueError('codeTarget line must be inside the highlighted source ranges')
+    source = card['lines'][line - card['start']]
+    matches = [match.start() for match in re.finditer('(?=' + re.escape(target['text']) + ')', source)]
+    if not matches:
+        raise ValueError(f'codeTarget text not found at {card["file"]}:{line}: {target["text"]!r}')
+    if len(matches) > 1 and 'occurrence' not in target:
+        raise ValueError(f'Ambiguous codeTarget at {card["file"]}:{line}; specify occurrence')
+    occurrence = target.get('occurrence', 1)
+    if occurrence > len(matches):
+        raise ValueError('codeTarget occurrence is outside the source matches')
+    start = matches[occurrence - 1]
+    return dict(target, start=utf16_length(source[:start]),
+                end=utf16_length(source[:start + len(target['text'])]))
+
+
+def build(review_path, audio_dir, output, source_pages=None, audio_format='wav'):
+    if audio_format not in ('wav', 'mp3'):
+        raise ValueError('Audio format must be wav or mp3')
     review_path, audio_dir, output = Path(review_path), Path(audio_dir), Path(output)
     review = read_review(review_path)
     files = {card['file'] for card in review['cards'].values()}
@@ -124,10 +145,12 @@ def build(review_path, audio_dir, output, source_pages=None):
                 for first, last in phase['ranges']:
                     if not card['start'] <= first <= last <= card['end']:
                         raise ValueError('Cue highlights lines outside its source card')
+                if 'codeTarget' in phase:
+                    phase['codeTarget'] = resolve_code_target(phase['codeTarget'], card, phase['ranges'])
     expected = tracks(review)
     map_track = load_track(audio_dir, 'map', expected['map'])
     sequence_track = load_track(audio_dir, 'sequences', expected['sequences'])
-    payload = dict(map=review['map'], legend=review['legend'], initialPage=review.get('initialPage', 'sequences'),
+    payload = dict(map=review['map'], legend=review['legend'], initialPage=review.get('initialPage', 'sequences'), playThrough=review.get('playThrough', False),
                    sources={file: source_url(review['source'], file) for file in sorted(files)},
                    mapTourData=map_track, sequenceTourData=sequence_track, sequenceSpecs=review['sequences'], codeCards=cards)
     replacements = {
@@ -136,11 +159,24 @@ def build(review_path, audio_dir, output, source_pages=None):
         '__REVISION__': html.escape(review['source']['revision']), '__MAP_WIDTH__': str(review['map']['width']),
         '__MAP_HEIGHT__': str(review['map']['height']), '__CSS__': '\n'.join((ASSETS / (name + '.css')).read_text() for name in ('map', 'controls', 'sequences', 'code', 'workspace', 'viewport')),
         '__REVIEW_DATA__': json.dumps(payload, ensure_ascii=False).replace('<', '\\u003c').replace('\u2028', '\\u2028').replace('\u2029', '\\u2029'),
-        '__GEOMETRY__': (ASSETS / 'geometry.js').read_text(), '__RUNTIME__': '\n'.join((ASSETS / (name + '.js')).read_text() for name in ('map', 'state', 'manual', 'trail', 'visibility', 'code', 'sequences', 'pointer', 'player')),
+        '__GEOMETRY__': (ASSETS / 'geometry.js').read_text(), '__RUNTIME__': '\n'.join((ASSETS / (name + '.js')).read_text() for name in ('map', 'state', 'manual', 'visibility', 'code', 'sequences', 'proximity', 'pointer', 'player')),
     }
     for track in ('map', 'sequences'):
         key = '__MAP_AUDIO__' if track == 'map' else '__SEQUENCE_AUDIO__'
-        replacements[key] = 'data:audio/wav;base64,' + base64.b64encode((audio_dir / f'{track}.wav').read_bytes()).decode()
+        audio_path = audio_dir / f'{track}.wav'
+        if audio_format == 'mp3':
+            # A seekable output retains encoder delay/padding for gapless timing.
+            with tempfile.TemporaryDirectory() as directory:
+                compressed = Path(directory) / 'track.mp3'
+                subprocess.run([
+                    'ffmpeg', '-v', 'error', '-i', str(audio_path), '-map_metadata', '-1',
+                    '-codec:a', 'libmp3lame', '-b:a', '64k', str(compressed)], check=True)
+                audio_bytes = compressed.read_bytes()
+            mime = 'audio/mpeg'
+        else:
+            audio_bytes = audio_path.read_bytes()
+            mime = 'audio/wav'
+        replacements[key] = f'data:{mime};base64,' + base64.b64encode(audio_bytes).decode()
     result = (ASSETS / 'shell.html').read_text()
     result = re.sub('|'.join(map(re.escape, replacements)), lambda match: replacements[match.group()], result)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -158,5 +194,7 @@ if __name__ == '__main__':
     parser.add_argument('--audio', required=True, type=Path)
     parser.add_argument('--out', required=True, type=Path)
     parser.add_argument('--source-pages', type=Path)
+    parser.add_argument('--audio-format', choices=('wav', 'mp3'), default='wav',
+                        help='MP3 embeds smaller audio; requires ffmpeg. WAV needs no extra dependencies.')
     args = parser.parse_args()
-    build(args.review, args.audio, args.out, args.source_pages)
+    build(args.review, args.audio, args.out, args.source_pages, args.audio_format)

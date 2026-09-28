@@ -6,13 +6,15 @@ const pointerDirection = (angle) => ({
 });
 const pointerHash = (text) =>
   Array.from(text).reduce((n, c) => (n * 31 + c.charCodeAt(0)) >>> 0, 0);
-function ellipseDestination(box, bounds, salt) {
+function ellipseDestination(box, bounds, salt, options = {}) {
   const cx = box.left + box.width / 2,
     cy = box.top + box.height / 2;
-  const gap = Math.max(
-    25,
-    Math.min(52, Math.sqrt(Math.max(1, box.width * box.height)) * 0.16),
-  );
+  const gap =
+    options.gap ??
+    Math.max(
+      25,
+      Math.min(52, Math.sqrt(Math.max(1, box.width * box.height)) * 0.16),
+    );
   const rx = box.width / 2 + gap,
     ry = box.height / 2 + gap;
   const preferred = [
@@ -29,7 +31,7 @@ function ellipseDestination(box, bounds, salt) {
     // The cursor remains outside the rectangular target, even on a wide, shallow ellipse.
     const dx = Math.max(box.left - x, 0, x - box.left - box.width),
       dy = Math.max(box.top - y, 0, y - box.top - box.height);
-    if (Math.hypot(dx, dy) < 19) continue;
+    if (Math.hypot(dx, dy) < (options.clearance ?? 19)) continue;
     const overflow =
       Math.max(0, bounds.left - x) +
       Math.max(0, x - bounds.right) +

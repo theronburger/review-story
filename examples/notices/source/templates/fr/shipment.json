@@ -1,0 +1,5 @@
+{
+  "subject": "Votre colis de {{brandName}}",
+  "preview": "Livraison pour {{recipient}}",
+  "body": "Bonjour {{recipient}}. Suivi : {{trackingUrl}}. Articles : {{itemTable}}. Aide : {{supportUrl}}"
+}

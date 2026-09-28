@@ -147,31 +147,3 @@
     font-size: 13px;
   }
 }
-#cursor-trail-debug {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  pointer-events: none;
-  z-index: 19;
-  opacity: 0;
-  overflow: visible;
-}
-.cursor-path-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: #657084;
-  white-space: nowrap;
-  cursor: pointer;
-}
-.cursor-path-toggle input {
-  accent-color: #b841a8;
-  margin: 0;
-}
-.cursor-path-toggle input:focus-visible {
-  outline: 2px solid #7950b6;
-  outline-offset: 3px;
-}

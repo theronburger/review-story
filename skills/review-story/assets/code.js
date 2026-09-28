@@ -15,7 +15,38 @@ function colorCode(line) {
   }
   return out + escapeText(line.slice(last));
 }
+let activeCodeTarget = null;
+function codeTargetRange(target = activeCodeTarget) {
+  if (!target) return null;
+  const code = document.querySelector(
+    `.code-card.active .code-line[data-line="${target.line}"] code`,
+  );
+  if (!code) return null;
+  const walker = document.createTreeWalker(code, NodeFilter.SHOW_TEXT),
+    range = document.createRange();
+  let offset = 0,
+    hasStart = false;
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const end = offset + node.textContent.length;
+    if (!hasStart && target.start < end) {
+      range.setStart(node, target.start - offset);
+      hasStart = true;
+    }
+    if (hasStart && target.end <= end) {
+      range.setEnd(node, target.end - offset);
+      return range.toString() === target.text ? range : null;
+    }
+    offset = end;
+  }
+  return null;
+}
+function codeTargetRects(target = activeCodeTarget) {
+  return [...(codeTargetRange(target)?.getClientRects?.() || [])].filter(
+    (rect) => rect.width > 0 && rect.height > 0,
+  );
+}
 function showCode(beat, phase) {
+  activeCodeTarget = phase.point === "code" ? phase.codeTarget || null : null;
   if (codeBeatId !== beat.target) {
     codeBeatId = beat.target;
     document.getElementById("code-step").textContent = beat.title;

@@ -1,0 +1,5 @@
+{
+  "subject": "Partner delivery from {{brandName}}",
+  "preview": "Delivery for {{recipient}}",
+  "body": "Hello {{recipient}}. Track: {{trackingUrl}}. Contact: {{supportUrl}}"
+}

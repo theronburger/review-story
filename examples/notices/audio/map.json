@@ -1,0 +1,2252 @@
+{
+  "text": "This review adds a pull request gate for parcel notices. Start with the changed paths on the left, then follow selection, source validation, translation comparison, and the final check status. An English text edit brings its language variants. A direct translation edit selects one notice. Shared code changes, or a manual full audit, select the whole catalog. The catalog has two relationships: source identity and input contract. Crossing this boundary means a notice was actually selected for validation. The runner resolves English and loads the allowed input contract for each selected entry. An empty list never crosses this boundary. Allowed names come from shared inputs, direct inputs, and derived values. The item table is produced before rendering, but remains legal in a template. Partner overrides use the same contract as their base notice. English must parse and use known input names. A broken source goes straight to the failure report for that notice. A valid English only entry is done. A translated entry continues down to comparison. The translation must retain the subject, preview, and body fields, with the same placeholder sets in each. Moving the item table into another field fails. These checks prove syntax and input parity, not the meaning of the translated prose. Any file issues make the check fail. The runner still gathers the remaining results. The lower feedback path is a human action: edit the source or selection logic and submit another revision. There is another route. A contract only edit matches no selection branch, so the scoped run checks zero notices and passes. That empty selection is the false green path, even though five notices depend on the changed contract. The same edit fails five notices in a full audit. That confirms the validator works and selection is incomplete. The fix is to follow the contract relationship to every consumer, including partner overrides. The reproduction is included in the source.",
+  "beats": [
+    {
+      "target": "changes",
+      "title": "Start with changed paths",
+      "text": "This review adds a pull request gate for parcel notices. Start with the changed paths on the left, then follow selection, source validation, translation comparison, and the final check status.",
+      "start": 0.0,
+      "charStart": 0
+    },
+    {
+      "target": "selector",
+      "title": "Select the right work",
+      "text": "An English text edit brings its language variants. A direct translation edit selects one notice. Shared code changes, or a manual full audit, select the whole catalog. The catalog has two relationships: source identity and input contract.",
+      "start": 12.75,
+      "charStart": 193
+    },
+    {
+      "target": "selected",
+      "title": "Coverage boundary",
+      "text": "Crossing this boundary means a notice was actually selected for validation. The runner resolves English and loads the allowed input contract for each selected entry. An empty list never crosses this boundary.",
+      "start": 28.9,
+      "charStart": 432
+    },
+    {
+      "target": "contract",
+      "title": "Three input sources",
+      "text": "Allowed names come from shared inputs, direct inputs, and derived values. The item table is produced before rendering, but remains legal in a template. Partner overrides use the same contract as their base notice.",
+      "start": 42.95,
+      "charStart": 641
+    },
+    {
+      "target": "english",
+      "title": "English comes first",
+      "text": "English must parse and use known input names. A broken source goes straight to the failure report for that notice. A valid English only entry is done. A translated entry continues down to comparison.",
+      "start": 57.725,
+      "charStart": 855
+    },
+    {
+      "target": "translation",
+      "title": "Compare each field",
+      "text": "The translation must retain the subject, preview, and body fields, with the same placeholder sets in each. Moving the item table into another field fails. These checks prove syntax and input parity, not the meaning of the translated prose.",
+      "start": 71.525,
+      "charStart": 1055
+    },
+    {
+      "target": "fail",
+      "title": "Collect issues, then repair",
+      "text": "Any file issues make the check fail. The runner still gathers the remaining results. The lower feedback path is a human action: edit the source or selection logic and submit another revision.",
+      "start": 87.05,
+      "charStart": 1295
+    },
+    {
+      "target": "empty",
+      "title": "The bypass matters",
+      "text": "There is another route. A contract only edit matches no selection branch, so the scoped run checks zero notices and passes. That empty selection is the false green path, even though five notices depend on the changed contract.",
+      "start": 99.8,
+      "charStart": 1487
+    },
+    {
+      "target": "finding",
+      "title": "Verify the finding",
+      "text": "The same edit fails five notices in a full audit. That confirms the validator works and selection is incomplete. The fix is to follow the contract relationship to every consumer, including partner overrides. The reproduction is included in the source.",
+      "start": 115.025,
+      "charStart": 1714
+    }
+  ],
+  "clip": {
+    "durationMs": 131850.0,
+    "voice": "af_heart",
+    "words": [
+      {
+        "charIndex": 0,
+        "charLength": 4,
+        "startMs": 275.0,
+        "endMs": 475.0
+      },
+      {
+        "charIndex": 5,
+        "charLength": 6,
+        "startMs": 475.0,
+        "endMs": 937.5
+      },
+      {
+        "charIndex": 12,
+        "charLength": 4,
+        "startMs": 937.5,
+        "endMs": 1187.5
+      },
+      {
+        "charIndex": 17,
+        "charLength": 1,
+        "startMs": 1187.5,
+        "endMs": 1287.5
+      },
+      {
+        "charIndex": 19,
+        "charLength": 4,
+        "startMs": 1287.5,
+        "endMs": 1575.0
+      },
+      {
+        "charIndex": 24,
+        "charLength": 7,
+        "startMs": 1575.0,
+        "endMs": 2025.0
+      },
+      {
+        "charIndex": 32,
+        "charLength": 4,
+        "startMs": 2025.0,
+        "endMs": 2325.0
+      },
+      {
+        "charIndex": 37,
+        "charLength": 3,
+        "startMs": 2325.0,
+        "endMs": 2450.0
+      },
+      {
+        "charIndex": 41,
+        "charLength": 6,
+        "startMs": 2450.0,
+        "endMs": 2850.0
+      },
+      {
+        "charIndex": 48,
+        "charLength": 7,
+        "startMs": 2850.0,
+        "endMs": 3875.0
+      },
+      {
+        "charIndex": 55,
+        "charLength": 1,
+        "startMs": 3875.0,
+        "endMs": 4025.0000000000005
+      },
+      {
+        "charIndex": 57,
+        "charLength": 5,
+        "startMs": 4025.0000000000005,
+        "endMs": 4337.5
+      },
+      {
+        "charIndex": 63,
+        "charLength": 4,
+        "startMs": 4337.5,
+        "endMs": 4462.5
+      },
+      {
+        "charIndex": 68,
+        "charLength": 3,
+        "startMs": 4462.5,
+        "endMs": 4562.5
+      },
+      {
+        "charIndex": 72,
+        "charLength": 7,
+        "startMs": 4562.5,
+        "endMs": 5037.5
+      },
+      {
+        "charIndex": 80,
+        "charLength": 5,
+        "startMs": 5037.5,
+        "endMs": 5437.5
+      },
+      {
+        "charIndex": 86,
+        "charLength": 2,
+        "startMs": 5437.5,
+        "endMs": 5537.5
+      },
+      {
+        "charIndex": 89,
+        "charLength": 3,
+        "startMs": 5537.5,
+        "endMs": 5625.0
+      },
+      {
+        "charIndex": 93,
+        "charLength": 4,
+        "startMs": 5625.0,
+        "endMs": 6250.0
+      },
+      {
+        "charIndex": 97,
+        "charLength": 1,
+        "startMs": 6250.0,
+        "endMs": 6350.0
+      },
+      {
+        "charIndex": 99,
+        "charLength": 4,
+        "startMs": 6350.0,
+        "endMs": 6587.5
+      },
+      {
+        "charIndex": 104,
+        "charLength": 6,
+        "startMs": 6587.5,
+        "endMs": 6950.0
+      },
+      {
+        "charIndex": 111,
+        "charLength": 9,
+        "startMs": 6950.0,
+        "endMs": 7725.0
+      },
+      {
+        "charIndex": 120,
+        "charLength": 1,
+        "startMs": 7725.0,
+        "endMs": 7837.5
+      },
+      {
+        "charIndex": 122,
+        "charLength": 6,
+        "startMs": 7837.5,
+        "endMs": 8175.000000000001
+      },
+      {
+        "charIndex": 129,
+        "charLength": 10,
+        "startMs": 8175.000000000001,
+        "endMs": 9075.0
+      },
+      {
+        "charIndex": 139,
+        "charLength": 1,
+        "startMs": 9075.0,
+        "endMs": 9175.0
+      },
+      {
+        "charIndex": 141,
+        "charLength": 11,
+        "startMs": 9175.0,
+        "endMs": 9875.0
+      },
+      {
+        "charIndex": 153,
+        "charLength": 10,
+        "startMs": 9875.0,
+        "endMs": 10775.0
+      },
+      {
+        "charIndex": 163,
+        "charLength": 1,
+        "startMs": 10775.0,
+        "endMs": 10875.0
+      },
+      {
+        "charIndex": 165,
+        "charLength": 3,
+        "startMs": 10875.0,
+        "endMs": 10987.5
+      },
+      {
+        "charIndex": 169,
+        "charLength": 3,
+        "startMs": 10987.5,
+        "endMs": 11087.5
+      },
+      {
+        "charIndex": 173,
+        "charLength": 5,
+        "startMs": 11087.5,
+        "endMs": 11487.5
+      },
+      {
+        "charIndex": 179,
+        "charLength": 5,
+        "startMs": 11487.5,
+        "endMs": 11750.0
+      },
+      {
+        "charIndex": 185,
+        "charLength": 6,
+        "startMs": 11750.0,
+        "endMs": 12525.0
+      },
+      {
+        "charIndex": 191,
+        "charLength": 1,
+        "startMs": 12525.0,
+        "endMs": 12650.0
+      },
+      {
+        "charIndex": 193,
+        "charLength": 2,
+        "startMs": 13025.0,
+        "endMs": 13125.0
+      },
+      {
+        "charIndex": 196,
+        "charLength": 7,
+        "startMs": 13125.0,
+        "endMs": 13512.5
+      },
+      {
+        "charIndex": 204,
+        "charLength": 4,
+        "startMs": 13512.5,
+        "endMs": 13837.5
+      },
+      {
+        "charIndex": 209,
+        "charLength": 4,
+        "startMs": 13837.5,
+        "endMs": 14150.0
+      },
+      {
+        "charIndex": 214,
+        "charLength": 6,
+        "startMs": 14150.0,
+        "endMs": 14412.5
+      },
+      {
+        "charIndex": 221,
+        "charLength": 3,
+        "startMs": 14412.5,
+        "endMs": 14600.0
+      },
+      {
+        "charIndex": 225,
+        "charLength": 8,
+        "startMs": 14600.0,
+        "endMs": 14975.0
+      },
+      {
+        "charIndex": 234,
+        "charLength": 8,
+        "startMs": 14975.0,
+        "endMs": 15875.0
+      },
+      {
+        "charIndex": 242,
+        "charLength": 1,
+        "startMs": 15875.0,
+        "endMs": 15987.5
+      },
+      {
+        "charIndex": 244,
+        "charLength": 1,
+        "startMs": 15987.5,
+        "endMs": 16100.0
+      },
+      {
+        "charIndex": 246,
+        "charLength": 6,
+        "startMs": 16100.0,
+        "endMs": 16525.0
+      },
+      {
+        "charIndex": 253,
+        "charLength": 11,
+        "startMs": 16525.0,
+        "endMs": 17250.0
+      },
+      {
+        "charIndex": 265,
+        "charLength": 4,
+        "startMs": 17250.0,
+        "endMs": 17575.0
+      },
+      {
+        "charIndex": 270,
+        "charLength": 7,
+        "startMs": 17575.0,
+        "endMs": 17987.5
+      },
+      {
+        "charIndex": 278,
+        "charLength": 3,
+        "startMs": 17987.5,
+        "endMs": 18225.0
+      },
+      {
+        "charIndex": 282,
+        "charLength": 6,
+        "startMs": 18225.0,
+        "endMs": 19050.0
+      },
+      {
+        "charIndex": 288,
+        "charLength": 1,
+        "startMs": 19050.0,
+        "endMs": 19212.5
+      },
+      {
+        "charIndex": 290,
+        "charLength": 6,
+        "startMs": 19212.5,
+        "endMs": 19562.5
+      },
+      {
+        "charIndex": 297,
+        "charLength": 4,
+        "startMs": 19562.5,
+        "endMs": 19912.5
+      },
+      {
+        "charIndex": 302,
+        "charLength": 7,
+        "startMs": 19912.5,
+        "endMs": 20600.0
+      },
+      {
+        "charIndex": 309,
+        "charLength": 1,
+        "startMs": 20600.0,
+        "endMs": 20675.0
+      },
+      {
+        "charIndex": 311,
+        "charLength": 2,
+        "startMs": 20675.0,
+        "endMs": 20800.0
+      },
+      {
+        "charIndex": 314,
+        "charLength": 1,
+        "startMs": 20800.0,
+        "endMs": 20900.0
+      },
+      {
+        "charIndex": 316,
+        "charLength": 6,
+        "startMs": 20900.0,
+        "endMs": 21337.5
+      },
+      {
+        "charIndex": 323,
+        "charLength": 4,
+        "startMs": 21337.5,
+        "endMs": 21575.0
+      },
+      {
+        "charIndex": 328,
+        "charLength": 5,
+        "startMs": 21575.0,
+        "endMs": 22000.0
+      },
+      {
+        "charIndex": 333,
+        "charLength": 1,
+        "startMs": 22000.0,
+        "endMs": 22087.5
+      },
+      {
+        "charIndex": 335,
+        "charLength": 6,
+        "startMs": 22087.5,
+        "endMs": 22475.0
+      },
+      {
+        "charIndex": 342,
+        "charLength": 3,
+        "startMs": 22475.0,
+        "endMs": 22575.0
+      },
+      {
+        "charIndex": 346,
+        "charLength": 5,
+        "startMs": 22575.0,
+        "endMs": 22825.0
+      },
+      {
+        "charIndex": 352,
+        "charLength": 7,
+        "startMs": 22825.0,
+        "endMs": 23750.0
+      },
+      {
+        "charIndex": 359,
+        "charLength": 1,
+        "startMs": 23750.0,
+        "endMs": 23887.5
+      },
+      {
+        "charIndex": 361,
+        "charLength": 3,
+        "startMs": 23887.5,
+        "endMs": 24025.0
+      },
+      {
+        "charIndex": 365,
+        "charLength": 7,
+        "startMs": 24025.0,
+        "endMs": 24625.0
+      },
+      {
+        "charIndex": 373,
+        "charLength": 3,
+        "startMs": 24625.0,
+        "endMs": 24837.5
+      },
+      {
+        "charIndex": 377,
+        "charLength": 3,
+        "startMs": 24837.5,
+        "endMs": 25050.0
+      },
+      {
+        "charIndex": 381,
+        "charLength": 13,
+        "startMs": 25050.0,
+        "endMs": 26100.0
+      },
+      {
+        "charIndex": 394,
+        "charLength": 1,
+        "startMs": 26100.0,
+        "endMs": 26225.0
+      },
+      {
+        "charIndex": 396,
+        "charLength": 6,
+        "startMs": 26225.0,
+        "endMs": 26587.5
+      },
+      {
+        "charIndex": 403,
+        "charLength": 8,
+        "startMs": 26587.5,
+        "endMs": 27237.5
+      },
+      {
+        "charIndex": 412,
+        "charLength": 3,
+        "startMs": 27237.5,
+        "endMs": 27375.0
+      },
+      {
+        "charIndex": 416,
+        "charLength": 5,
+        "startMs": 27375.0,
+        "endMs": 27750.0
+      },
+      {
+        "charIndex": 422,
+        "charLength": 8,
+        "startMs": 27750.0,
+        "endMs": 28650.0
+      },
+      {
+        "charIndex": 430,
+        "charLength": 1,
+        "startMs": 28650.0,
+        "endMs": 28800.0
+      },
+      {
+        "charIndex": 432,
+        "charLength": 8,
+        "startMs": 29150.0,
+        "endMs": 29575.0
+      },
+      {
+        "charIndex": 441,
+        "charLength": 4,
+        "startMs": 29575.0,
+        "endMs": 29775.0
+      },
+      {
+        "charIndex": 446,
+        "charLength": 8,
+        "startMs": 29775.0,
+        "endMs": 30475.0
+      },
+      {
+        "charIndex": 455,
+        "charLength": 5,
+        "startMs": 30475.0,
+        "endMs": 30775.0
+      },
+      {
+        "charIndex": 461,
+        "charLength": 1,
+        "startMs": 30775.0,
+        "endMs": 30887.5
+      },
+      {
+        "charIndex": 463,
+        "charLength": 6,
+        "startMs": 30887.5,
+        "endMs": 31350.0
+      },
+      {
+        "charIndex": 470,
+        "charLength": 3,
+        "startMs": 31350.0,
+        "endMs": 31550.0
+      },
+      {
+        "charIndex": 474,
+        "charLength": 8,
+        "startMs": 31550.0,
+        "endMs": 32037.5
+      },
+      {
+        "charIndex": 483,
+        "charLength": 8,
+        "startMs": 32037.5,
+        "endMs": 32575.0
+      },
+      {
+        "charIndex": 492,
+        "charLength": 3,
+        "startMs": 32575.0,
+        "endMs": 32700.0
+      },
+      {
+        "charIndex": 496,
+        "charLength": 10,
+        "startMs": 32700.0,
+        "endMs": 33900.0
+      },
+      {
+        "charIndex": 506,
+        "charLength": 1,
+        "startMs": 33900.0,
+        "endMs": 34037.5
+      },
+      {
+        "charIndex": 508,
+        "charLength": 3,
+        "startMs": 34037.5,
+        "endMs": 34187.5
+      },
+      {
+        "charIndex": 512,
+        "charLength": 6,
+        "startMs": 34187.5,
+        "endMs": 34575.0
+      },
+      {
+        "charIndex": 519,
+        "charLength": 8,
+        "startMs": 34575.0,
+        "endMs": 35112.5
+      },
+      {
+        "charIndex": 528,
+        "charLength": 7,
+        "startMs": 35112.5,
+        "endMs": 35900.0
+      },
+      {
+        "charIndex": 536,
+        "charLength": 3,
+        "startMs": 35900.0,
+        "endMs": 36050.0
+      },
+      {
+        "charIndex": 540,
+        "charLength": 5,
+        "startMs": 36050.0,
+        "endMs": 36412.5
+      },
+      {
+        "charIndex": 546,
+        "charLength": 3,
+        "startMs": 36412.5,
+        "endMs": 36550.0
+      },
+      {
+        "charIndex": 550,
+        "charLength": 7,
+        "startMs": 36550.0,
+        "endMs": 36987.5
+      },
+      {
+        "charIndex": 558,
+        "charLength": 5,
+        "startMs": 36987.5,
+        "endMs": 37375.0
+      },
+      {
+        "charIndex": 564,
+        "charLength": 8,
+        "startMs": 37375.0,
+        "endMs": 37975.0
+      },
+      {
+        "charIndex": 573,
+        "charLength": 3,
+        "startMs": 37975.0,
+        "endMs": 38137.5
+      },
+      {
+        "charIndex": 577,
+        "charLength": 4,
+        "startMs": 38137.5,
+        "endMs": 38425.0
+      },
+      {
+        "charIndex": 582,
+        "charLength": 8,
+        "startMs": 38425.0,
+        "endMs": 38900.0
+      },
+      {
+        "charIndex": 591,
+        "charLength": 5,
+        "startMs": 38900.0,
+        "endMs": 39750.0
+      },
+      {
+        "charIndex": 596,
+        "charLength": 1,
+        "startMs": 39750.0,
+        "endMs": 39912.5
+      },
+      {
+        "charIndex": 598,
+        "charLength": 2,
+        "startMs": 39912.5,
+        "endMs": 40087.5
+      },
+      {
+        "charIndex": 601,
+        "charLength": 5,
+        "startMs": 40087.5,
+        "endMs": 40425.0
+      },
+      {
+        "charIndex": 607,
+        "charLength": 4,
+        "startMs": 40425.0,
+        "endMs": 40887.5
+      },
+      {
+        "charIndex": 612,
+        "charLength": 5,
+        "startMs": 40887.5,
+        "endMs": 41225.0
+      },
+      {
+        "charIndex": 618,
+        "charLength": 7,
+        "startMs": 41225.0,
+        "endMs": 41700.0
+      },
+      {
+        "charIndex": 626,
+        "charLength": 4,
+        "startMs": 41700.0,
+        "endMs": 41900.0
+      },
+      {
+        "charIndex": 631,
+        "charLength": 8,
+        "startMs": 41900.0,
+        "endMs": 42725.0
+      },
+      {
+        "charIndex": 639,
+        "charLength": 1,
+        "startMs": 42725.0,
+        "endMs": 42850.0
+      },
+      {
+        "charIndex": 641,
+        "charLength": 7,
+        "startMs": 43250.0,
+        "endMs": 43625.0
+      },
+      {
+        "charIndex": 649,
+        "charLength": 5,
+        "startMs": 43625.0,
+        "endMs": 44075.0
+      },
+      {
+        "charIndex": 655,
+        "charLength": 4,
+        "startMs": 44075.0,
+        "endMs": 44300.0
+      },
+      {
+        "charIndex": 660,
+        "charLength": 4,
+        "startMs": 44300.0,
+        "endMs": 44537.5
+      },
+      {
+        "charIndex": 665,
+        "charLength": 6,
+        "startMs": 44537.5,
+        "endMs": 44925.0
+      },
+      {
+        "charIndex": 672,
+        "charLength": 6,
+        "startMs": 44925.0,
+        "endMs": 45650.0
+      },
+      {
+        "charIndex": 678,
+        "charLength": 1,
+        "startMs": 45650.0,
+        "endMs": 45750.0
+      },
+      {
+        "charIndex": 680,
+        "charLength": 6,
+        "startMs": 45750.0,
+        "endMs": 46200.0
+      },
+      {
+        "charIndex": 687,
+        "charLength": 6,
+        "startMs": 46200.0,
+        "endMs": 46775.0
+      },
+      {
+        "charIndex": 693,
+        "charLength": 1,
+        "startMs": 46775.0,
+        "endMs": 46850.0
+      },
+      {
+        "charIndex": 695,
+        "charLength": 3,
+        "startMs": 46850.0,
+        "endMs": 46975.0
+      },
+      {
+        "charIndex": 699,
+        "charLength": 7,
+        "startMs": 46975.0,
+        "endMs": 47525.0
+      },
+      {
+        "charIndex": 707,
+        "charLength": 6,
+        "startMs": 47525.0,
+        "endMs": 48500.0
+      },
+      {
+        "charIndex": 713,
+        "charLength": 1,
+        "startMs": 48500.0,
+        "endMs": 48600.0
+      },
+      {
+        "charIndex": 715,
+        "charLength": 3,
+        "startMs": 48600.0,
+        "endMs": 48762.5
+      },
+      {
+        "charIndex": 719,
+        "charLength": 4,
+        "startMs": 48762.5,
+        "endMs": 49100.0
+      },
+      {
+        "charIndex": 724,
+        "charLength": 5,
+        "startMs": 49100.0,
+        "endMs": 49500.0
+      },
+      {
+        "charIndex": 730,
+        "charLength": 2,
+        "startMs": 49500.0,
+        "endMs": 49650.0
+      },
+      {
+        "charIndex": 733,
+        "charLength": 8,
+        "startMs": 49650.0,
+        "endMs": 50150.0
+      },
+      {
+        "charIndex": 742,
+        "charLength": 6,
+        "startMs": 50150.0,
+        "endMs": 50525.0
+      },
+      {
+        "charIndex": 749,
+        "charLength": 9,
+        "startMs": 50525.0,
+        "endMs": 51250.0
+      },
+      {
+        "charIndex": 758,
+        "charLength": 1,
+        "startMs": 51250.0,
+        "endMs": 51325.0
+      },
+      {
+        "charIndex": 760,
+        "charLength": 3,
+        "startMs": 51325.0,
+        "endMs": 51475.0
+      },
+      {
+        "charIndex": 764,
+        "charLength": 7,
+        "startMs": 51475.0,
+        "endMs": 52037.5
+      },
+      {
+        "charIndex": 772,
+        "charLength": 5,
+        "startMs": 52037.5,
+        "endMs": 52475.0
+      },
+      {
+        "charIndex": 778,
+        "charLength": 2,
+        "startMs": 52475.0,
+        "endMs": 52562.5
+      },
+      {
+        "charIndex": 781,
+        "charLength": 1,
+        "startMs": 52562.5,
+        "endMs": 52625.0
+      },
+      {
+        "charIndex": 783,
+        "charLength": 8,
+        "startMs": 52625.0,
+        "endMs": 53475.0
+      },
+      {
+        "charIndex": 791,
+        "charLength": 1,
+        "startMs": 53475.0,
+        "endMs": 53637.5
+      },
+      {
+        "charIndex": 793,
+        "charLength": 7,
+        "startMs": 53637.5,
+        "endMs": 54075.0
+      },
+      {
+        "charIndex": 801,
+        "charLength": 9,
+        "startMs": 54075.0,
+        "endMs": 54787.5
+      },
+      {
+        "charIndex": 811,
+        "charLength": 3,
+        "startMs": 54787.5,
+        "endMs": 55025.0
+      },
+      {
+        "charIndex": 815,
+        "charLength": 3,
+        "startMs": 55025.0,
+        "endMs": 55162.5
+      },
+      {
+        "charIndex": 819,
+        "charLength": 4,
+        "startMs": 55162.5,
+        "endMs": 55500.0
+      },
+      {
+        "charIndex": 824,
+        "charLength": 8,
+        "startMs": 55500.0,
+        "endMs": 56137.5
+      },
+      {
+        "charIndex": 833,
+        "charLength": 2,
+        "startMs": 56137.5,
+        "endMs": 56300.0
+      },
+      {
+        "charIndex": 836,
+        "charLength": 5,
+        "startMs": 56300.0,
+        "endMs": 56475.0
+      },
+      {
+        "charIndex": 842,
+        "charLength": 4,
+        "startMs": 56475.0,
+        "endMs": 56800.0
+      },
+      {
+        "charIndex": 847,
+        "charLength": 6,
+        "startMs": 56800.0,
+        "endMs": 57475.0
+      },
+      {
+        "charIndex": 853,
+        "charLength": 1,
+        "startMs": 57475.0,
+        "endMs": 57625.0
+      },
+      {
+        "charIndex": 855,
+        "charLength": 7,
+        "startMs": 58000.0,
+        "endMs": 58450.0
+      },
+      {
+        "charIndex": 863,
+        "charLength": 4,
+        "startMs": 58450.0,
+        "endMs": 58700.0
+      },
+      {
+        "charIndex": 868,
+        "charLength": 5,
+        "startMs": 58700.0,
+        "endMs": 59262.5
+      },
+      {
+        "charIndex": 874,
+        "charLength": 3,
+        "startMs": 59262.5,
+        "endMs": 59400.0
+      },
+      {
+        "charIndex": 878,
+        "charLength": 3,
+        "startMs": 59400.0,
+        "endMs": 59662.5
+      },
+      {
+        "charIndex": 882,
+        "charLength": 5,
+        "startMs": 59662.5,
+        "endMs": 60050.0
+      },
+      {
+        "charIndex": 888,
+        "charLength": 5,
+        "startMs": 60050.0,
+        "endMs": 60425.0
+      },
+      {
+        "charIndex": 894,
+        "charLength": 5,
+        "startMs": 60425.0,
+        "endMs": 61225.0
+      },
+      {
+        "charIndex": 899,
+        "charLength": 1,
+        "startMs": 61225.0,
+        "endMs": 61362.5
+      },
+      {
+        "charIndex": 901,
+        "charLength": 1,
+        "startMs": 61362.5,
+        "endMs": 61475.0
+      },
+      {
+        "charIndex": 903,
+        "charLength": 6,
+        "startMs": 61475.0,
+        "endMs": 61937.5
+      },
+      {
+        "charIndex": 910,
+        "charLength": 6,
+        "startMs": 61937.5,
+        "endMs": 62350.0
+      },
+      {
+        "charIndex": 917,
+        "charLength": 4,
+        "startMs": 62350.0,
+        "endMs": 62612.5
+      },
+      {
+        "charIndex": 922,
+        "charLength": 8,
+        "startMs": 62612.5,
+        "endMs": 63000.0
+      },
+      {
+        "charIndex": 931,
+        "charLength": 2,
+        "startMs": 63000.0,
+        "endMs": 63087.5
+      },
+      {
+        "charIndex": 934,
+        "charLength": 3,
+        "startMs": 63087.5,
+        "endMs": 63212.5
+      },
+      {
+        "charIndex": 938,
+        "charLength": 7,
+        "startMs": 63212.5,
+        "endMs": 63675.0
+      },
+      {
+        "charIndex": 946,
+        "charLength": 6,
+        "startMs": 63675.0,
+        "endMs": 64100.0
+      },
+      {
+        "charIndex": 953,
+        "charLength": 3,
+        "startMs": 64100.0,
+        "endMs": 64212.5
+      },
+      {
+        "charIndex": 957,
+        "charLength": 4,
+        "startMs": 64212.5,
+        "endMs": 64425.0
+      },
+      {
+        "charIndex": 962,
+        "charLength": 6,
+        "startMs": 64425.0,
+        "endMs": 65225.0
+      },
+      {
+        "charIndex": 968,
+        "charLength": 1,
+        "startMs": 65225.0,
+        "endMs": 65362.5
+      },
+      {
+        "charIndex": 970,
+        "charLength": 1,
+        "startMs": 65362.5,
+        "endMs": 65487.5
+      },
+      {
+        "charIndex": 972,
+        "charLength": 5,
+        "startMs": 65487.5,
+        "endMs": 65875.0
+      },
+      {
+        "charIndex": 978,
+        "charLength": 7,
+        "startMs": 65875.0,
+        "endMs": 66325.0
+      },
+      {
+        "charIndex": 986,
+        "charLength": 4,
+        "startMs": 66325.0,
+        "endMs": 66637.5
+      },
+      {
+        "charIndex": 991,
+        "charLength": 5,
+        "startMs": 66637.5,
+        "endMs": 67075.0
+      },
+      {
+        "charIndex": 997,
+        "charLength": 2,
+        "startMs": 67075.0,
+        "endMs": 67225.0
+      },
+      {
+        "charIndex": 1000,
+        "charLength": 4,
+        "startMs": 67225.0,
+        "endMs": 67875.0
+      },
+      {
+        "charIndex": 1004,
+        "charLength": 1,
+        "startMs": 67875.0,
+        "endMs": 68012.5
+      },
+      {
+        "charIndex": 1006,
+        "charLength": 1,
+        "startMs": 68012.5,
+        "endMs": 68125.0
+      },
+      {
+        "charIndex": 1008,
+        "charLength": 10,
+        "startMs": 68125.0,
+        "endMs": 68850.0
+      },
+      {
+        "charIndex": 1019,
+        "charLength": 5,
+        "startMs": 68850.0,
+        "endMs": 69325.0
+      },
+      {
+        "charIndex": 1025,
+        "charLength": 9,
+        "startMs": 69325.0,
+        "endMs": 69925.0
+      },
+      {
+        "charIndex": 1035,
+        "charLength": 4,
+        "startMs": 69925.0,
+        "endMs": 70225.0
+      },
+      {
+        "charIndex": 1040,
+        "charLength": 2,
+        "startMs": 70225.0,
+        "endMs": 70325.0
+      },
+      {
+        "charIndex": 1043,
+        "charLength": 10,
+        "startMs": 70325.0,
+        "endMs": 71275.0
+      },
+      {
+        "charIndex": 1053,
+        "charLength": 1,
+        "startMs": 71275.0,
+        "endMs": 71425.0
+      },
+      {
+        "charIndex": 1055,
+        "charLength": 3,
+        "startMs": 71775.0,
+        "endMs": 71850.0
+      },
+      {
+        "charIndex": 1059,
+        "charLength": 11,
+        "startMs": 71850.0,
+        "endMs": 72650.0
+      },
+      {
+        "charIndex": 1071,
+        "charLength": 4,
+        "startMs": 72650.0,
+        "endMs": 72887.5
+      },
+      {
+        "charIndex": 1076,
+        "charLength": 6,
+        "startMs": 72887.5,
+        "endMs": 73237.5
+      },
+      {
+        "charIndex": 1083,
+        "charLength": 3,
+        "startMs": 73237.5,
+        "endMs": 73362.5
+      },
+      {
+        "charIndex": 1087,
+        "charLength": 7,
+        "startMs": 73362.5,
+        "endMs": 74050.0
+      },
+      {
+        "charIndex": 1094,
+        "charLength": 1,
+        "startMs": 74050.0,
+        "endMs": 74162.5
+      },
+      {
+        "charIndex": 1096,
+        "charLength": 7,
+        "startMs": 74162.5,
+        "endMs": 74725.0
+      },
+      {
+        "charIndex": 1103,
+        "charLength": 1,
+        "startMs": 74725.0,
+        "endMs": 74800.0
+      },
+      {
+        "charIndex": 1105,
+        "charLength": 3,
+        "startMs": 74800.0,
+        "endMs": 74925.0
+      },
+      {
+        "charIndex": 1109,
+        "charLength": 4,
+        "startMs": 74925.0,
+        "endMs": 75275.0
+      },
+      {
+        "charIndex": 1114,
+        "charLength": 6,
+        "startMs": 75275.0,
+        "endMs": 75925.0
+      },
+      {
+        "charIndex": 1120,
+        "charLength": 1,
+        "startMs": 75925.0,
+        "endMs": 76025.0
+      },
+      {
+        "charIndex": 1122,
+        "charLength": 4,
+        "startMs": 76025.0,
+        "endMs": 76162.5
+      },
+      {
+        "charIndex": 1127,
+        "charLength": 3,
+        "startMs": 76162.5,
+        "endMs": 76287.5
+      },
+      {
+        "charIndex": 1131,
+        "charLength": 4,
+        "startMs": 76287.5,
+        "endMs": 76637.5
+      },
+      {
+        "charIndex": 1136,
+        "charLength": 11,
+        "startMs": 76637.5,
+        "endMs": 77312.5
+      },
+      {
+        "charIndex": 1148,
+        "charLength": 4,
+        "startMs": 77312.5,
+        "endMs": 77625.0
+      },
+      {
+        "charIndex": 1153,
+        "charLength": 2,
+        "startMs": 77625.0,
+        "endMs": 77725.0
+      },
+      {
+        "charIndex": 1156,
+        "charLength": 4,
+        "startMs": 77725.0,
+        "endMs": 78400.0
+      },
+      {
+        "charIndex": 1160,
+        "charLength": 1,
+        "startMs": 78400.0,
+        "endMs": 78575.0
+      },
+      {
+        "charIndex": 1162,
+        "charLength": 6,
+        "startMs": 78575.0,
+        "endMs": 78887.5
+      },
+      {
+        "charIndex": 1169,
+        "charLength": 3,
+        "startMs": 78887.5,
+        "endMs": 79025.0
+      },
+      {
+        "charIndex": 1173,
+        "charLength": 4,
+        "startMs": 79025.0,
+        "endMs": 79412.5
+      },
+      {
+        "charIndex": 1178,
+        "charLength": 5,
+        "startMs": 79412.5,
+        "endMs": 79825.0
+      },
+      {
+        "charIndex": 1184,
+        "charLength": 4,
+        "startMs": 79825.0,
+        "endMs": 80075.0
+      },
+      {
+        "charIndex": 1189,
+        "charLength": 7,
+        "startMs": 80075.0,
+        "endMs": 80437.5
+      },
+      {
+        "charIndex": 1197,
+        "charLength": 5,
+        "startMs": 80437.5,
+        "endMs": 80750.0
+      },
+      {
+        "charIndex": 1203,
+        "charLength": 5,
+        "startMs": 80750.0,
+        "endMs": 81625.0
+      },
+      {
+        "charIndex": 1208,
+        "charLength": 1,
+        "startMs": 81625.0,
+        "endMs": 81762.5
+      },
+      {
+        "charIndex": 1210,
+        "charLength": 5,
+        "startMs": 81762.5,
+        "endMs": 82062.5
+      },
+      {
+        "charIndex": 1216,
+        "charLength": 6,
+        "startMs": 82062.5,
+        "endMs": 82400.0
+      },
+      {
+        "charIndex": 1223,
+        "charLength": 5,
+        "startMs": 82400.0,
+        "endMs": 82712.5
+      },
+      {
+        "charIndex": 1229,
+        "charLength": 6,
+        "startMs": 82712.5,
+        "endMs": 83362.5
+      },
+      {
+        "charIndex": 1236,
+        "charLength": 3,
+        "startMs": 83362.5,
+        "endMs": 83500.0
+      },
+      {
+        "charIndex": 1240,
+        "charLength": 5,
+        "startMs": 83500.0,
+        "endMs": 83875.0
+      },
+      {
+        "charIndex": 1246,
+        "charLength": 6,
+        "startMs": 83875.0,
+        "endMs": 84525.0
+      },
+      {
+        "charIndex": 1252,
+        "charLength": 1,
+        "startMs": 84525.0,
+        "endMs": 84625.0
+      },
+      {
+        "charIndex": 1254,
+        "charLength": 3,
+        "startMs": 84625.0,
+        "endMs": 84837.5
+      },
+      {
+        "charIndex": 1258,
+        "charLength": 3,
+        "startMs": 84837.5,
+        "endMs": 84925.0
+      },
+      {
+        "charIndex": 1262,
+        "charLength": 7,
+        "startMs": 84925.0,
+        "endMs": 85262.5
+      },
+      {
+        "charIndex": 1270,
+        "charLength": 2,
+        "startMs": 85262.5,
+        "endMs": 85337.5
+      },
+      {
+        "charIndex": 1273,
+        "charLength": 3,
+        "startMs": 85337.5,
+        "endMs": 85425.0
+      },
+      {
+        "charIndex": 1277,
+        "charLength": 10,
+        "startMs": 85425.0,
+        "endMs": 86075.0
+      },
+      {
+        "charIndex": 1288,
+        "charLength": 5,
+        "startMs": 86075.0,
+        "endMs": 86800.0
+      },
+      {
+        "charIndex": 1293,
+        "charLength": 1,
+        "startMs": 86800.0,
+        "endMs": 86950.0
+      },
+      {
+        "charIndex": 1295,
+        "charLength": 3,
+        "startMs": 87325.0,
+        "endMs": 87587.5
+      },
+      {
+        "charIndex": 1299,
+        "charLength": 4,
+        "startMs": 87587.5,
+        "endMs": 87925.0
+      },
+      {
+        "charIndex": 1304,
+        "charLength": 6,
+        "startMs": 87925.0,
+        "endMs": 88375.0
+      },
+      {
+        "charIndex": 1311,
+        "charLength": 4,
+        "startMs": 88375.0,
+        "endMs": 88600.0
+      },
+      {
+        "charIndex": 1316,
+        "charLength": 3,
+        "startMs": 88600.0,
+        "endMs": 88712.5
+      },
+      {
+        "charIndex": 1320,
+        "charLength": 5,
+        "startMs": 88712.5,
+        "endMs": 88975.0
+      },
+      {
+        "charIndex": 1326,
+        "charLength": 4,
+        "startMs": 88975.0,
+        "endMs": 89650.0
+      },
+      {
+        "charIndex": 1330,
+        "charLength": 1,
+        "startMs": 89650.0,
+        "endMs": 89775.0
+      },
+      {
+        "charIndex": 1332,
+        "charLength": 3,
+        "startMs": 89775.0,
+        "endMs": 89900.0
+      },
+      {
+        "charIndex": 1336,
+        "charLength": 6,
+        "startMs": 89900.0,
+        "endMs": 90262.5
+      },
+      {
+        "charIndex": 1343,
+        "charLength": 5,
+        "startMs": 90262.5,
+        "endMs": 90550.0
+      },
+      {
+        "charIndex": 1349,
+        "charLength": 7,
+        "startMs": 90550.0,
+        "endMs": 91000.0
+      },
+      {
+        "charIndex": 1357,
+        "charLength": 3,
+        "startMs": 91000.0,
+        "endMs": 91100.0
+      },
+      {
+        "charIndex": 1361,
+        "charLength": 9,
+        "startMs": 91100.0,
+        "endMs": 91600.0
+      },
+      {
+        "charIndex": 1371,
+        "charLength": 7,
+        "startMs": 91600.0,
+        "endMs": 92550.0
+      },
+      {
+        "charIndex": 1378,
+        "charLength": 1,
+        "startMs": 92550.0,
+        "endMs": 92687.5
+      },
+      {
+        "charIndex": 1380,
+        "charLength": 3,
+        "startMs": 92687.5,
+        "endMs": 92837.5
+      },
+      {
+        "charIndex": 1384,
+        "charLength": 5,
+        "startMs": 92837.5,
+        "endMs": 93212.5
+      },
+      {
+        "charIndex": 1390,
+        "charLength": 8,
+        "startMs": 93212.5,
+        "endMs": 93700.0
+      },
+      {
+        "charIndex": 1399,
+        "charLength": 4,
+        "startMs": 93700.0,
+        "endMs": 94112.5
+      },
+      {
+        "charIndex": 1404,
+        "charLength": 2,
+        "startMs": 94112.5,
+        "endMs": 94250.0
+      },
+      {
+        "charIndex": 1407,
+        "charLength": 1,
+        "startMs": 94250.0,
+        "endMs": 94337.5
+      },
+      {
+        "charIndex": 1409,
+        "charLength": 5,
+        "startMs": 94337.5,
+        "endMs": 94700.0
+      },
+      {
+        "charIndex": 1415,
+        "charLength": 6,
+        "startMs": 94700.0,
+        "endMs": 95450.0
+      },
+      {
+        "charIndex": 1421,
+        "charLength": 1,
+        "startMs": 95450.0,
+        "endMs": 95587.5
+      },
+      {
+        "charIndex": 1423,
+        "charLength": 4,
+        "startMs": 95587.5,
+        "endMs": 95875.0
+      },
+      {
+        "charIndex": 1428,
+        "charLength": 3,
+        "startMs": 95875.0,
+        "endMs": 96025.0
+      },
+      {
+        "charIndex": 1432,
+        "charLength": 6,
+        "startMs": 96025.0,
+        "endMs": 96512.5
+      },
+      {
+        "charIndex": 1439,
+        "charLength": 2,
+        "startMs": 96512.5,
+        "endMs": 96675.0
+      },
+      {
+        "charIndex": 1442,
+        "charLength": 9,
+        "startMs": 96675.0,
+        "endMs": 97175.0
+      },
+      {
+        "charIndex": 1452,
+        "charLength": 5,
+        "startMs": 97175.0,
+        "endMs": 97750.0
+      },
+      {
+        "charIndex": 1458,
+        "charLength": 3,
+        "startMs": 97750.0,
+        "endMs": 97925.0
+      },
+      {
+        "charIndex": 1462,
+        "charLength": 6,
+        "startMs": 97925.0,
+        "endMs": 98350.0
+      },
+      {
+        "charIndex": 1469,
+        "charLength": 7,
+        "startMs": 98350.0,
+        "endMs": 98775.0
+      },
+      {
+        "charIndex": 1477,
+        "charLength": 8,
+        "startMs": 98775.0,
+        "endMs": 99550.0
+      },
+      {
+        "charIndex": 1485,
+        "charLength": 1,
+        "startMs": 99550.0,
+        "endMs": 99700.0
+      },
+      {
+        "charIndex": 1487,
+        "charLength": 5,
+        "startMs": 100075.0,
+        "endMs": 100250.0
+      },
+      {
+        "charIndex": 1493,
+        "charLength": 2,
+        "startMs": 100250.0,
+        "endMs": 100375.0
+      },
+      {
+        "charIndex": 1496,
+        "charLength": 7,
+        "startMs": 100375.0,
+        "endMs": 100775.0
+      },
+      {
+        "charIndex": 1504,
+        "charLength": 5,
+        "startMs": 100775.0,
+        "endMs": 101450.0
+      },
+      {
+        "charIndex": 1509,
+        "charLength": 1,
+        "startMs": 101450.0,
+        "endMs": 101587.5
+      },
+      {
+        "charIndex": 1511,
+        "charLength": 1,
+        "startMs": 101587.5,
+        "endMs": 101700.0
+      },
+      {
+        "charIndex": 1513,
+        "charLength": 8,
+        "startMs": 101700.0,
+        "endMs": 102275.0
+      },
+      {
+        "charIndex": 1522,
+        "charLength": 4,
+        "startMs": 102275.0,
+        "endMs": 102575.0
+      },
+      {
+        "charIndex": 1527,
+        "charLength": 4,
+        "startMs": 102575.0,
+        "endMs": 102875.0
+      },
+      {
+        "charIndex": 1532,
+        "charLength": 7,
+        "startMs": 102875.0,
+        "endMs": 103337.5
+      },
+      {
+        "charIndex": 1540,
+        "charLength": 2,
+        "startMs": 103337.5,
+        "endMs": 103550.0
+      },
+      {
+        "charIndex": 1543,
+        "charLength": 9,
+        "startMs": 103550.0,
+        "endMs": 104025.0
+      },
+      {
+        "charIndex": 1553,
+        "charLength": 6,
+        "startMs": 104025.0,
+        "endMs": 104650.0
+      },
+      {
+        "charIndex": 1559,
+        "charLength": 1,
+        "startMs": 104650.0,
+        "endMs": 104775.0
+      },
+      {
+        "charIndex": 1561,
+        "charLength": 2,
+        "startMs": 104775.0,
+        "endMs": 104912.5
+      },
+      {
+        "charIndex": 1564,
+        "charLength": 3,
+        "startMs": 104912.5,
+        "endMs": 105012.5
+      },
+      {
+        "charIndex": 1568,
+        "charLength": 6,
+        "startMs": 105012.5,
+        "endMs": 105462.5
+      },
+      {
+        "charIndex": 1575,
+        "charLength": 3,
+        "startMs": 105462.5,
+        "endMs": 105812.5
+      },
+      {
+        "charIndex": 1579,
+        "charLength": 6,
+        "startMs": 105812.5,
+        "endMs": 106337.5
+      },
+      {
+        "charIndex": 1586,
+        "charLength": 4,
+        "startMs": 106337.5,
+        "endMs": 106775.0
+      },
+      {
+        "charIndex": 1591,
+        "charLength": 7,
+        "startMs": 106775.0,
+        "endMs": 107350.0
+      },
+      {
+        "charIndex": 1599,
+        "charLength": 3,
+        "startMs": 107350.0,
+        "endMs": 107475.0
+      },
+      {
+        "charIndex": 1603,
+        "charLength": 6,
+        "startMs": 107475.0,
+        "endMs": 108450.0
+      },
+      {
+        "charIndex": 1609,
+        "charLength": 1,
+        "startMs": 108450.0,
+        "endMs": 108587.5
+      },
+      {
+        "charIndex": 1611,
+        "charLength": 4,
+        "startMs": 108587.5,
+        "endMs": 108862.5
+      },
+      {
+        "charIndex": 1616,
+        "charLength": 5,
+        "startMs": 108862.5,
+        "endMs": 109200.0
+      },
+      {
+        "charIndex": 1622,
+        "charLength": 9,
+        "startMs": 109200.0,
+        "endMs": 109800.0
+      },
+      {
+        "charIndex": 1632,
+        "charLength": 2,
+        "startMs": 109800.0,
+        "endMs": 109937.5
+      },
+      {
+        "charIndex": 1635,
+        "charLength": 3,
+        "startMs": 109937.5,
+        "endMs": 110037.5
+      },
+      {
+        "charIndex": 1639,
+        "charLength": 5,
+        "startMs": 110037.5,
+        "endMs": 110387.5
+      },
+      {
+        "charIndex": 1645,
+        "charLength": 5,
+        "startMs": 110387.5,
+        "endMs": 110725.0
+      },
+      {
+        "charIndex": 1651,
+        "charLength": 4,
+        "startMs": 110725.0,
+        "endMs": 111350.0
+      },
+      {
+        "charIndex": 1655,
+        "charLength": 1,
+        "startMs": 111350.0,
+        "endMs": 111487.5
+      },
+      {
+        "charIndex": 1657,
+        "charLength": 4,
+        "startMs": 111487.5,
+        "endMs": 111762.5
+      },
+      {
+        "charIndex": 1662,
+        "charLength": 6,
+        "startMs": 111762.5,
+        "endMs": 111950.0
+      },
+      {
+        "charIndex": 1669,
+        "charLength": 4,
+        "startMs": 111950.0,
+        "endMs": 112325.0
+      },
+      {
+        "charIndex": 1674,
+        "charLength": 7,
+        "startMs": 112325.0,
+        "endMs": 112875.0
+      },
+      {
+        "charIndex": 1682,
+        "charLength": 6,
+        "startMs": 112875.0,
+        "endMs": 113262.5
+      },
+      {
+        "charIndex": 1689,
+        "charLength": 2,
+        "startMs": 113262.5,
+        "endMs": 113362.5
+      },
+      {
+        "charIndex": 1692,
+        "charLength": 3,
+        "startMs": 113362.5,
+        "endMs": 113462.5
+      },
+      {
+        "charIndex": 1696,
+        "charLength": 7,
+        "startMs": 113462.5,
+        "endMs": 113875.0
+      },
+      {
+        "charIndex": 1704,
+        "charLength": 8,
+        "startMs": 113875.0,
+        "endMs": 114775.0
+      },
+      {
+        "charIndex": 1712,
+        "charLength": 1,
+        "startMs": 114775.0,
+        "endMs": 114925.0
+      },
+      {
+        "charIndex": 1714,
+        "charLength": 3,
+        "startMs": 115275.0,
+        "endMs": 115387.5
+      },
+      {
+        "charIndex": 1718,
+        "charLength": 4,
+        "startMs": 115387.5,
+        "endMs": 115725.0
+      },
+      {
+        "charIndex": 1723,
+        "charLength": 4,
+        "startMs": 115725.0,
+        "endMs": 116087.5
+      },
+      {
+        "charIndex": 1728,
+        "charLength": 5,
+        "startMs": 116087.5,
+        "endMs": 116500.0
+      },
+      {
+        "charIndex": 1734,
+        "charLength": 4,
+        "startMs": 116500.0,
+        "endMs": 116875.0
+      },
+      {
+        "charIndex": 1739,
+        "charLength": 7,
+        "startMs": 116875.0,
+        "endMs": 117450.0
+      },
+      {
+        "charIndex": 1747,
+        "charLength": 2,
+        "startMs": 117450.0,
+        "endMs": 117537.5
+      },
+      {
+        "charIndex": 1750,
+        "charLength": 1,
+        "startMs": 117537.5,
+        "endMs": 117650.0
+      },
+      {
+        "charIndex": 1752,
+        "charLength": 4,
+        "startMs": 117650.0,
+        "endMs": 117962.5
+      },
+      {
+        "charIndex": 1757,
+        "charLength": 5,
+        "startMs": 117962.5,
+        "endMs": 118725.0
+      },
+      {
+        "charIndex": 1762,
+        "charLength": 1,
+        "startMs": 118725.0,
+        "endMs": 118862.5
+      },
+      {
+        "charIndex": 1764,
+        "charLength": 4,
+        "startMs": 118862.5,
+        "endMs": 119100.0
+      },
+      {
+        "charIndex": 1769,
+        "charLength": 8,
+        "startMs": 119100.0,
+        "endMs": 119650.0
+      },
+      {
+        "charIndex": 1778,
+        "charLength": 3,
+        "startMs": 119650.0,
+        "endMs": 119762.5
+      },
+      {
+        "charIndex": 1782,
+        "charLength": 9,
+        "startMs": 119762.5,
+        "endMs": 120375.0
+      },
+      {
+        "charIndex": 1792,
+        "charLength": 5,
+        "startMs": 120375.0,
+        "endMs": 120787.5
+      },
+      {
+        "charIndex": 1798,
+        "charLength": 3,
+        "startMs": 120787.5,
+        "endMs": 120925.0
+      },
+      {
+        "charIndex": 1802,
+        "charLength": 9,
+        "startMs": 120925.0,
+        "endMs": 121612.5
+      },
+      {
+        "charIndex": 1812,
+        "charLength": 2,
+        "startMs": 121612.5,
+        "endMs": 121775.0
+      },
+      {
+        "charIndex": 1815,
+        "charLength": 10,
+        "startMs": 121775.0,
+        "endMs": 122875.0
+      },
+      {
+        "charIndex": 1825,
+        "charLength": 1,
+        "startMs": 122875.0,
+        "endMs": 123012.5
+      },
+      {
+        "charIndex": 1827,
+        "charLength": 3,
+        "startMs": 123012.5,
+        "endMs": 123175.0
+      },
+      {
+        "charIndex": 1831,
+        "charLength": 3,
+        "startMs": 123175.0,
+        "endMs": 123662.5
+      },
+      {
+        "charIndex": 1835,
+        "charLength": 2,
+        "startMs": 123662.5,
+        "endMs": 123825.0
+      },
+      {
+        "charIndex": 1838,
+        "charLength": 2,
+        "startMs": 123825.0,
+        "endMs": 123962.5
+      },
+      {
+        "charIndex": 1841,
+        "charLength": 6,
+        "startMs": 123962.5,
+        "endMs": 124325.0
+      },
+      {
+        "charIndex": 1848,
+        "charLength": 3,
+        "startMs": 124325.0,
+        "endMs": 124437.5
+      },
+      {
+        "charIndex": 1852,
+        "charLength": 8,
+        "startMs": 124437.5,
+        "endMs": 125000.0
+      },
+      {
+        "charIndex": 1861,
+        "charLength": 12,
+        "startMs": 125000.0,
+        "endMs": 125725.0
+      },
+      {
+        "charIndex": 1874,
+        "charLength": 2,
+        "startMs": 125725.0,
+        "endMs": 125862.5
+      },
+      {
+        "charIndex": 1877,
+        "charLength": 5,
+        "startMs": 125862.5,
+        "endMs": 126200.0
+      },
+      {
+        "charIndex": 1883,
+        "charLength": 8,
+        "startMs": 126200.0,
+        "endMs": 126950.0
+      },
+      {
+        "charIndex": 1891,
+        "charLength": 1,
+        "startMs": 126950.0,
+        "endMs": 127050.0
+      },
+      {
+        "charIndex": 1893,
+        "charLength": 9,
+        "startMs": 127050.0,
+        "endMs": 127600.0
+      },
+      {
+        "charIndex": 1903,
+        "charLength": 7,
+        "startMs": 127600.0,
+        "endMs": 128050.0
+      },
+      {
+        "charIndex": 1911,
+        "charLength": 9,
+        "startMs": 128050.0,
+        "endMs": 129050.0
+      },
+      {
+        "charIndex": 1920,
+        "charLength": 1,
+        "startMs": 129050.0,
+        "endMs": 129187.5
+      },
+      {
+        "charIndex": 1922,
+        "charLength": 3,
+        "startMs": 129187.5,
+        "endMs": 129325.0
+      },
+      {
+        "charIndex": 1926,
+        "charLength": 12,
+        "startMs": 129325.0,
+        "endMs": 130025.0
+      },
+      {
+        "charIndex": 1939,
+        "charLength": 2,
+        "startMs": 130025.0,
+        "endMs": 130150.0
+      },
+      {
+        "charIndex": 1942,
+        "charLength": 8,
+        "startMs": 130150.0,
+        "endMs": 130675.0
+      },
+      {
+        "charIndex": 1951,
+        "charLength": 2,
+        "startMs": 130675.0,
+        "endMs": 130787.5
+      },
+      {
+        "charIndex": 1954,
+        "charLength": 3,
+        "startMs": 130787.5,
+        "endMs": 130887.5
+      },
+      {
+        "charIndex": 1958,
+        "charLength": 6,
+        "startMs": 130887.5,
+        "endMs": 131600.0
+      },
+      {
+        "charIndex": 1964,
+        "charLength": 1,
+        "startMs": 131600.0,
+        "endMs": 131750.0
+      }
+    ]
+  }
+}

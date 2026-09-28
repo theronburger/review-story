@@ -1,0 +1,1053 @@
+{
+  "text": "One event starts three calls. Inventory reserves the stock. Receipts sends the email. Shipping books the parcel. All three start together; each keeps its own result. Now the receipt. Subtotal starts at fifty dollars. Shipping adds five. Discount takes ten off. The total is forty five dollars. The payload has a recipient, a subject, and the message text. Send it once. If email is unavailable, keep this same payload in the retry queue. That's the demo: the diagram shows the route, and the pointer explains the code.",
+  "beats": [
+    {
+      "text": "One event starts three calls. Inventory reserves the stock. Receipts sends the email. Shipping books the parcel. All three start together; each keeps its own result.",
+      "cards": [
+        "dispatch"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 1,
+          "label": "inventory(order)"
+        },
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 2,
+          "label": "receipts(order)"
+        },
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 3,
+          "label": "shipping(order)"
+        },
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 0,
+          "label": "Stock reserved, or review queued"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 0,
+          "label": "Email sent, or retry queued"
+        },
+        {
+          "kind": "return",
+          "from": 3,
+          "to": 0,
+          "label": "Label ready, or retry queued"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "One event",
+          "card": "dispatch",
+          "ranges": [
+            [
+              6,
+              11
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 0.0
+        },
+        {
+          "phrase": "Inventory",
+          "card": "dispatch",
+          "ranges": [
+            [
+              7,
+              11
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 8,
+            "text": "inventory"
+          },
+          "start": 2.2875
+        },
+        {
+          "phrase": "Receipts",
+          "card": "dispatch",
+          "ranges": [
+            [
+              7,
+              11
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 9,
+            "text": "receipts"
+          },
+          "start": 4.3875
+        },
+        {
+          "phrase": "Shipping",
+          "card": "dispatch",
+          "ranges": [
+            [
+              7,
+              11
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 10,
+            "text": "shipping"
+          },
+          "start": 6.075
+        },
+        {
+          "phrase": "All three",
+          "card": "dispatch",
+          "ranges": [
+            [
+              7,
+              11
+            ]
+          ],
+          "message": 3,
+          "point": "code",
+          "codeTarget": {
+            "line": 7,
+            "text": "Promise.allSettled"
+          },
+          "start": 7.8375
+        }
+      ],
+      "target": "fanout-0",
+      "diagram": "fanout",
+      "row": 0,
+      "title": "One event, three calls · 1 / 1",
+      "start": 0.0,
+      "charStart": 0
+    },
+    {
+      "text": "Now the receipt. Subtotal starts at fifty dollars. Shipping adds five. Discount takes ten off. The total is forty five dollars.",
+      "cards": [
+        "receipt"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 1,
+          "label": "receiptFor(order)"
+        },
+        {
+          "kind": "local",
+          "from": 1,
+          "to": 1,
+          "label": "subtotal + shipping − discount"
+        },
+        {
+          "kind": "return",
+          "from": 1,
+          "to": 0,
+          "label": "{ to, subject, text }"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "Now the receipt",
+          "card": "receipt",
+          "ranges": [
+            [
+              1,
+              9
+            ]
+          ],
+          "message": 0,
+          "point": "diagram",
+          "start": 11.225
+        },
+        {
+          "phrase": "Subtotal",
+          "card": "receipt",
+          "ranges": [
+            [
+              2,
+              3
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 3,
+            "text": "subtotal"
+          },
+          "start": 12.725
+        },
+        {
+          "phrase": "Shipping",
+          "card": "receipt",
+          "ranges": [
+            [
+              2,
+              3
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 3,
+            "text": "shipping"
+          },
+          "start": 14.75
+        },
+        {
+          "phrase": "Discount",
+          "card": "receipt",
+          "ranges": [
+            [
+              2,
+              3
+            ]
+          ],
+          "message": 1,
+          "point": "code",
+          "codeTarget": {
+            "line": 3,
+            "text": "discount"
+          },
+          "start": 16.1125
+        },
+        {
+          "phrase": "The total",
+          "card": "receipt",
+          "ranges": [
+            [
+              2,
+              3
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 3,
+            "text": "total"
+          },
+          "start": 17.75
+        }
+      ],
+      "target": "receipt-0",
+      "diagram": "receipt",
+      "row": 0,
+      "title": "Build and send a receipt · 1 / 2",
+      "start": 11.225,
+      "charStart": 166
+    },
+    {
+      "text": "The payload has a recipient, a subject, and the message text. Send it once. If email is unavailable, keep this same payload in the retry queue. That's the demo: the diagram shows the route, and the pointer explains the code.",
+      "cards": [
+        "receipt",
+        "delivery"
+      ],
+      "messages": [
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 2,
+          "label": "send(message)"
+        },
+        {
+          "kind": "return",
+          "from": 2,
+          "to": 0,
+          "label": "Exception: delivery unavailable"
+        },
+        {
+          "kind": "call",
+          "from": 0,
+          "to": 3,
+          "label": "enqueue({ key, message })"
+        },
+        {
+          "kind": "return",
+          "from": 3,
+          "to": 0,
+          "label": "{ status: queued }"
+        }
+      ],
+      "phases": [
+        {
+          "phrase": "The payload",
+          "card": "receipt",
+          "ranges": [
+            [
+              4,
+              8
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 5,
+            "text": "to"
+          },
+          "start": 19.975
+        },
+        {
+          "phrase": "a subject",
+          "card": "receipt",
+          "ranges": [
+            [
+              4,
+              8
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 6,
+            "text": "subject"
+          },
+          "start": 21.725
+        },
+        {
+          "phrase": "message text",
+          "card": "receipt",
+          "ranges": [
+            [
+              4,
+              8
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 7,
+            "text": "text"
+          },
+          "start": 22.625
+        },
+        {
+          "phrase": "Send it once",
+          "card": "delivery",
+          "ranges": [
+            [
+              12,
+              15
+            ]
+          ],
+          "message": 0,
+          "point": "code",
+          "codeTarget": {
+            "line": 14,
+            "text": "mail.send(message)"
+          },
+          "start": 23.8375
+        },
+        {
+          "phrase": "If email is unavailable",
+          "card": "delivery",
+          "ranges": [
+            [
+              16,
+              19
+            ]
+          ],
+          "message": 1,
+          "point": "diagram",
+          "start": 25.075
+        },
+        {
+          "phrase": "same payload",
+          "card": "delivery",
+          "ranges": [
+            [
+              16,
+              19
+            ]
+          ],
+          "message": 2,
+          "point": "code",
+          "codeTarget": {
+            "line": 17,
+            "text": "message"
+          },
+          "start": 27.2625
+        },
+        {
+          "phrase": "That's the demo",
+          "card": "delivery",
+          "ranges": [
+            [
+              16,
+              19
+            ]
+          ],
+          "message": 3,
+          "point": "diagram",
+          "start": 29.4875
+        }
+      ],
+      "target": "receipt-1",
+      "diagram": "receipt",
+      "row": 1,
+      "title": "Build and send a receipt · 2 / 2",
+      "start": 19.975,
+      "charStart": 294
+    }
+  ],
+  "clip": {
+    "durationMs": 34375.0,
+    "voice": "af_heart",
+    "words": [
+      {
+        "charIndex": 0,
+        "charLength": 3,
+        "startMs": 300.0,
+        "endMs": 500.0
+      },
+      {
+        "charIndex": 4,
+        "charLength": 5,
+        "startMs": 500.0,
+        "endMs": 825.0
+      },
+      {
+        "charIndex": 10,
+        "charLength": 6,
+        "startMs": 825.0,
+        "endMs": 1175.0
+      },
+      {
+        "charIndex": 17,
+        "charLength": 5,
+        "startMs": 1175.0,
+        "endMs": 1400.0
+      },
+      {
+        "charIndex": 23,
+        "charLength": 5,
+        "startMs": 1400.0,
+        "endMs": 2150.0
+      },
+      {
+        "charIndex": 28,
+        "charLength": 1,
+        "startMs": 2150.0,
+        "endMs": 2287.5
+      },
+      {
+        "charIndex": 30,
+        "charLength": 9,
+        "startMs": 2287.5,
+        "endMs": 2950.0
+      },
+      {
+        "charIndex": 40,
+        "charLength": 8,
+        "startMs": 2950.0,
+        "endMs": 3475.0
+      },
+      {
+        "charIndex": 49,
+        "charLength": 3,
+        "startMs": 3475.0,
+        "endMs": 3575.0
+      },
+      {
+        "charIndex": 53,
+        "charLength": 5,
+        "startMs": 3575.0,
+        "endMs": 4275.0
+      },
+      {
+        "charIndex": 58,
+        "charLength": 1,
+        "startMs": 4275.0,
+        "endMs": 4387.5
+      },
+      {
+        "charIndex": 60,
+        "charLength": 8,
+        "startMs": 4387.5,
+        "endMs": 4862.5
+      },
+      {
+        "charIndex": 69,
+        "charLength": 5,
+        "startMs": 4862.5,
+        "endMs": 5187.5
+      },
+      {
+        "charIndex": 75,
+        "charLength": 3,
+        "startMs": 5187.5,
+        "endMs": 5300.0
+      },
+      {
+        "charIndex": 79,
+        "charLength": 5,
+        "startMs": 5300.0,
+        "endMs": 5925.0
+      },
+      {
+        "charIndex": 84,
+        "charLength": 1,
+        "startMs": 5925.0,
+        "endMs": 6075.0
+      },
+      {
+        "charIndex": 86,
+        "charLength": 8,
+        "startMs": 6075.0,
+        "endMs": 6450.0
+      },
+      {
+        "charIndex": 95,
+        "charLength": 5,
+        "startMs": 6450.0,
+        "endMs": 6725.0
+      },
+      {
+        "charIndex": 101,
+        "charLength": 3,
+        "startMs": 6725.0,
+        "endMs": 6825.0
+      },
+      {
+        "charIndex": 105,
+        "charLength": 6,
+        "startMs": 6825.0,
+        "endMs": 7675.0
+      },
+      {
+        "charIndex": 111,
+        "charLength": 1,
+        "startMs": 7675.0,
+        "endMs": 7837.5
+      },
+      {
+        "charIndex": 113,
+        "charLength": 3,
+        "startMs": 7837.5,
+        "endMs": 8112.500000000001
+      },
+      {
+        "charIndex": 117,
+        "charLength": 5,
+        "startMs": 8112.500000000001,
+        "endMs": 8375.0
+      },
+      {
+        "charIndex": 123,
+        "charLength": 5,
+        "startMs": 8375.0,
+        "endMs": 8650.0
+      },
+      {
+        "charIndex": 129,
+        "charLength": 8,
+        "startMs": 8650.0,
+        "endMs": 9200.0
+      },
+      {
+        "charIndex": 137,
+        "charLength": 1,
+        "startMs": 9200.0,
+        "endMs": 9300.0
+      },
+      {
+        "charIndex": 139,
+        "charLength": 4,
+        "startMs": 9300.0,
+        "endMs": 9575.0
+      },
+      {
+        "charIndex": 144,
+        "charLength": 5,
+        "startMs": 9575.0,
+        "endMs": 9837.5
+      },
+      {
+        "charIndex": 150,
+        "charLength": 3,
+        "startMs": 9837.5,
+        "endMs": 9975.0
+      },
+      {
+        "charIndex": 154,
+        "charLength": 3,
+        "startMs": 9975.0,
+        "endMs": 10225.0
+      },
+      {
+        "charIndex": 158,
+        "charLength": 6,
+        "startMs": 10225.0,
+        "endMs": 10975.0
+      },
+      {
+        "charIndex": 164,
+        "charLength": 1,
+        "startMs": 10975.0,
+        "endMs": 11125.0
+      },
+      {
+        "charIndex": 166,
+        "charLength": 3,
+        "startMs": 11550.0,
+        "endMs": 11750.0
+      },
+      {
+        "charIndex": 170,
+        "charLength": 3,
+        "startMs": 11750.0,
+        "endMs": 11850.0
+      },
+      {
+        "charIndex": 174,
+        "charLength": 7,
+        "startMs": 11850.0,
+        "endMs": 12575.0
+      },
+      {
+        "charIndex": 181,
+        "charLength": 1,
+        "startMs": 12575.0,
+        "endMs": 12725.0
+      },
+      {
+        "charIndex": 183,
+        "charLength": 8,
+        "startMs": 12725.0,
+        "endMs": 13300.0
+      },
+      {
+        "charIndex": 192,
+        "charLength": 6,
+        "startMs": 13300.0,
+        "endMs": 13612.5
+      },
+      {
+        "charIndex": 199,
+        "charLength": 2,
+        "startMs": 13612.5,
+        "endMs": 13700.0
+      },
+      {
+        "charIndex": 202,
+        "charLength": 5,
+        "startMs": 13700.0,
+        "endMs": 14000.0
+      },
+      {
+        "charIndex": 208,
+        "charLength": 7,
+        "startMs": 14000.0,
+        "endMs": 14625.0
+      },
+      {
+        "charIndex": 215,
+        "charLength": 1,
+        "startMs": 14625.0,
+        "endMs": 14750.0
+      },
+      {
+        "charIndex": 217,
+        "charLength": 8,
+        "startMs": 14750.0,
+        "endMs": 15137.5
+      },
+      {
+        "charIndex": 226,
+        "charLength": 4,
+        "startMs": 15137.5,
+        "endMs": 15437.5
+      },
+      {
+        "charIndex": 231,
+        "charLength": 4,
+        "startMs": 15437.5,
+        "endMs": 16000.0
+      },
+      {
+        "charIndex": 235,
+        "charLength": 1,
+        "startMs": 16000.0,
+        "endMs": 16112.5
+      },
+      {
+        "charIndex": 237,
+        "charLength": 8,
+        "startMs": 16112.5,
+        "endMs": 16575.0
+      },
+      {
+        "charIndex": 246,
+        "charLength": 5,
+        "startMs": 16575.0,
+        "endMs": 16850.0
+      },
+      {
+        "charIndex": 252,
+        "charLength": 3,
+        "startMs": 16850.0,
+        "endMs": 17075.0
+      },
+      {
+        "charIndex": 256,
+        "charLength": 3,
+        "startMs": 17075.0,
+        "endMs": 17650.0
+      },
+      {
+        "charIndex": 259,
+        "charLength": 1,
+        "startMs": 17650.0,
+        "endMs": 17750.0
+      },
+      {
+        "charIndex": 261,
+        "charLength": 3,
+        "startMs": 17750.0,
+        "endMs": 17850.0
+      },
+      {
+        "charIndex": 265,
+        "charLength": 5,
+        "startMs": 17850.0,
+        "endMs": 18225.0
+      },
+      {
+        "charIndex": 271,
+        "charLength": 2,
+        "startMs": 18225.0,
+        "endMs": 18387.5
+      },
+      {
+        "charIndex": 274,
+        "charLength": 5,
+        "startMs": 18387.5,
+        "endMs": 18725.0
+      },
+      {
+        "charIndex": 280,
+        "charLength": 4,
+        "startMs": 18725.0,
+        "endMs": 19000.0
+      },
+      {
+        "charIndex": 285,
+        "charLength": 7,
+        "startMs": 19000.0,
+        "endMs": 19725.0
+      },
+      {
+        "charIndex": 292,
+        "charLength": 1,
+        "startMs": 19725.0,
+        "endMs": 19875.0
+      },
+      {
+        "charIndex": 294,
+        "charLength": 3,
+        "startMs": 20225.0,
+        "endMs": 20300.0
+      },
+      {
+        "charIndex": 298,
+        "charLength": 7,
+        "startMs": 20300.0,
+        "endMs": 20775.0
+      },
+      {
+        "charIndex": 306,
+        "charLength": 3,
+        "startMs": 20775.0,
+        "endMs": 20937.5
+      },
+      {
+        "charIndex": 310,
+        "charLength": 1,
+        "startMs": 20937.5,
+        "endMs": 21000.0
+      },
+      {
+        "charIndex": 312,
+        "charLength": 9,
+        "startMs": 21000.0,
+        "endMs": 21650.0
+      },
+      {
+        "charIndex": 321,
+        "charLength": 1,
+        "startMs": 21650.0,
+        "endMs": 21725.0
+      },
+      {
+        "charIndex": 323,
+        "charLength": 1,
+        "startMs": 21725.0,
+        "endMs": 21837.5
+      },
+      {
+        "charIndex": 325,
+        "charLength": 7,
+        "startMs": 21837.5,
+        "endMs": 22375.0
+      },
+      {
+        "charIndex": 332,
+        "charLength": 1,
+        "startMs": 22375.0,
+        "endMs": 22425.0
+      },
+      {
+        "charIndex": 334,
+        "charLength": 3,
+        "startMs": 22425.0,
+        "endMs": 22537.5
+      },
+      {
+        "charIndex": 338,
+        "charLength": 3,
+        "startMs": 22537.5,
+        "endMs": 22625.0
+      },
+      {
+        "charIndex": 342,
+        "charLength": 7,
+        "startMs": 22625.0,
+        "endMs": 23000.0
+      },
+      {
+        "charIndex": 350,
+        "charLength": 4,
+        "startMs": 23000.0,
+        "endMs": 23700.0
+      },
+      {
+        "charIndex": 354,
+        "charLength": 1,
+        "startMs": 23700.0,
+        "endMs": 23837.5
+      },
+      {
+        "charIndex": 356,
+        "charLength": 4,
+        "startMs": 23837.5,
+        "endMs": 24087.5
+      },
+      {
+        "charIndex": 361,
+        "charLength": 2,
+        "startMs": 24087.5,
+        "endMs": 24175.0
+      },
+      {
+        "charIndex": 364,
+        "charLength": 4,
+        "startMs": 24175.0,
+        "endMs": 24950.0
+      },
+      {
+        "charIndex": 368,
+        "charLength": 1,
+        "startMs": 24950.0,
+        "endMs": 25075.0
+      },
+      {
+        "charIndex": 370,
+        "charLength": 2,
+        "startMs": 25075.0,
+        "endMs": 25287.5
+      },
+      {
+        "charIndex": 373,
+        "charLength": 5,
+        "startMs": 25287.5,
+        "endMs": 25750.0
+      },
+      {
+        "charIndex": 379,
+        "charLength": 2,
+        "startMs": 25750.0,
+        "endMs": 25900.0
+      },
+      {
+        "charIndex": 382,
+        "charLength": 11,
+        "startMs": 25900.0,
+        "endMs": 26700.0
+      },
+      {
+        "charIndex": 393,
+        "charLength": 1,
+        "startMs": 26700.0,
+        "endMs": 26800.0
+      },
+      {
+        "charIndex": 395,
+        "charLength": 4,
+        "startMs": 26800.0,
+        "endMs": 27050.0
+      },
+      {
+        "charIndex": 400,
+        "charLength": 4,
+        "startMs": 27050.0,
+        "endMs": 27262.5
+      },
+      {
+        "charIndex": 405,
+        "charLength": 4,
+        "startMs": 27262.5,
+        "endMs": 27612.5
+      },
+      {
+        "charIndex": 410,
+        "charLength": 7,
+        "startMs": 27612.5,
+        "endMs": 28062.5
+      },
+      {
+        "charIndex": 418,
+        "charLength": 2,
+        "startMs": 28062.5,
+        "endMs": 28137.5
+      },
+      {
+        "charIndex": 421,
+        "charLength": 3,
+        "startMs": 28137.5,
+        "endMs": 28225.0
+      },
+      {
+        "charIndex": 425,
+        "charLength": 5,
+        "startMs": 28225.0,
+        "endMs": 28662.5
+      },
+      {
+        "charIndex": 431,
+        "charLength": 5,
+        "startMs": 28662.5,
+        "endMs": 29300.0
+      },
+      {
+        "charIndex": 436,
+        "charLength": 1,
+        "startMs": 29300.0,
+        "endMs": 29487.5
+      },
+      {
+        "charIndex": 438,
+        "charLength": 6,
+        "startMs": 29487.5,
+        "endMs": 29800.0
+      },
+      {
+        "charIndex": 445,
+        "charLength": 3,
+        "startMs": 29800.0,
+        "endMs": 29900.0
+      },
+      {
+        "charIndex": 449,
+        "charLength": 4,
+        "startMs": 29900.0,
+        "endMs": 30500.0
+      },
+      {
+        "charIndex": 453,
+        "charLength": 1,
+        "startMs": 30500.0,
+        "endMs": 30625.0
+      },
+      {
+        "charIndex": 455,
+        "charLength": 3,
+        "startMs": 30625.0,
+        "endMs": 30725.0
+      },
+      {
+        "charIndex": 459,
+        "charLength": 7,
+        "startMs": 30725.0,
+        "endMs": 31312.5
+      },
+      {
+        "charIndex": 467,
+        "charLength": 5,
+        "startMs": 31312.5,
+        "endMs": 31625.0
+      },
+      {
+        "charIndex": 473,
+        "charLength": 3,
+        "startMs": 31625.0,
+        "endMs": 31725.0
+      },
+      {
+        "charIndex": 477,
+        "charLength": 5,
+        "startMs": 31725.0,
+        "endMs": 32125.0
+      },
+      {
+        "charIndex": 482,
+        "charLength": 1,
+        "startMs": 32125.0,
+        "endMs": 32200.0
+      },
+      {
+        "charIndex": 484,
+        "charLength": 3,
+        "startMs": 32200.0,
+        "endMs": 32312.5
+      },
+      {
+        "charIndex": 488,
+        "charLength": 3,
+        "startMs": 32312.5,
+        "endMs": 32400.0
+      },
+      {
+        "charIndex": 492,
+        "charLength": 7,
+        "startMs": 32400.0,
+        "endMs": 32825.0
+      },
+      {
+        "charIndex": 500,
+        "charLength": 8,
+        "startMs": 32825.0,
+        "endMs": 33387.5
+      },
+      {
+        "charIndex": 509,
+        "charLength": 3,
+        "startMs": 33387.5,
+        "endMs": 33475.0
+      },
+      {
+        "charIndex": 513,
+        "charLength": 4,
+        "startMs": 33475.0,
+        "endMs": 34125.0
+      },
+      {
+        "charIndex": 517,
+        "charLength": 1,
+        "startMs": 34125.0,
+        "endMs": 34275.0
+      }
+    ]
+  }
+}

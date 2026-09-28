@@ -1,0 +1,2151 @@
+{
+  "title": "Parcel notices · validation gate",
+  "subtitle": "Fictional review · 5 execution paths · one reproduced P2 · no production code",
+  "initialPage": "sequences",
+  "source": {
+    "kind": "snapshot",
+    "root": "source",
+    "revision": "Fictional fixture · notices v1",
+    "url": "source/{file}.html#L{line}"
+  },
+  "legend": {
+    "changed": "New validation and gate",
+    "context": "Existing notice data"
+  },
+  "map": {
+    "width": 1580,
+    "height": 770,
+    "nodes": [
+      {
+        "id": "changes",
+        "label": "Changed paths",
+        "subtitle": "PR diff against its base",
+        "file": "cli.mjs",
+        "x": 40,
+        "y": 92,
+        "w": 190,
+        "h": 76,
+        "side": "context",
+        "description": "The pull request supplies changed paths. The CLI diffs the merge commit against its first parent.",
+        "boundary": "This is the input to selection, not a list of files already validated."
+      },
+      {
+        "id": "selector",
+        "label": "Select affected notices",
+        "subtitle": "Changed text + shared code",
+        "file": "select.mjs",
+        "x": 315,
+        "y": 92,
+        "w": 210,
+        "h": 76,
+        "side": "changed",
+        "description": "Direct translation edits select one notice; an English edit brings its language variants; shared code changes select all notices.",
+        "boundary": "Confirmed gap: contracts/*.json paths match no selection branch."
+      },
+      {
+        "id": "selected",
+        "label": "Selected entries",
+        "subtitle": "May contain zero notices",
+        "file": "run.mjs",
+        "x": 620,
+        "y": 92,
+        "w": 190,
+        "h": 76,
+        "side": "changed",
+        "description": "The runner iterates only this selection. Each entry resolves an English source and an allowed-input contract.",
+        "boundary": "The size of this list is returned as checked. An empty list performs no validation.",
+        "state": true
+      },
+      {
+        "id": "english",
+        "label": "Check English",
+        "subtitle": "Syntax + allowed inputs",
+        "file": "validate.mjs",
+        "x": 925,
+        "y": 92,
+        "w": 215,
+        "h": 76,
+        "side": "changed",
+        "description": "Inspect English first and reject unknown inputs or malformed source documents.",
+        "boundary": "An invalid source ends comparison for that notice. A valid English-only entry needs no translation comparison."
+      },
+      {
+        "id": "pass",
+        "label": "CI passes · exit 0",
+        "subtitle": "No selected file has issues",
+        "file": "run.mjs",
+        "x": 1295,
+        "y": 92,
+        "w": 240,
+        "h": 76,
+        "side": "changed",
+        "description": "The runner found no issues among the entries it checked.",
+        "boundary": "This is not proof of complete coverage: checking zero notices also reaches a passing status.",
+        "state": true
+      },
+      {
+        "id": "manual",
+        "label": "Manual audit",
+        "subtitle": "Select the whole catalog",
+        "file": "cli.mjs",
+        "x": 40,
+        "y": 285,
+        "w": 190,
+        "h": 76,
+        "side": "context",
+        "description": "A user-triggered audit passes --all, bypassing changed-file selection.",
+        "boundary": "Useful for reproducing gaps in the scoped PR check. This is a separate run, not an automatic retry."
+      },
+      {
+        "id": "catalog",
+        "label": "Notice catalog",
+        "subtitle": "Source ID ≠ input contract",
+        "file": "catalog.mjs",
+        "x": 315,
+        "y": 285,
+        "w": 210,
+        "h": 76,
+        "side": "context",
+        "description": "Language variants share a source ID. Partner overrides have a separate ID but reuse the shipment contract.",
+        "boundary": "Text edits should fan out by ID; contract edits should fan out by contract."
+      },
+      {
+        "id": "contract",
+        "label": "Allowed inputs",
+        "subtitle": "Shared + direct + derived",
+        "file": "contracts.mjs",
+        "x": 620,
+        "y": 285,
+        "w": 190,
+        "h": 76,
+        "side": "changed",
+        "description": "Load the contract named by each catalog entry and combine all three input sources.",
+        "boundary": "The itemTable value is derived upstream; it is still a legal placeholder."
+      },
+      {
+        "id": "translation",
+        "label": "Compare translation",
+        "subtitle": "Same source · same contract",
+        "file": "validate.mjs",
+        "x": 925,
+        "y": 285,
+        "w": 215,
+        "h": 76,
+        "side": "changed",
+        "description": "A valid source allows candidate inspection and per-field comparison.",
+        "boundary": "The subject, preview, and body each retain their own placeholder sets. Moving a token between fields fails."
+      },
+      {
+        "id": "fail",
+        "label": "CI fails · exit 1",
+        "subtitle": "At least one file has issues",
+        "file": "run.mjs",
+        "x": 1295,
+        "y": 285,
+        "w": 240,
+        "h": 76,
+        "side": "changed",
+        "description": "The runner collects all file reports and returns one when any entry has issues.",
+        "boundary": "It continues after individual file errors, so one run can report several independent problems.",
+        "state": true
+      },
+      {
+        "id": "repair",
+        "label": "Edit and resubmit",
+        "subtitle": "Human action",
+        "file": "cli.mjs",
+        "x": 40,
+        "y": 508,
+        "w": 190,
+        "h": 76,
+        "side": "context",
+        "description": "A developer uses the report to repair the template, contract, or selector and submits another revision.",
+        "boundary": "This feedback loop is a human workflow. The validator does not mutate source files.",
+        "small": true
+      },
+      {
+        "id": "empty",
+        "label": "No matches",
+        "subtitle": "0 selected · 0 checked",
+        "file": "select.mjs",
+        "x": 315,
+        "y": 508,
+        "w": 210,
+        "h": 76,
+        "side": "changed",
+        "description": "Unrelated edits legitimately select nothing. A contract data change currently lands here as well.",
+        "boundary": "The missing dependency expansion is in selection, not in the validator.",
+        "state": true
+      },
+      {
+        "id": "false-green",
+        "label": "False green check",
+        "subtitle": "0 checked · exit 0",
+        "file": "reproduce.mjs",
+        "x": 620,
+        "y": 508,
+        "w": 190,
+        "h": 76,
+        "side": "changed",
+        "description": "The reproduction removes trackingUrl without touching templates; the scoped run checks zero notices and passes.",
+        "boundary": "The contract still has five consumers. Their failures are invisible to the scoped run.",
+        "state": true
+      },
+      {
+        "id": "field-checks",
+        "label": "Per-field checks",
+        "subtitle": "Presence · missing · unexpected",
+        "file": "validate.mjs",
+        "x": 925,
+        "y": 508,
+        "w": 215,
+        "h": 76,
+        "side": "changed",
+        "description": "Absent fields, missing names, unexpected names, and unknown inputs are separate issues.",
+        "boundary": "Token order and repetition are allowed. Meaning and visual layout remain human review work.",
+        "small": true
+      },
+      {
+        "id": "finding",
+        "label": "Full audit: 5 failures",
+        "subtitle": "Confirmed P2 reproduction",
+        "file": "reproduce.mjs",
+        "x": 1295,
+        "y": 508,
+        "w": 240,
+        "h": 76,
+        "side": "changed",
+        "description": "The same modified contract fails five notices under --all, including two partner overrides.",
+        "boundary": "Fix selection by expanding changed contracts to every catalog entry that uses them.",
+        "state": true
+      }
+    ],
+    "edges": [
+      {
+        "to": "selector",
+        "d": "M230 130H315",
+        "label": "supplies paths",
+        "x": 272,
+        "y": 113,
+        "secondary": false,
+        "from": "changes"
+      },
+      {
+        "to": "selected",
+        "d": "M525 130H620",
+        "label": "affected entries",
+        "x": 572,
+        "y": 113,
+        "secondary": false,
+        "from": "selector"
+      },
+      {
+        "to": "english",
+        "d": "M810 130H925",
+        "label": "for each",
+        "x": 867,
+        "y": 113,
+        "secondary": false,
+        "from": "selected"
+      },
+      {
+        "to": "pass",
+        "d": "M1140 113H1295",
+        "label": "valid English-only entry",
+        "x": 1215,
+        "y": 96,
+        "secondary": false,
+        "from": "english"
+      },
+      {
+        "to": "translation",
+        "d": "M1032 168V285",
+        "label": "source valid",
+        "x": 1084,
+        "y": 234,
+        "secondary": false,
+        "from": "english"
+      },
+      {
+        "to": "fail",
+        "d": "M1140 154H1185V323H1295",
+        "label": "invalid source",
+        "x": 1239,
+        "y": 306,
+        "secondary": false,
+        "from": "english"
+      },
+      {
+        "to": "pass",
+        "d": "M1140 302H1225V149H1295",
+        "label": "matches",
+        "x": 1265,
+        "y": 213,
+        "secondary": false,
+        "from": "translation"
+      },
+      {
+        "to": "fail",
+        "d": "M1140 339H1295",
+        "label": "translation issues",
+        "x": 1214,
+        "y": 357,
+        "secondary": false,
+        "from": "translation"
+      },
+      {
+        "to": "selector",
+        "d": "M135 285V230H345V168",
+        "label": "--all",
+        "x": 263,
+        "y": 216,
+        "secondary": true,
+        "from": "manual"
+      },
+      {
+        "to": "catalog",
+        "d": "M420 168V285",
+        "label": "reads dependencies",
+        "x": 489,
+        "y": 260,
+        "secondary": true,
+        "from": "selector"
+      },
+      {
+        "to": "contract",
+        "d": "M525 323H620",
+        "label": "names contract",
+        "x": 572,
+        "y": 306,
+        "secondary": true,
+        "from": "catalog"
+      },
+      {
+        "to": "english",
+        "d": "M810 323H864V157H925",
+        "label": "allowed names",
+        "x": 866,
+        "y": 218,
+        "secondary": true,
+        "from": "contract"
+      },
+      {
+        "to": "field-checks",
+        "d": "M1032 361V508",
+        "label": "compares each field",
+        "x": 1110,
+        "y": 444,
+        "secondary": true,
+        "from": "translation"
+      },
+      {
+        "to": "empty",
+        "d": "M525 150H565V471H420V508",
+        "label": "no matches",
+        "x": 614,
+        "y": 453,
+        "secondary": false,
+        "from": "selector"
+      },
+      {
+        "to": "false-green",
+        "d": "M525 546H620",
+        "label": "contract-only edit",
+        "x": 572,
+        "y": 529,
+        "secondary": false,
+        "from": "empty"
+      },
+      {
+        "to": "finding",
+        "d": "M715 584V649H1415V584",
+        "label": "Run --all on the same input: the validator catches the breakage",
+        "x": 1082,
+        "y": 671,
+        "secondary": true,
+        "from": "false-green"
+      },
+      {
+        "to": "repair",
+        "d": "M1415 361V413H20V546H40",
+        "label": "report guides a human repair",
+        "x": 332,
+        "y": 404,
+        "secondary": true,
+        "from": "fail"
+      },
+      {
+        "to": "changes",
+        "d": "M40 546H8V130H40",
+        "label": "",
+        "x": 0,
+        "y": 0,
+        "secondary": true,
+        "from": "repair"
+      },
+      {
+        "to": "repair",
+        "d": "M1415 584V713H135V584",
+        "label": "Fix selection: expand by contract, including partner overrides",
+        "x": 735,
+        "y": 734,
+        "secondary": true,
+        "from": "finding"
+      }
+    ],
+    "sections": [
+      {
+        "label": "SCOPE THE WORK",
+        "x": 40,
+        "y": 28,
+        "width": 760
+      },
+      {
+        "label": "VALIDATE EACH NOTICE · AGGREGATE THE RESULT",
+        "x": 925,
+        "y": 28,
+        "width": 610
+      }
+    ],
+    "boundaries": [
+      {
+        "x1": 875,
+        "y1": 80,
+        "x2": 875,
+        "y2": 620,
+        "label": "SELECTED ONLY",
+        "labelX": 875,
+        "labelY": 64,
+        "anchor": "middle"
+      }
+    ],
+    "captions": [
+      {
+        "text": "Empty selection bypasses validation.",
+        "x": 540,
+        "y": 608,
+        "anchor": "middle"
+      },
+      {
+        "text": "Failure paths report issues; they do not stop the batch.",
+        "x": 1535,
+        "y": 388,
+        "anchor": "end"
+      }
+    ],
+    "beats": [
+      {
+        "target": "changes",
+        "title": "Start with changed paths",
+        "text": "This review adds a pull request gate for parcel notices. Start with the changed paths on the left, then follow selection, source validation, translation comparison, and the final check status."
+      },
+      {
+        "target": "selector",
+        "title": "Select the right work",
+        "text": "An English text edit brings its language variants. A direct translation edit selects one notice. Shared code changes, or a manual full audit, select the whole catalog. The catalog has two relationships: source identity and input contract."
+      },
+      {
+        "target": "selected",
+        "title": "Coverage boundary",
+        "text": "Crossing this boundary means a notice was actually selected for validation. The runner resolves English and loads the allowed input contract for each selected entry. An empty list never crosses this boundary."
+      },
+      {
+        "target": "contract",
+        "title": "Three input sources",
+        "text": "Allowed names come from shared inputs, direct inputs, and derived values. The item table is produced before rendering, but remains legal in a template. Partner overrides use the same contract as their base notice."
+      },
+      {
+        "target": "english",
+        "title": "English comes first",
+        "text": "English must parse and use known input names. A broken source goes straight to the failure report for that notice. A valid English only entry is done. A translated entry continues down to comparison."
+      },
+      {
+        "target": "translation",
+        "title": "Compare each field",
+        "text": "The translation must retain the subject, preview, and body fields, with the same placeholder sets in each. Moving the item table into another field fails. These checks prove syntax and input parity, not the meaning of the translated prose."
+      },
+      {
+        "target": "fail",
+        "title": "Collect issues, then repair",
+        "text": "Any file issues make the check fail. The runner still gathers the remaining results. The lower feedback path is a human action: edit the source or selection logic and submit another revision."
+      },
+      {
+        "target": "empty",
+        "title": "The bypass matters",
+        "text": "There is another route. A contract only edit matches no selection branch, so the scoped run checks zero notices and passes. That empty selection is the false green path, even though five notices depend on the changed contract."
+      },
+      {
+        "target": "finding",
+        "title": "Verify the finding",
+        "text": "The same edit fails five notices in a full audit. That confirms the validator works and selection is incomplete. The fix is to follow the contract relationship to every consumer, including partner overrides. The reproduction is included in the source."
+      }
+    ]
+  },
+  "cards": {
+    "workflow": {
+      "file": ".github/workflows/notices.yml",
+      "start": 1,
+      "end": 22,
+      "label": "New · PR gate and manual catalog audit",
+      "context": [
+        [
+          1,
+          22
+        ]
+      ]
+    },
+    "cli": {
+      "file": "cli.mjs",
+      "start": 1,
+      "end": 17,
+      "label": "New · Git diff, report, exit status",
+      "context": [
+        [
+          1,
+          17
+        ]
+      ]
+    },
+    "selector": {
+      "file": "select.mjs",
+      "start": 1,
+      "end": 12,
+      "label": "New · Affected-file selection",
+      "context": [
+        [
+          1,
+          12
+        ]
+      ]
+    },
+    "catalog": {
+      "file": "catalog.mjs",
+      "start": 1,
+      "end": 8,
+      "label": "Existing · Language variants and partner overrides",
+      "context": [
+        [
+          1,
+          8
+        ]
+      ]
+    },
+    "contract": {
+      "file": "contracts.mjs",
+      "start": 1,
+      "end": 6,
+      "label": "New · Read shared, direct, and derived inputs",
+      "context": [
+        [
+          1,
+          6
+        ]
+      ]
+    },
+    "shipment-contract": {
+      "file": "contracts/shipment.json",
+      "start": 1,
+      "end": 4,
+      "label": "Existing · Shipment input contract",
+      "context": [
+        [
+          1,
+          4
+        ]
+      ]
+    },
+    "shared": {
+      "file": "shared.mjs",
+      "start": 1,
+      "end": 2,
+      "label": "Existing · Shared renderer inputs",
+      "context": [
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    "inspector": {
+      "file": "inspect.mjs",
+      "start": 1,
+      "end": 24,
+      "label": "New · Parse the restricted notice format",
+      "context": [
+        [
+          1,
+          24
+        ]
+      ]
+    },
+    "document-check": {
+      "file": "validate.mjs",
+      "start": 1,
+      "end": 14,
+      "label": "New · Parse failures and unknown inputs",
+      "context": [
+        [
+          1,
+          14
+        ]
+      ]
+    },
+    "parity": {
+      "file": "validate.mjs",
+      "start": 16,
+      "end": 36,
+      "label": "New · Source-first, field-by-field comparison",
+      "context": [
+        [
+          16,
+          36
+        ]
+      ]
+    },
+    "runner": {
+      "file": "run.mjs",
+      "start": 1,
+      "end": 21,
+      "label": "New · Resolve source, collect issues, aggregate status",
+      "context": [
+        [
+          1,
+          21
+        ]
+      ]
+    },
+    "english": {
+      "file": "templates/en/shipment.json",
+      "start": 1,
+      "end": 5,
+      "label": "Existing · Canonical English notice",
+      "context": [
+        [
+          1,
+          5
+        ]
+      ]
+    },
+    "french": {
+      "file": "templates/fr/shipment.json",
+      "start": 1,
+      "end": 5,
+      "label": "Existing · French variant",
+      "context": [
+        [
+          1,
+          5
+        ]
+      ]
+    },
+    "partner": {
+      "file": "templates/en/shipment-partner.json",
+      "start": 1,
+      "end": 5,
+      "label": "Existing · Partner override, same input contract",
+      "context": [
+        [
+          1,
+          5
+        ]
+      ]
+    },
+    "repro": {
+      "file": "reproduce.mjs",
+      "start": 1,
+      "end": 20,
+      "label": "Review evidence · Contract-only regression",
+      "context": [
+        [
+          1,
+          20
+        ]
+      ]
+    }
+  },
+  "sequences": [
+    {
+      "id": "selection",
+      "title": "Select affected files",
+      "subtitle": "PR path · English edits fan out to translations. Shared changes audit the catalog.",
+      "actors": [
+        "Workflow",
+        "CLI",
+        "Selector",
+        "Catalog"
+      ],
+      "file": "select.mjs",
+      "rows": [
+        {
+          "text": "A pull request starts the gate. The checkout includes the merge commit and its first parent. The command compares those revisions, so the change list describes this pull request.",
+          "cards": [
+            "workflow",
+            "cli"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "node cli.mjs --base HEAD^1"
+            },
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "git diff --name-only -z base HEAD"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "A pull request",
+              "card": "workflow",
+              "ranges": [
+                [
+                  17,
+                  19
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "checkout includes",
+              "card": "workflow",
+              "ranges": [
+                [
+                  11,
+                  13
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 13,
+                "text": "2"
+              }
+            },
+            {
+              "phrase": "compares those revisions",
+              "card": "cli",
+              "ranges": [
+                [
+                  11,
+                  13
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 12,
+                "text": "process.argv[baseIndex + 1]"
+              }
+            }
+          ]
+        },
+        {
+          "text": "The runner gives the changed paths to the selector. An English shipment edit adds that notice identifier to the affected set. The catalog then supplies its English, French, and German variants.",
+          "cards": [
+            "runner",
+            "selector",
+            "catalog"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 1,
+              "to": 2,
+              "label": "selectAffected(changed, catalog)"
+            },
+            {
+              "kind": "call",
+              "from": 2,
+              "to": 3,
+              "label": "Match source IDs and their variants"
+            },
+            {
+              "kind": "return",
+              "from": 3,
+              "to": 2,
+              "label": "shipment: en, fr, de"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The runner",
+              "card": "runner",
+              "ranges": [
+                [
+                  6,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "An English shipment edit",
+              "card": "selector",
+              "ranges": [
+                [
+                  7,
+                  9
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 8,
+                "text": "entry.locale === 'en'"
+              }
+            },
+            {
+              "phrase": "its English",
+              "card": "catalog",
+              "ranges": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 2,
+                "text": "'en'"
+              }
+            },
+            {
+              "phrase": "French",
+              "card": "catalog",
+              "ranges": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 3,
+                "text": "'fr'"
+              }
+            },
+            {
+              "phrase": "German variants",
+              "card": "catalog",
+              "ranges": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 4,
+                "text": "'de'"
+              }
+            }
+          ]
+        },
+        {
+          "text": "A French only edit selects one file. Changing shared inputs selects the whole catalog instead. This distinction keeps small reviews fast without skipping consumers of a shared definition.",
+          "cards": [
+            "selector",
+            "shared"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 2,
+              "to": 2,
+              "label": "Translation edit → one entry"
+            },
+            {
+              "kind": "local",
+              "from": 2,
+              "to": 2,
+              "label": "shared.mjs edit → every entry"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 1,
+              "label": "Selected catalog entries"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "A French only edit",
+              "card": "selector",
+              "ranges": [
+                [
+                  10,
+                  11
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 11,
+                "text": "changed.includes(entry.file)"
+              }
+            },
+            {
+              "phrase": "Changing shared inputs",
+              "card": "selector",
+              "ranges": [
+                [
+                  2,
+                  5
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 2,
+                "text": "changed.includes('shared.mjs')"
+              }
+            },
+            {
+              "phrase": "shared definition",
+              "card": "shared",
+              "ranges": [
+                [
+                  2,
+                  2
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 2,
+                "text": "sharedInputs"
+              }
+            }
+          ]
+        },
+        {
+          "text": "Partner notices are separate source identities. They share a contract, but an English shipment text edit does not select the partner text. Keep source dependencies separate from contract dependencies; that distinction matters in the final finding.",
+          "cards": [
+            "catalog",
+            "partner",
+            "selector"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 2,
+              "to": 2,
+              "label": "Text identity ≠ contract identity"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 1,
+              "label": "Only the matching source family"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "Partner notices",
+              "card": "catalog",
+              "ranges": [
+                [
+                  5,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "share a contract",
+              "card": "catalog",
+              "ranges": [
+                [
+                  5,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 5,
+                "text": "contract: 'shipment'"
+              }
+            },
+            {
+              "phrase": "does not select",
+              "card": "selector",
+              "ranges": [
+                [
+                  9,
+                  11
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 11,
+                "text": "changedSources.has(entry.id)"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "source",
+      "title": "Validate the source",
+      "subtitle": "Source path · Build the allowed-input set, parse the document, reject invalid English first.",
+      "actors": [
+        "Runner",
+        "Contract",
+        "Validator",
+        "Inspector"
+      ],
+      "file": "validate.mjs",
+      "rows": [
+        {
+          "text": "The runner resolves the English source before comparing any translation. It loads the contract selected by the catalog entry. Missing sources or unreadable contracts become file errors, rather than silently passing.",
+          "cards": [
+            "runner",
+            "contract"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 0,
+              "to": 0,
+              "label": "Find English source for the same notice ID"
+            },
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "loadContract(entry.contract, read)"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "Allowed input names, or load error"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The runner resolves",
+              "card": "runner",
+              "ranges": [
+                [
+                  9,
+                  10
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "loads the contract",
+              "card": "contract",
+              "ranges": [
+                [
+                  3,
+                  5
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 4,
+                "text": "JSON.parse(read(`contracts/${name}.json`))"
+              }
+            },
+            {
+              "phrase": "become file errors",
+              "card": "runner",
+              "ranges": [
+                [
+                  15,
+                  16
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 16,
+                "text": "'load-error'"
+              }
+            }
+          ]
+        },
+        {
+          "text": "The allowed set combines three sources. Shared inputs provide the brand name and support link. Direct inputs supply the recipient and tracking link. Derived values add the item table, which is built before rendering. All three are allowed in the template.",
+          "cards": [
+            "contract",
+            "shipment-contract",
+            "shared"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "Union shared + inputs + derived"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "brandName, supportUrl, recipient, trackingUrl, itemTable"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The allowed set",
+              "card": "contract",
+              "ranges": [
+                [
+                  3,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Shared inputs",
+              "card": "contract",
+              "ranges": [
+                [
+                  3,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 5,
+                "text": "sharedInputs"
+              }
+            },
+            {
+              "phrase": "Direct inputs",
+              "card": "contract",
+              "ranges": [
+                [
+                  3,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 5,
+                "text": "inputs"
+              }
+            },
+            {
+              "phrase": "Derived values",
+              "card": "contract",
+              "ranges": [
+                [
+                  3,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 5,
+                "text": "derived"
+              }
+            },
+            {
+              "phrase": "All three",
+              "card": "contract",
+              "ranges": [
+                [
+                  3,
+                  6
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 5,
+                "text": "new Set([...sharedInputs, ...inputs, ...derived])"
+              }
+            }
+          ]
+        },
+        {
+          "text": "The inspector parses data, not executable template code. It requires a nonempty body, then reads placeholders separately from each field. Repeated names collapse into a set; their order and repetition are not part of this contract.",
+          "cards": [
+            "inspector",
+            "english"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 2,
+              "to": 3,
+              "label": "inspect(sourceText)"
+            },
+            {
+              "kind": "local",
+              "from": 3,
+              "to": 3,
+              "label": "Parse JSON, validate body, collect names"
+            },
+            {
+              "kind": "return",
+              "from": 3,
+              "to": 2,
+              "label": "Tokens grouped by subject, preview, body"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The inspector parses",
+              "card": "inspector",
+              "ranges": [
+                [
+                  4,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "requires a nonempty body",
+              "card": "inspector",
+              "ranges": [
+                [
+                  8,
+                  9
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 8,
+                "text": "!document.body.trim()"
+              }
+            },
+            {
+              "phrase": "reads placeholders separately",
+              "card": "inspector",
+              "ranges": [
+                [
+                  12,
+                  17
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 12,
+                "text": "field",
+                "occurrence": 1
+              }
+            },
+            {
+              "phrase": "Repeated names collapse",
+              "card": "inspector",
+              "ranges": [
+                [
+                  21,
+                  21
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 21,
+                "text": "new Set(names)"
+              }
+            }
+          ]
+        },
+        {
+          "text": "Unknown inputs are reported with their field and source side. Malformed placeholders become document errors. If English is invalid, validation returns immediately; blaming every translation for a broken source would hide the real cause.",
+          "cards": [
+            "document-check",
+            "inspector",
+            "parity"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 2,
+              "to": 2,
+              "label": "Reject names outside the allowed set"
+            },
+            {
+              "kind": "return",
+              "from": 3,
+              "to": 2,
+              "label": "Exception: malformed placeholder"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 0,
+              "label": "Source issues; skip translation comparison"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "Unknown inputs",
+              "card": "document-check",
+              "ranges": [
+                [
+                  7,
+                  9
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Malformed placeholders",
+              "card": "inspector",
+              "ranges": [
+                [
+                  18,
+                  19
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 18,
+                "text": "remainder.includes('{{')"
+              }
+            },
+            {
+              "phrase": "returns immediately",
+              "card": "parity",
+              "ranges": [
+                [
+                  17,
+                  18
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 18,
+                "text": "return original.issues"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "translation",
+      "title": "Compare translations",
+      "subtitle": "Failure path · A missing item table, a moved placeholder, and a missing subject are different issues.",
+      "actors": [
+        "Runner",
+        "Validator",
+        "Inspector",
+        "Report"
+      ],
+      "file": "validate.mjs",
+      "rows": [
+        {
+          "text": "Once English is valid, the candidate translation is inspected with the same allowed set. A broken document returns its parse error. Otherwise, comparison continues, retaining any unknown input errors already found.",
+          "cards": [
+            "parity",
+            "document-check",
+            "french"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "validate(English, French, allowed)"
+            },
+            {
+              "kind": "call",
+              "from": 1,
+              "to": 2,
+              "label": "checkDocument(translation)"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 1,
+              "label": "Tokens and candidate issues"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "Once English is valid",
+              "card": "parity",
+              "ranges": [
+                [
+                  19,
+                  21
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "same allowed set",
+              "card": "document-check",
+              "ranges": [
+                [
+                  7,
+                  9
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 8,
+                "text": "allowed.has(name)"
+              }
+            },
+            {
+              "phrase": "comparison continues",
+              "card": "parity",
+              "ranges": [
+                [
+                  20,
+                  21
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 21,
+                "text": "...candidate.issues"
+              }
+            }
+          ]
+        },
+        {
+          "text": "Each field is compared independently. Removing the subject produces a field presence issue. Moving the item table from the body into the preview also fails; preserving a name somewhere in the document is not enough.",
+          "cards": [
+            "parity",
+            "english"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "Compare subject, preview, and body separately"
+            },
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "Missing field → field-presence issue"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "Each field",
+              "card": "parity",
+              "ranges": [
+                [
+                  22,
+                  24
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Removing the subject",
+              "card": "parity",
+              "ranges": [
+                [
+                  25,
+                  27
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 26,
+                "text": "'field-presence'"
+              }
+            },
+            {
+              "phrase": "Moving the item table",
+              "card": "english",
+              "ranges": [
+                [
+                  3,
+                  4
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 4,
+                "text": "{{itemTable}}"
+              }
+            }
+          ]
+        },
+        {
+          "text": "The validator compares the names in both directions. Missing names appear in English but not in the translation. Unexpected names appear in the translation but not in English. Moving the item table into the preview produces one mismatch in each field, even though the contract allows that input.",
+          "cards": [
+            "parity",
+            "shipment-contract"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "missing = expected − actual"
+            },
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "unexpected = actual − expected"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 3,
+              "label": "token-mismatch per affected field"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The validator",
+              "card": "parity",
+              "ranges": [
+                [
+                  29,
+                  33
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Missing names",
+              "card": "parity",
+              "ranges": [
+                [
+                  29,
+                  33
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 29,
+                "text": "!actual.includes(name)"
+              }
+            },
+            {
+              "phrase": "Unexpected names",
+              "card": "parity",
+              "ranges": [
+                [
+                  29,
+                  33
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 30,
+                "text": "!expected.includes(name)"
+              }
+            },
+            {
+              "phrase": "one mismatch in each field",
+              "card": "parity",
+              "ranges": [
+                [
+                  29,
+                  33
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 32,
+                "text": "field, missing, unexpected"
+              }
+            },
+            {
+              "phrase": "contract allows",
+              "card": "shipment-contract",
+              "ranges": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 3,
+                "text": "\"itemTable\""
+              }
+            }
+          ]
+        },
+        {
+          "text": "A valid French translation returns no issues. This proves placeholder parity and basic syntax, not translation quality or visual layout. Reordering a sentence or repeating a recipient is permitted; the gate compares sets rather than prose.",
+          "cards": [
+            "parity",
+            "inspector",
+            "french"
+          ],
+          "messages": [
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "[] — no syntax or contract issues"
+            },
+            {
+              "kind": "local",
+              "from": 0,
+              "to": 0,
+              "label": "Meaning and layout still need human review"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "A valid French translation",
+              "card": "parity",
+              "ranges": [
+                [
+                  35,
+                  35
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "placeholder parity",
+              "card": "french",
+              "ranges": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "message": 0,
+              "point": "code"
+            },
+            {
+              "phrase": "compares sets",
+              "card": "inspector",
+              "ranges": [
+                [
+                  21,
+                  21
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 21,
+                "text": "new Set(names)"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "title": "Return a CI result",
+      "subtitle": "Aggregation path · Keep checking after one failure; publish all issues and a nonzero exit status.",
+      "actors": [
+        "Workflow",
+        "CLI",
+        "Runner",
+        "Validator"
+      ],
+      "file": "run.mjs",
+      "rows": [
+        {
+          "text": "The runner processes every selected catalog entry. A load failure is attached to that file, and the remaining entries still run. This lets one check report several independent problems instead of stopping at the first exception.",
+          "cards": [
+            "runner"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 1,
+              "to": 2,
+              "label": "run(selected catalog entries)"
+            },
+            {
+              "kind": "call",
+              "from": 2,
+              "to": 3,
+              "label": "validate each entry"
+            },
+            {
+              "kind": "return",
+              "from": 3,
+              "to": 2,
+              "label": "Issues for this file; continue the batch"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "every selected catalog entry",
+              "card": "runner",
+              "ranges": [
+                [
+                  7,
+                  8
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "A load failure",
+              "card": "runner",
+              "ranges": [
+                [
+                  15,
+                  16
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 16,
+                "text": "'load-error'"
+              }
+            },
+            {
+              "phrase": "remaining entries still run",
+              "card": "runner",
+              "ranges": [
+                [
+                  7,
+                  7
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 7,
+                "text": "selected.map"
+              }
+            }
+          ]
+        },
+        {
+          "text": "The result includes the checked count and every file report. If any file has issues, the exit code is one. The command prints the report and forwards that status to the workflow, so a validation failure blocks the check.",
+          "cards": [
+            "runner",
+            "cli",
+            "workflow"
+          ],
+          "messages": [
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 1,
+              "label": "{ checked, results, exitCode }"
+            },
+            {
+              "kind": "local",
+              "from": 1,
+              "to": 1,
+              "label": "Print report; set process.exitCode"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 0,
+              "label": "Exit 1 if any file failed"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The result includes",
+              "card": "runner",
+              "ranges": [
+                [
+                  19,
+                  20
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "prints the report",
+              "card": "cli",
+              "ranges": [
+                [
+                  16,
+                  17
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 16,
+                "text": "JSON.stringify(report, null, 2)"
+              }
+            },
+            {
+              "phrase": "blocks the check",
+              "card": "workflow",
+              "ranges": [
+                [
+                  17,
+                  19
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 19,
+                "text": "--base HEAD^1"
+              }
+            }
+          ]
+        },
+        {
+          "text": "A manual audit selects the entire catalog. That full run is useful for investigating a suspicious green pull request check. A zero exit code only describes the selected files; it says nothing about files the selector forgot.",
+          "cards": [
+            "workflow",
+            "selector",
+            "runner"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 1,
+              "label": "node cli.mjs --all"
+            },
+            {
+              "kind": "local",
+              "from": 2,
+              "to": 2,
+              "label": "Return every catalog entry"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 1,
+              "label": "Complete audit report"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "A manual audit",
+              "card": "workflow",
+              "ranges": [
+                [
+                  20,
+                  22
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "entire catalog",
+              "card": "selector",
+              "ranges": [
+                [
+                  2,
+                  5
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 2,
+                "text": "all"
+              }
+            },
+            {
+              "phrase": "selected files",
+              "card": "runner",
+              "ranges": [
+                [
+                  19,
+                  20
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 19,
+                "text": "results.length"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "finding",
+      "title": "A false green check",
+      "subtitle": "Confirmed P2 · Contract-only changes check zero notices. The full audit catches five failures.",
+      "actors": [
+        "Reproduction",
+        "Selector",
+        "Runner",
+        "Contract"
+      ],
+      "file": "reproduce.mjs",
+      "rows": [
+        {
+          "text": "Here is a reproduced review finding. Remove the tracking link input from the shipment contract without editing any templates. Five notices still use that input: three language variants, plus two partner overrides.",
+          "cards": [
+            "repro",
+            "shipment-contract",
+            "catalog"
+          ],
+          "messages": [
+            {
+              "kind": "local",
+              "from": 0,
+              "to": 0,
+              "label": "Remove trackingUrl from shipment contract"
+            },
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 2,
+              "label": "run(contract-only changed path)"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "reproduced review finding",
+              "card": "repro",
+              "ranges": [
+                [
+                  6,
+                  6
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "Remove the tracking link",
+              "card": "repro",
+              "ranges": [
+                [
+                  10,
+                  12
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 11,
+                "text": "name !== 'trackingUrl'"
+              }
+            },
+            {
+              "phrase": "Five notices still use",
+              "card": "catalog",
+              "ranges": [
+                [
+                  2,
+                  6
+                ]
+              ],
+              "message": 1,
+              "point": "code"
+            }
+          ]
+        },
+        {
+          "text": "The selector only recognizes template edits and a fixed list of shared files. Contract data paths match neither branch. It returns an empty selection, and the runner reports success after checking zero files.",
+          "cards": [
+            "selector",
+            "runner",
+            "repro"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 2,
+              "to": 1,
+              "label": "selectAffected([contracts/shipment.json])"
+            },
+            {
+              "kind": "return",
+              "from": 1,
+              "to": 2,
+              "label": "[] — no selected entries"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 0,
+              "label": "checked: 0, exitCode: 0"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The selector only recognizes",
+              "card": "selector",
+              "ranges": [
+                [
+                  2,
+                  11
+                ]
+              ],
+              "message": 0,
+              "point": "diagram"
+            },
+            {
+              "phrase": "empty selection",
+              "card": "repro",
+              "ranges": [
+                [
+                  16,
+                  17
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 16,
+                "text": "scoped.checked, 0"
+              }
+            },
+            {
+              "phrase": "reports success",
+              "card": "runner",
+              "ranges": [
+                [
+                  19,
+                  20
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 20,
+                "text": "results.some(result => result.issues.length)"
+              }
+            }
+          ]
+        },
+        {
+          "text": "The full audit fails on all five dependents, confirming the validator works. The fix belongs in selection: map changed contracts to every catalog entry using them, including partner overrides. Keep this reproduction as a regression test before calling the gate reliable.",
+          "cards": [
+            "repro",
+            "catalog",
+            "selector"
+          ],
+          "messages": [
+            {
+              "kind": "call",
+              "from": 0,
+              "to": 2,
+              "label": "run(all: true)"
+            },
+            {
+              "kind": "call",
+              "from": 2,
+              "to": 3,
+              "label": "Load the modified contract for all dependents"
+            },
+            {
+              "kind": "return",
+              "from": 2,
+              "to": 0,
+              "label": "Exit 1; five affected notices fail"
+            }
+          ],
+          "phases": [
+            {
+              "phrase": "The full audit fails",
+              "card": "repro",
+              "ranges": [
+                [
+                  18,
+                  19
+                ]
+              ],
+              "message": 2,
+              "point": "diagram"
+            },
+            {
+              "phrase": "fix belongs in selection",
+              "card": "selector",
+              "ranges": [
+                [
+                  7,
+                  11
+                ]
+              ],
+              "message": 0,
+              "point": "code",
+              "codeTarget": {
+                "line": 11,
+                "text": "changedSources.has(entry.id)"
+              }
+            },
+            {
+              "phrase": "including partner overrides",
+              "card": "catalog",
+              "ranges": [
+                [
+                  5,
+                  6
+                ]
+              ],
+              "message": 1,
+              "point": "code",
+              "codeTarget": {
+                "line": 5,
+                "text": "contract: 'shipment'"
+              }
+            },
+            {
+              "phrase": "regression test",
+              "card": "repro",
+              "ranges": [
+                [
+                  14,
+                  19
+                ]
+              ],
+              "message": 2,
+              "point": "code",
+              "codeTarget": {
+                "line": 19,
+                "text": "full.results.filter(result => result.issues.length).length, 5"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

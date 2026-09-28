@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A 54-second narrated code review: one order, three consumers, and exact token pointing.">
+  <title>Review Story — try the live review</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root { color-scheme: light; }
+    body { margin: 0; color: #263249; background: #f5f6fa; font: 15px/1.55 system-ui,sans-serif; }
+    .intro { padding: 25px 28px 22px; display: flex; gap: 24px; align-items: center; justify-content: space-between; }
+    h1 { margin: 0; font-size: 28px; letter-spacing: -.9px; }
+    .intro p { margin: 5px 0 0; color: #626d81; max-width: 800px; }
+    .eyebrow { color: #7950b6; font-size: 11px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; }
+    a { color: #68409e; text-underline-offset: 3px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; flex-shrink: 0; }
+    .button { display: inline-block; padding: 9px 14px; text-decoration: none; border: 1px solid #d6cee5; border-radius: 8px; background: white; font-weight: 600; font-size: 13px; }
+    .primary { color: white; background: #7044b3; border-color: #7044b3; }
+    .demo { margin: 0 16px; border: 1px solid #dce1eb; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 7px 30px #20334d09; }
+    .demo-bar { display:flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 17px; border-bottom: 1px solid #e5e8ef; font-size: 12px; color: #667288; }
+    .demo-bar b { color: #46526b; font-weight: 600; }
+    iframe { display:block; width:100%; height:calc(100dvh - 200px); min-height:680px; border:0; background:white; }
+    .notes { max-width: 1100px; margin: auto; padding: 30px 26px 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .notes > div { min-width: 0; }
+    h2 { margin:0 0 10px; font-size:19px; letter-spacing:-.3px; }
+    p { margin:8px 0; }
+    .notes p { color:#667288; }
+    ol { padding-left:20px; }
+    li { margin:6px 0; }
+    pre { overflow-x:auto; background:#eaeef5; padding:14px; border-radius:8px; font:12px/1.65 ui-monospace,monospace; }
+    .small { font-size:12px; }
+    a:focus-visible { outline:3px solid #9f80cd; outline-offset:4px; }
+    @media (max-width: 800px) { .intro { display:block; padding:20px; } .actions { margin-top:16px; } .demo { margin:0; border-radius:0; } .demo-bar { flex-wrap:wrap; } iframe { height:1150px; } .notes { grid-template-columns:1fr; gap:24px; } }
+  </style>
+</head>
+<body>
+  <header class="intro">
+    <div><div class="eyebrow">A code review you can follow</div><h1>Review Story</h1><p>Listen to the explanation. Watch the execution path. Follow the pointer to the exact token being discussed.</p></div>
+    <nav class="actions" aria-label="Demo links"><a class="button primary" href="review.html">Open full screen ↗</a><a class="button" href="https://github.com/theronburger/review-story">GitHub &amp; install</a></nav>
+  </header>
+  <main>
+    <div class="demo">
+      <div class="demo-bar"><b>One order. Three consumers.</b><span>Press ▶ Play · 54 seconds · map → two code sequences</span></div>
+      <iframe src="review.html" title="Interactive narrated showcase: one order, three consumers" allow="autoplay; fullscreen"></iframe>
+    </div>
+    <section class="notes">
+      <div><h2>See it in under a minute</h2><ol><li>An order-paid event wakes inventory, receipts, and shipping.</li><li>Watch the pointer visit the three consumer calls.</li><li>Follow a receipt's total, payload, and retry path in exact code.</li></ol><p>Press Play once. After the short map introduction, the demo moves directly into the code. Click any node or message to inspect it, or choose Manual to pause between beats.</p><p>Nearby targets slide automatically, horizontally or vertically. The author only chooses what to explain.</p><p class="small">All source and narration were created for this fictional example. <a href="https://github.com/theronburger/review-story/tree/main/examples/checkout">Read the showcase source</a> · <a href="notices.html">Explore a longer review</a>.</p></div>
+      <div><h2>Use the skill</h2><pre>git clone https://github.com/theronburger/review-story.git
+cd review-story
+mkdir -p ~/.codex/skills
+ln -s "$PWD/skills/review-story" ~/.codex/skills/review-story</pre><p>Ask: <code>Use $review-story to review these PRs.</code></p><p><a href="review.html" download="review-story-demo.html">Download the standalone player</a> · <a href="catalog.html">Smaller starter example</a> · <a href="https://github.com/theronburger/review-story/blob/main/skills/review-story/references/authoring.md">Authoring guide</a></p><p class="small">The player includes its audio and works offline. Full-source links are separate pages; clone the repo to keep those offline too.</p></div>
+    </section>
+  </main>
+</body>
+</html>

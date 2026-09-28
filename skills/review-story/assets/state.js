@@ -20,6 +20,8 @@ let tourPointer = document.getElementById("tour-pointer"),
 let activePhaseKey = "",
   pointerPathNow = null,
   pointerStart = 0,
+  pointerDuration = 0.62,
+  pointerGrouped = false,
   codeBeatId = "";
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const formatTime = (t) =>

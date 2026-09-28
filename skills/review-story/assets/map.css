@@ -210,23 +210,22 @@ svg text {
 .hint p {
   margin: 0;
 }
+.detail-slot {
+  /* Hover must not change document height or scroll anchoring. */
+  height: 160px;
+}
 .detail {
-  position: absolute;
-  z-index: 3;
-  width: 330px;
-  padding: 18px 20px;
-  background: #fff;
-  border: 1px solid #dde3ec;
-  border-radius: 12px;
-  box-shadow: 0 12px 45px #1f34501c;
-  text-align: left;
-  pointer-events: none;
-}
-.detail[hidden] {
-  display: none;
-}
-.detail.pinned {
-  pointer-events: auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: 190px 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+  height: 100%;
+  padding: 18px 30px 0 0;
+  border-top: 1px solid #edf0f4;
+  overflow: auto;
+  scrollbar-width: thin;
 }
 .detail .kind {
   font-size: 10px;
@@ -240,24 +239,22 @@ svg text {
 }
 .detail h2 {
   font-size: 17px;
-  margin: 6px 22px 9px 0;
+  margin: 6px 0 0;
   letter-spacing: -0.3px;
 }
 .detail p {
+  max-width: 490px;
   font-size: 13px;
   line-height: 1.55;
   color: #5a687c;
   margin: 0;
 }
 .detail .boundary-note {
-  margin-top: 11px;
-  padding-top: 10px;
-  border-top: 1px solid #eef0f4;
   color: #384b63;
 }
 .detail a {
   display: inline-block;
-  margin-top: 12px;
+  margin-top: 9px;
   font-size: 12px;
   color: #356aa4;
   text-decoration: none;
@@ -267,26 +264,29 @@ svg text {
 }
 .detail .close {
   position: absolute;
-  right: 10px;
-  top: 9px;
+  right: 4px;
+  top: 6px;
   background: none;
   border: 0;
   font-size: 21px;
   color: #7d8b9c;
   cursor: pointer;
 }
-.detail:not(.pinned) .close,
-.detail:not(.pinned) a {
+.detail:not(.pinned) .close {
   display: none;
 }
-.detail .click-hint {
-  display: block;
-  font-size: 11px;
-  color: #8b97a6;
-  margin-top: 12px;
+.hint {
+  border: 0;
+  padding-top: 8px;
 }
-.detail.pinned .click-hint {
-  display: none;
+.diagram {
+  margin-bottom: 4px;
+}
+.node .node-title {
+  font-size: 17px;
+}
+.legend {
+  gap: 14px;
 }
 @media (prefers-reduced-motion: reduce) {
   .node,
@@ -294,14 +294,16 @@ svg text {
     transition: none;
   }
 }
-@media (max-width: 760px) {
-  main {
-    padding: 20px 14px;
-  }
+@media (max-width: 1000px) {
   header {
     align-items: flex-start;
     flex-direction: column;
-    gap: 13px;
+    gap: 12px;
+  }
+}
+@media (max-width: 760px) {
+  main {
+    padding: 20px 14px;
   }
   h1 {
     font-size: 22px;
@@ -319,96 +321,13 @@ svg text {
     gap: 6px;
   }
   .detail {
-    position: fixed;
-    left: 14px !important;
-    right: 14px !important;
-    bottom: 14px;
-    top: auto !important;
-    width: auto;
-    max-width: 450px;
-  }
-}
-
-.detail {
-  position: relative;
-  left: auto !important;
-  top: auto !important;
-  width: 100%;
-  padding: 18px 0 0;
-  border: 0;
-  border-top: 1px solid #edf0f4;
-  border-radius: 0;
-  box-shadow: none;
-  display: grid;
-  grid-template-columns: 190px 1fr 1fr;
-  gap: 24px;
-  align-items: start;
-  min-height: 130px;
-  pointer-events: auto;
-}
-.detail[hidden] {
-  display: none;
-}
-.detail .identity h2 {
-  margin: 6px 0 0;
-}
-.detail .boundary-note {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-.detail .close {
-  right: 0;
-  top: -30px;
-}
-.detail a {
-  margin-top: 9px;
-}
-.detail .click-hint {
-  display: none;
-}
-.detail:not(.pinned) a {
-  display: inline-block;
-}
-.hint {
-  border: 0;
-  padding-top: 8px;
-}
-.diagram {
-  margin-bottom: 4px;
-}
-.detail p {
-  max-width: 490px;
-}
-@media (max-width: 760px) {
-  .detail {
-    position: relative;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto;
-    max-width: none;
     grid-template-columns: 1fr;
     gap: 12px;
-    min-height: 0;
+  }
+  .detail-slot {
+    height: 240px;
   }
 }
-.detail {
-  min-height: 160px;
-}
-.node .node-title {
-  font-size: 17px;
-}
-.legend {
-  gap: 14px;
-}
-@media (max-width: 1000px) {
-  header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
 @media (min-width: 1550px) {
   main {
     max-width: 1800px;
