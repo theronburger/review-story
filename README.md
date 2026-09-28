@@ -1,59 +1,47 @@
 # Review Story
 
-A skill for narrated code reviews. Diagrams, source highlights, and a cursor pointing to the exact token follow the spoken explanation.
+A skill for turning piles of incomprencible AI babble into nice narrated easy to consume stories with pointing and stuff
 
-**[▶ Try the working demo — no install needed](https://theronburger.github.io/review-story/)**
+It outputs simple HTML pages with narrated stories. The paradigm is well thought through but the review is up to you. This is just for the viewer. BYO review ideology. 
+
+### [👉 Here is a live demo of what it outputs](https://theronburger.github.io/review-story/)
+
 
 [![One order, three consumers: a 54-second narrated showcase](docs/preview.gif)](https://theronburger.github.io/review-story/)
 
-GitHub strips the scripts needed to run this player inside a Markdown README. The preview above links to a GitHub Pages README with the **real, interactive player embedded**. Press Play there, or [open it full screen](https://theronburger.github.io/review-story/review.html).
 
-**The whole demo takes 54 seconds.** Start with a familiar order-paid event and a map of inventory, receipts, and shipping. After 19 seconds, playback moves straight into two short sequences: three consumers starting together, then a receipt's calculation, payload, and retry path. The cursor slides across nearby nodes and exact tokens automatically. All source and narration were written for this fictional showcase.
 
 ## Install
 
 ```sh
-git clone https://github.com/theronburger/review-story.git
-cd review-story
-mkdir -p ~/.codex/skills
-ln -s "$PWD/skills/review-story" ~/.codex/skills/review-story
+uh, hey, agent, I want this thing https://github.com/theronburger/review-story.git 
+make it so
 ```
 
-Then request:
+
+## Usage
 
 ```text
-Use $review-story to review these stacked PRs against main.
-Start with the territory map, then explain the execution paths.
+My gosh thats a lot of code. Use that review story thing or whatever to make it hurt less please
 ```
 
-## Explore the demo
+## Wow thats neat! Tell me more!
+Think what you may of vibe coding it's very hard to justify rolling every line by hand when modern LLMs can produce pretty reasonable code at scale. 
 
-Press Play once for the map and both sequences. Jump to **One event, three calls** for vertical pointing, or **Build and send a receipt** for the horizontal `subtotal + shipping - discount` sweep. The surrounding code stays highlighted. Choose Manual to pause after each beat and continue with Space.
+Coding is however just one small aspect of bringing software into being. 
+We generally start with an intuition. That intuition comes from context.
 
-After cloning, open `docs/index.html` for the embedded demo or `docs/review.html` for the standalone player. Playback works offline; full-source pages are included in `docs/source/`.
+That context, hard won as it is, for software engineers at least, was mostly a side effect. 
 
-- [Showcase source and narration](examples/checkout/)
-- [Extended review with a reproduced finding](examples/notices/) · [play it](https://theronburger.github.io/review-story/notices.html)
-- [Smaller starter example](examples/catalog/review.json) · [play it](https://theronburger.github.io/review-story/catalog.html)
-- [Authoring and speech generation](skills/review-story/references/authoring.md)
+You had to buffer a significant portion of the system in your mind to be able to manipulate it. LLMs remove that constraint. Now you can just prompt from the upstream intuition and its passable a good portion of the time. 
 
-## Build and check
+Notice the catch? If you don't [get to the beat of the system](https://donellameadows.org/archives/dancing-with-systems/) your interaction with it will be jarring, for yourself, for the person using the software and for the agent building it. 
 
-The demo uses pre-generated local speech and measured word timings. Rebuilding does not need speech models:
+This is my attempt to retain some level of visibility on the complexity that streams past my nose. 
 
-```sh
-npm ci
-npm run build   # Python 3.10+ and ffmpeg; embeds compact MP3 audio
-npm test
-```
 
-For a WAV build using only Python:
-
-```sh
-python3 skills/review-story/scripts/build.py examples/checkout/review.json \
-  --audio examples/checkout/audio --out docs/review.html --source-pages docs/source/checkout
-```
-
-Tests cover fixture behavior and the reproduced finding, source extraction, cue alignment, player controls, visibility, and cursor geometry. DOM tests mock layout and audio; browser playback is checked separately.
-
-For GitHub Pages, publish `docs/` from `main`. Rebuild and commit the generated files to publish a demo update. Use `npm run build:extended` and `npm run build:starter` to rebuild the additional examples.
+## Customization
+This is not a piece of software, its a recipe 
+Don't like the voice? Pick another
+Its using [Kokoro TTS](https://huggingface.co/hexgrad/Kokoro-82M) under the hood
+https://huggingface.co/spaces/hexgrad/Kokoro-TTS has a preview of the other voices 
