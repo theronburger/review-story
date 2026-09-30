@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Add the repository demo's presentation without changing the skill player."""
+import argparse
 import base64
 import json
 import subprocess
-import sys
 import tempfile
 from pathlib import Path
 
@@ -19,7 +19,7 @@ def embedded_audio(name):
         return 'data:audio/mpeg;base64,' + base64.b64encode(compressed.read_bytes()).decode()
 
 
-def add_intro(output):
+def add_intro(output, home=None):
     page = Path(output).read_text()
     if 'id="demo-intro"' in page:
         raise ValueError('Build the base review before adding the intro.')
@@ -36,8 +36,14 @@ def add_intro(output):
     page = page.replace('<body>', '<body class="demo-intro-visible">\n' + markup)
     page = page.replace('</body>', '<script>\n' + script + '\n</script>\n</body>')
     Path(output).write_text(page)
+    if home:
+        Path(home).write_text(page.replace('<div class="demo-transport"', '<div hidden class="demo-transport"', 1))
     print('Added silent RFC and PR intro with click-to-start narration')
 
 
 if __name__ == '__main__':
-    add_intro(sys.argv[1])
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('output')
+    parser.add_argument('--home', help='Write the public homepage without intro editing controls')
+    args = parser.parse_args()
+    add_intro(args.output, args.home)

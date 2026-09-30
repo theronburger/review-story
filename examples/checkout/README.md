@@ -11,8 +11,8 @@ chunks with a gradual acceleration. The chat ends with a real **Send** button on
 “OK! Sound is on”; narration begins only when it is clicked.
 
 Use **Skip intro** to open the review paused, or **Intro** to replay the opening.
-Pause or scrub the intro to inspect any moment, including the final chat. The
-animation holds there until Send. A 19-second guide then highlights the controls,
+Open `docs/review.html` to pause or scrub the intro and inspect any moment,
+including the final chat. The animation holds there until Send. A 19-second guide then highlights the controls,
 spoken captions, scene tabs, and overview before the review begins. The opening,
 guide, and review total about 91 seconds,
 plus however long you wait before enabling sound.
@@ -45,7 +45,9 @@ npm run build
 
 ## Recording and editing the video
 
-The interactive Pages demo is `docs/index.html` → `docs/review.html`. Keep using
+The interactive Pages demo fills `docs/index.html` directly, with no frame or
+intro editing controls. The build generates it alongside `docs/review.html`,
+which retains those controls for editing. Keep using
 `docs/video.html` to preview the narrated video opening at 1920×1080. Both versions
 share the review and guide, while `intro/video.js`, `intro/video.css`, and
 `intro/video-narration.*` preserve the video-specific dialogue and timing.

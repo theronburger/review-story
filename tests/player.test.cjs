@@ -912,15 +912,22 @@ test("page tabs preserve independent positions and map selection works", () => {
   }
 });
 
-test("HTML README embeds the demo; playback resources and source links are present", () => {
-  const readme = new JSDOM(
+test("Pages runs the full demo without intro editing controls; playback resources and source links are present", () => {
+  const homepage = new JSDOM(
     fs.readFileSync(path.join(repo, "docs/index.html"), "utf8"),
   );
-  assert.equal(
-    readme.window.document.querySelector("iframe").getAttribute("src"),
-    "review.html",
+  const home = homepage.window.document;
+  assert.equal(home.querySelector("iframe"), null);
+  assert(home.querySelector("#demo-intro"));
+  assert(home.querySelector("#operations-map"));
+  assert(home.querySelector(".demo-transport").hidden);
+  assert(!home.querySelector(".demo-skip").hidden);
+  const preview = new JSDOM(
+    fs.readFileSync(path.join(repo, "docs/review.html"), "utf8"),
   );
-  readme.window.close();
+  assert(!preview.window.document.querySelector(".demo-transport").hidden);
+  preview.window.close();
+  homepage.window.close();
   const dom = new JSDOM(html),
     document = dom.window.document;
   assert.equal(
