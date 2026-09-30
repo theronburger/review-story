@@ -3,30 +3,12 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import sys
 from pathlib import Path
 import uuid
 
 VOICES = {"af_heart": "Heart", "af_bella": "Bella", "af_nicole": "Nicole", "bf_emma": "Emma", "bf_isabella": "Isabella"}
 VERSION = "kokoro-0.9.4-timings-1"
 RATE = 24_000
-
-
-def _prefer_system_espeak_on_macos():
-    if sys.platform != "darwin":
-        return
-    import shutil
-
-    binary = shutil.which("espeak-ng")
-    if not binary:
-        return
-    system_library = Path(binary).resolve().parent.parent / "lib" / "libespeak-ng.dylib"
-    if not system_library.is_file():
-        return
-    from phonemizer.backend.espeak.wrapper import EspeakWrapper
-
-    EspeakWrapper.set_library(str(system_library))
-    EspeakWrapper.set_data_path(None)
 
 
 def utf16_length(text: str) -> int:
@@ -72,8 +54,6 @@ class Renderer:
         import numpy as np
         import soundfile as sf
         from kokoro import KPipeline
-
-        _prefer_system_espeak_on_macos()
 
         language = voice[0]
         if language not in self.pipelines:
