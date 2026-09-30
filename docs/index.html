@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="A 54-second narrated code review: one order, three consumers, and exact token pointing.">
+  <meta name="description" content="Ask an agent for a review, then follow the diagram and exact code. A 90-second narrated demo.">
   <title>Review Story — try the live review</title>
   <style>
     * { box-sizing: border-box; }
@@ -37,19 +37,19 @@
 <body>
   <header class="intro">
     <div><div class="eyebrow">A code review you can follow</div><h1>Review Story</h1><p>Listen to the explanation. Watch the execution path. Follow the pointer to the exact token being discussed.</p></div>
-    <nav class="actions" aria-label="Demo links"><a class="button primary" href="review.html">Open full screen ↗</a><a class="button" href="https://github.com/theronburger/review-story">GitHub &amp; install</a></nav>
+    <nav class="actions" aria-label="Demo links"><a class="button primary" href="review.html">Open full screen ↗</a><a class="button" href="https://github.com/user-attachments/assets/03d19cbf-868c-4b62-809f-c2aa50806035">Watch the video</a><a class="button" href="https://github.com/theronburger/review-story">GitHub &amp; install</a></nav>
   </header>
   <main>
     <div class="demo">
-      <div class="demo-bar"><b>One order. Three consumers.</b><span>Press ▶ Play · 54 seconds · map → two code sequences</span></div>
+      <div class="demo-bar"><b>One order. Three consumers.</b><span>Silent intro → Send for sound · RFCs → PRs → chat → review</span></div>
       <iframe src="review.html" title="Interactive narrated showcase: one order, three consumers" allow="autoplay; fullscreen"></iframe>
     </div>
     <section class="notes">
-      <div><h2>See it in under a minute</h2><ol><li>An order-paid event wakes inventory, receipts, and shipping.</li><li>Watch the pointer visit the three consumer calls.</li><li>Follow a receipt's total, payload, and retry path in exact code.</li></ol><p>Press Play once. After the short map introduction, the demo moves directly into the code. Click any node or message to inspect it, or choose Manual to pause between beats.</p><p>Nearby targets slide automatically, horizontally or vertically. The author only chooses what to explain.</p><p class="small">All source and narration were created for this fictional example. <a href="https://github.com/theronburger/review-story/tree/main/examples/checkout">Read the showcase source</a> · <a href="notices.html">Explore a longer review</a>.</p></div>
+      <div><h2>A lot of code. One clear story.</h2><ol><li>Two verbose RFCs and three fictional pull requests pile up to 103,271 lines.</li><li>An order-paid event wakes inventory, receipts, and shipping.</li><li>Follow the consumer calls, a receipt's total, and its retry path in exact code.</li></ol><p>The opening plays silently. Press Send on “OK! Sound is on” to start the narrated review, with pointing and words following the voice. Use Skip intro to open the review paused. Click any node or message to inspect it, or choose Manual to pause between beats.</p><p>Nearby targets slide automatically, horizontally or vertically. The author only chooses what to explain.</p><p class="small">All source and narration were created for this fictional example. <a href="https://github.com/theronburger/review-story/tree/main/examples/checkout">Read the showcase source</a> · <a href="notices.html">Explore a longer review</a>.</p></div>
       <div><h2>Use the skill</h2><pre>git clone https://github.com/theronburger/review-story.git
 cd review-story
 mkdir -p ~/.codex/skills
-ln -s "$PWD/skills/review-story" ~/.codex/skills/review-story</pre><p>Ask: <code>Use $review-story to review these PRs.</code></p><p><a href="review.html" download="review-story-demo.html">Download the standalone player</a> · <a href="catalog.html">Smaller starter example</a> · <a href="https://github.com/theronburger/review-story/blob/main/skills/review-story/references/authoring.md">Authoring guide</a></p><p class="small">The player includes its audio and works offline. Full-source links are separate pages; clone the repo to keep those offline too.</p></div>
+ln -s "$PWD/skills/review-story" ~/.codex/skills/review-story</pre><p>Ask: <code>Use $review-story to review these PRs.</code></p><p><a href="review.html" download="review-story-demo.html">Download the standalone player</a> · <a href="catalog.html">Smaller starter example</a> · <a href="https://github.com/theronburger/review-story/blob/main/skills/review-story/references/authoring.md">Authoring guide</a></p><p class="small">The player includes its audio and works offline. Full-source links are separate pages; clone the repo to keep those offline too.</p><p class="small"><a href="video.html">Editable 1080p video preview</a> · <a href="https://github.com/theronburger/review-story/releases/tag/demo-2026-09-30">Recorded demo archive</a></p></div>
     </section>
   </main>
 </body>

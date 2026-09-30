@@ -1,0 +1,36 @@
+{
+  "recordedOn": "2026-09-30",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "durationSeconds": 98,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC",
+  "sizeBytes": 23346508,
+  "sha256": "2c3b606eced590dec8391e9c7900f84fe3238e5fea017c0a612c3c811bd2cf15",
+  "releaseTag": "demo-2026-09-30",
+  "readmeAttachment": "https://github.com/user-attachments/assets/03d19cbf-868c-4b62-809f-c2aa50806035",
+  "captureFormat": "JPEG frames from the browser tool",
+  "audioTimeline": [
+    {
+      "id": "demo-video-audio",
+      "at": 0,
+      "offset": 0
+    },
+    {
+      "id": "demo-tutorial-audio",
+      "at": 24.1,
+      "offset": 0
+    },
+    {
+      "id": "tour-audio",
+      "at": 42.8,
+      "offset": 0
+    },
+    {
+      "id": "sequence-audio",
+      "at": 62.2,
+      "offset": 0
+    }
+  ]
+}

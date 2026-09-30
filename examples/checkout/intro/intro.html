@@ -1,0 +1,30 @@
+<section id="demo-intro" aria-label="Review Story demo introduction" data-step="cards">
+  <header class="demo-topbar">
+    <a class="demo-brand" href="https://github.com/theronburger/review-story" target="_blank" rel="noopener noreferrer" aria-label="Review Story on GitHub">__INTRO_GITHUB__</a>
+    <button class="demo-skip" type="button">Skip intro <span aria-hidden="true">↗</span></button>
+    <div class="pr-total" aria-label="Total changed lines" hidden><span class="pr-added">+<b class="pr-total-added"></b></span><span class="pr-removed">−<b class="pr-total-removed"></b></span></div>
+  </header>
+  <div class="demo-pr-stage" aria-label="Fictional RFCs and pull requests"><div class="pr-stack"></div><div class="pr-chaff" aria-hidden="true"></div></div>
+  <div class="demo-backdrop" aria-hidden="true"></div>
+  <div class="demo-stage">
+    <div class="demo-chat" aria-label="Simulated agent conversation" aria-hidden="true">
+      <div class="demo-prompt">
+        <div class="demo-prompt-text"><span class="demo-typed"></span><span class="demo-caret" aria-hidden="true"></span></div>
+      </div>
+      <div class="demo-assistant" aria-hidden="true">
+        <div class="demo-answer">
+          <p class="demo-reply"></p>
+        </div>
+      </div>
+      <form class="demo-confirm" aria-label="Turn on narration" aria-hidden="true">
+        <p class="demo-confirm-text"></p>
+        <button class="demo-send" type="submit" aria-label="Send and start narrated review" title="Send and start narrated review" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button>
+      </form>
+    </div>
+  </div>
+  <div class="demo-transport" role="group" aria-label="Intro playback">
+    <button class="demo-pause" type="button" aria-label="Pause intro animation">Ⅱ Pause</button>
+    <input class="demo-seek" type="range" min="0" step="0.01" value="0" aria-label="Intro position">
+    <output class="demo-time">0:00</output>
+  </div>
+</section>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Review Story · 1080p video preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px; background: #e9e9ec; color: #27272b; font: 14px system-ui,sans-serif; }
+    header { width: min(100%,1200px); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    h1 { font-size: 16px; margin: 0; }
+    header span { color: #74747e; font-size: 12px; }
+    .frame { position: relative; width: min(calc(100vw - 48px),calc((100dvh - 160px) * 16 / 9)); aspect-ratio: 16/9; flex-shrink: 0; overflow: hidden; background: #fff; box-shadow: 0 8px 38px #1818201c; }
+    iframe { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; border: 0; transform-origin: top left; }
+    .controls { width: min(100%,1000px); display: flex; align-items: center; gap: 10px; }
+    button { border: 1px solid #d6d6de; background: #fff; border-radius: 8px; padding: 9px 13px; font: inherit; white-space: nowrap; cursor: pointer; }
+    button:first-child { background: #28272d; border-color: #28272d; color: #fff; }
+    button:disabled { opacity: .4; cursor: default; }
+    input { min-width: 80px; flex: 1; accent-color: #7650c8; }
+    output { font: 12px ui-monospace,monospace; white-space: nowrap; color: #656570; }
+    @media (max-width: 700px) { .controls { flex-wrap: wrap; } input { flex-basis: 50%; } header span { display: none; } }
+  </style>
+</head>
+<body>
+  <header><h1>Video preview <span>· 1920 × 1080</span></h1><span>Spoken dialogue → quick guide → walkthrough</span></header>
+  <div class="frame"><iframe src="review.html?video=1&amp;clean=1" title="1920 by 1080 Review Story video preview" allow="autoplay"></iframe></div>
+  <div class="controls" role="group" aria-label="Video preview controls">
+    <button id="play" disabled>Play from start</button>
+    <button id="dialogue" disabled>Preview new dialogue</button>
+    <button id="guide" disabled>Preview guide</button>
+    <button id="pause" disabled>Play</button>
+    <input id="position" type="range" min="0" step="0.01" value="0" aria-label="Preview position" disabled>
+    <output id="time">Loading…</output>
+  </div>
+  <script>
+    const frame = document.querySelector('iframe'), stage = document.querySelector('.frame'),
+      play = document.getElementById('play'), dialogue = document.getElementById('dialogue'), guide = document.getElementById('guide'),
+      pause = document.getElementById('pause'), position = document.getElementById('position'), time = document.getElementById('time');
+    new ResizeObserver(() => { frame.style.transform = `scale(${stage.clientWidth / 1920})`; }).observe(stage);
+    function controls() {
+      const page = frame.contentDocument, intro = page.getElementById('demo-intro'), inIntro = !intro.inert && !intro.hidden;
+      return {page, inIntro, inGuide: !page.getElementById('demo-tutorial').hidden, button: page.querySelector(inIntro ? '.demo-pause' : '#tour-play'),
+        slider: page.querySelector(inIntro ? '.demo-seek' : '#tour-seek'),
+        clock: page.querySelector(inIntro ? '.demo-time' : '#tour-time')};
+    }
+    function start(at = 0) {
+      const page = frame.contentDocument;
+      page.getElementById('demo-replay').click();
+      if (at) {
+        const slider = page.querySelector('.demo-seek');
+        slider.value = String(at);
+        slider.dispatchEvent(new frame.contentWindow.Event('input', {bubbles:true}));
+      }
+      page.querySelector('.demo-pause').click();
+    }
+    play.addEventListener('click', () => start());
+    dialogue.addEventListener('click', () => start(12.8));
+    guide.addEventListener('click', () => start(Number(frame.contentDocument.querySelector('.demo-seek').max) - .05));
+    pause.addEventListener('click', () => controls().button.click());
+    position.addEventListener('input', () => {
+      const {slider} = controls();
+      slider.value = position.value;
+      slider.dispatchEvent(new frame.contentWindow.Event('input', {bubbles:true}));
+    });
+    frame.addEventListener('load', () => {
+      for (const control of [play, dialogue, guide, pause, position]) control.disabled = false;
+      function update() {
+        const current = controls();
+        pause.textContent = current.button.textContent;
+        position.max = current.slider.max;
+        if (document.activeElement !== position) position.value = current.slider.value;
+        const phase = current.inIntro ? 'Intro' : current.inGuide ? 'Guide' : 'Review';
+        position.setAttribute('aria-label', `${phase} position`);
+        time.textContent = `${phase} ${current.clock.textContent}`;
+        requestAnimationFrame(update);
+      }
+      update();
+    });
+  </script>
+</body>
+</html>

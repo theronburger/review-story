@@ -1,0 +1,348 @@
+{
+  "voice": "af_heart",
+  "pronunciations": {
+    "up": "\u028cp"
+  },
+  "durationMs": 18700.0,
+  "fadeStartMs": 18200.0,
+  "messages": [
+    {
+      "title": "Playback controls",
+      "target": ".tour-controls",
+      "text": "The review story controls are up here.",
+      "startMs": 350,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 3,
+          "startMs": 625.0,
+          "endMs": 700.0
+        },
+        {
+          "charIndex": 4,
+          "charLength": 6,
+          "startMs": 700.0,
+          "endMs": 1050.0
+        },
+        {
+          "charIndex": 11,
+          "charLength": 5,
+          "startMs": 1050.0,
+          "endMs": 1375.0
+        },
+        {
+          "charIndex": 17,
+          "charLength": 8,
+          "startMs": 1375.0,
+          "endMs": 1850.0
+        },
+        {
+          "charIndex": 26,
+          "charLength": 3,
+          "startMs": 1850.0,
+          "endMs": 1975.0
+        },
+        {
+          "charIndex": 30,
+          "charLength": 2,
+          "startMs": 1975.0,
+          "endMs": 2125.0
+        },
+        {
+          "charIndex": 33,
+          "charLength": 4,
+          "startMs": 2125.0,
+          "endMs": 2625.0
+        },
+        {
+          "charIndex": 37,
+          "charLength": 1,
+          "startMs": 2625.0,
+          "endMs": 2800.0
+        }
+      ]
+    },
+    {
+      "title": "Spoken words",
+      "target": "#tour-caption",
+      "text": "The spoken words are here. Notice it highlights the word I'm speaking. If you pause, its easy to jump to the surrounding context because the cursor is visible",
+      "startMs": 3100.0,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 3,
+          "startMs": 3350.0,
+          "endMs": 3450.0
+        },
+        {
+          "charIndex": 4,
+          "charLength": 6,
+          "startMs": 3450.0,
+          "endMs": 3900.0
+        },
+        {
+          "charIndex": 11,
+          "charLength": 5,
+          "startMs": 3900.0,
+          "endMs": 4250.0
+        },
+        {
+          "charIndex": 17,
+          "charLength": 3,
+          "startMs": 4250.0,
+          "endMs": 4375.0
+        },
+        {
+          "charIndex": 21,
+          "charLength": 4,
+          "startMs": 4375.0,
+          "endMs": 4975.0
+        },
+        {
+          "charIndex": 25,
+          "charLength": 1,
+          "startMs": 4975.0,
+          "endMs": 5125.0
+        },
+        {
+          "charIndex": 27,
+          "charLength": 6,
+          "startMs": 5125.0,
+          "endMs": 5550.0
+        },
+        {
+          "charIndex": 34,
+          "charLength": 2,
+          "startMs": 5550.0,
+          "endMs": 5662.5
+        },
+        {
+          "charIndex": 37,
+          "charLength": 10,
+          "startMs": 5662.5,
+          "endMs": 6175.0
+        },
+        {
+          "charIndex": 48,
+          "charLength": 3,
+          "startMs": 6175.0,
+          "endMs": 6275.0
+        },
+        {
+          "charIndex": 52,
+          "charLength": 4,
+          "startMs": 6275.0,
+          "endMs": 6512.5
+        },
+        {
+          "charIndex": 57,
+          "charLength": 3,
+          "startMs": 6512.5,
+          "endMs": 6700.0
+        },
+        {
+          "charIndex": 61,
+          "charLength": 8,
+          "startMs": 6700.0,
+          "endMs": 7600.0
+        },
+        {
+          "charIndex": 69,
+          "charLength": 1,
+          "startMs": 7600.0,
+          "endMs": 7725.0
+        },
+        {
+          "charIndex": 71,
+          "charLength": 2,
+          "startMs": 7725.0,
+          "endMs": 7900.0
+        },
+        {
+          "charIndex": 74,
+          "charLength": 3,
+          "startMs": 7900.0,
+          "endMs": 8037.5
+        },
+        {
+          "charIndex": 78,
+          "charLength": 5,
+          "startMs": 8037.5,
+          "endMs": 8700.0
+        },
+        {
+          "charIndex": 83,
+          "charLength": 1,
+          "startMs": 8700.0,
+          "endMs": 8800.0
+        },
+        {
+          "charIndex": 85,
+          "charLength": 3,
+          "startMs": 8800.0,
+          "endMs": 9000.0
+        },
+        {
+          "charIndex": 89,
+          "charLength": 4,
+          "startMs": 9000.0,
+          "endMs": 9325.0
+        },
+        {
+          "charIndex": 94,
+          "charLength": 2,
+          "startMs": 9325.0,
+          "endMs": 9462.5
+        },
+        {
+          "charIndex": 97,
+          "charLength": 4,
+          "startMs": 9462.5,
+          "endMs": 9775.0
+        },
+        {
+          "charIndex": 102,
+          "charLength": 2,
+          "startMs": 9775.0,
+          "endMs": 9862.5
+        },
+        {
+          "charIndex": 105,
+          "charLength": 3,
+          "startMs": 9862.5,
+          "endMs": 9950.0
+        },
+        {
+          "charIndex": 109,
+          "charLength": 11,
+          "startMs": 9950.0,
+          "endMs": 10475.0
+        },
+        {
+          "charIndex": 121,
+          "charLength": 7,
+          "startMs": 10475.0,
+          "endMs": 11262.5
+        },
+        {
+          "charIndex": 129,
+          "charLength": 7,
+          "startMs": 11262.5,
+          "endMs": 11600.0
+        },
+        {
+          "charIndex": 137,
+          "charLength": 3,
+          "startMs": 11600.0,
+          "endMs": 11700.0
+        },
+        {
+          "charIndex": 141,
+          "charLength": 6,
+          "startMs": 11700.0,
+          "endMs": 12175.0
+        },
+        {
+          "charIndex": 148,
+          "charLength": 2,
+          "startMs": 12175.0,
+          "endMs": 12325.0
+        },
+        {
+          "charIndex": 151,
+          "charLength": 7,
+          "startMs": 12325.0,
+          "endMs": 13075.0
+        }
+      ]
+    },
+    {
+      "title": "Scenes",
+      "target": ".page-tabs",
+      "text": "These tabs switch between scenes.",
+      "startMs": 13475.0,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 5,
+          "startMs": 13750.0,
+          "endMs": 13975.0
+        },
+        {
+          "charIndex": 6,
+          "charLength": 4,
+          "startMs": 13975.0,
+          "endMs": 14325.0
+        },
+        {
+          "charIndex": 11,
+          "charLength": 6,
+          "startMs": 14325.0,
+          "endMs": 14575.0
+        },
+        {
+          "charIndex": 18,
+          "charLength": 7,
+          "startMs": 14575.0,
+          "endMs": 14937.5
+        },
+        {
+          "charIndex": 26,
+          "charLength": 6,
+          "startMs": 14937.5,
+          "endMs": 15650.0
+        },
+        {
+          "charIndex": 32,
+          "charLength": 1,
+          "startMs": 15650.0,
+          "endMs": 15800.0
+        }
+      ]
+    },
+    {
+      "title": "The overview",
+      "target": "#page-map .diagram",
+      "text": "Let's start with an overview.",
+      "startMs": 16100.0,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 5,
+          "startMs": 16400.0,
+          "endMs": 16650.0
+        },
+        {
+          "charIndex": 6,
+          "charLength": 5,
+          "startMs": 16650.0,
+          "endMs": 16937.5
+        },
+        {
+          "charIndex": 12,
+          "charLength": 4,
+          "startMs": 16937.5,
+          "endMs": 17062.5
+        },
+        {
+          "charIndex": 17,
+          "charLength": 2,
+          "startMs": 17062.5,
+          "endMs": 17150.0
+        },
+        {
+          "charIndex": 20,
+          "charLength": 8,
+          "startMs": 17150.0,
+          "endMs": 17925.0
+        },
+        {
+          "charIndex": 28,
+          "charLength": 1,
+          "startMs": 17925.0,
+          "endMs": 18100.0
+        }
+      ]
+    }
+  ]
+}

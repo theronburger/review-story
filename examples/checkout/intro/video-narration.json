@@ -1,0 +1,222 @@
+{
+  "voice": "af_heart",
+  "spokenPrefix": "A hundred and three kay",
+  "pronunciations": {
+    "controversial": "k\u02cc\u0251nt\u0279\u0259v\u02c8\u025c\u0279\u0283\u0259l"
+  },
+  "durationMs": 24075.0,
+  "loaderStartMs": 20050.0,
+  "readyStartMs": 21050.0,
+  "messages": [
+    {
+      "text": "103k lines? Doable. I'll walk you through the context you need and the bits that feel controversial.",
+      "startMs": 12800,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 4,
+          "startMs": 13075.0,
+          "endMs": 13162.5
+        },
+        {
+          "charIndex": 0,
+          "charLength": 4,
+          "startMs": 13162.5,
+          "endMs": 13600.0
+        },
+        {
+          "charIndex": 0,
+          "charLength": 4,
+          "startMs": 13600.0,
+          "endMs": 13737.5
+        },
+        {
+          "charIndex": 0,
+          "charLength": 4,
+          "startMs": 13737.5,
+          "endMs": 13975.0
+        },
+        {
+          "charIndex": 0,
+          "charLength": 4,
+          "startMs": 13975.0,
+          "endMs": 14200.0
+        },
+        {
+          "charIndex": 5,
+          "charLength": 5,
+          "startMs": 14200.0,
+          "endMs": 14850.0
+        },
+        {
+          "charIndex": 10,
+          "charLength": 1,
+          "startMs": 14850.0,
+          "endMs": 14987.5
+        },
+        {
+          "charIndex": 12,
+          "charLength": 6,
+          "startMs": 14987.5,
+          "endMs": 15725.0
+        },
+        {
+          "charIndex": 18,
+          "charLength": 1,
+          "startMs": 15725.0,
+          "endMs": 15850.0
+        },
+        {
+          "charIndex": 20,
+          "charLength": 4,
+          "startMs": 15850.0,
+          "endMs": 16025.0
+        },
+        {
+          "charIndex": 25,
+          "charLength": 4,
+          "startMs": 16025.0,
+          "endMs": 16275.0
+        },
+        {
+          "charIndex": 30,
+          "charLength": 3,
+          "startMs": 16275.0,
+          "endMs": 16425.0
+        },
+        {
+          "charIndex": 34,
+          "charLength": 7,
+          "startMs": 16425.0,
+          "endMs": 16612.5
+        },
+        {
+          "charIndex": 42,
+          "charLength": 3,
+          "startMs": 16612.5,
+          "endMs": 16700.0
+        },
+        {
+          "charIndex": 46,
+          "charLength": 7,
+          "startMs": 16700.0,
+          "endMs": 17212.5
+        },
+        {
+          "charIndex": 54,
+          "charLength": 3,
+          "startMs": 17212.5,
+          "endMs": 17300.0
+        },
+        {
+          "charIndex": 58,
+          "charLength": 4,
+          "startMs": 17300.0,
+          "endMs": 17812.5
+        },
+        {
+          "charIndex": 63,
+          "charLength": 3,
+          "startMs": 17812.5,
+          "endMs": 17937.5
+        },
+        {
+          "charIndex": 67,
+          "charLength": 3,
+          "startMs": 17937.5,
+          "endMs": 18025.0
+        },
+        {
+          "charIndex": 71,
+          "charLength": 4,
+          "startMs": 18025.0,
+          "endMs": 18300.0
+        },
+        {
+          "charIndex": 76,
+          "charLength": 4,
+          "startMs": 18300.0,
+          "endMs": 18500.0
+        },
+        {
+          "charIndex": 81,
+          "charLength": 4,
+          "startMs": 18500.0,
+          "endMs": 18750.0
+        },
+        {
+          "charIndex": 86,
+          "charLength": 13,
+          "startMs": 18750.0,
+          "endMs": 19800.0
+        },
+        {
+          "charIndex": 99,
+          "charLength": 1,
+          "startMs": 19800.0,
+          "endMs": 19950.0
+        }
+      ]
+    },
+    {
+      "text": "OK ready, let me walk you through it",
+      "startMs": 21050.0,
+      "words": [
+        {
+          "charIndex": 0,
+          "charLength": 2,
+          "startMs": 21325.0,
+          "endMs": 21700.0
+        },
+        {
+          "charIndex": 3,
+          "charLength": 5,
+          "startMs": 21700.0,
+          "endMs": 22125.0
+        },
+        {
+          "charIndex": 8,
+          "charLength": 1,
+          "startMs": 22125.0,
+          "endMs": 22225.0
+        },
+        {
+          "charIndex": 10,
+          "charLength": 3,
+          "startMs": 22225.0,
+          "endMs": 22362.5
+        },
+        {
+          "charIndex": 14,
+          "charLength": 2,
+          "startMs": 22362.5,
+          "endMs": 22475.0
+        },
+        {
+          "charIndex": 17,
+          "charLength": 4,
+          "startMs": 22475.0,
+          "endMs": 22725.0
+        },
+        {
+          "charIndex": 22,
+          "charLength": 3,
+          "startMs": 22725.0,
+          "endMs": 22887.5
+        },
+        {
+          "charIndex": 26,
+          "charLength": 7,
+          "startMs": 22887.5,
+          "endMs": 23125.0
+        },
+        {
+          "charIndex": 34,
+          "charLength": 2,
+          "startMs": 23125.0,
+          "endMs": 23525.0
+        }
+      ]
+    }
+  ]
+}
