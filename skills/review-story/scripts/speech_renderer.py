@@ -53,6 +53,8 @@ class Renderer:
             return {**json.loads(manifest_path.read_text()), "cached": True}
         import numpy as np
         import soundfile as sf
+        from speech_runtime import configure_espeak
+        configure_espeak()
         from kokoro import KPipeline
 
         language = voice[0]

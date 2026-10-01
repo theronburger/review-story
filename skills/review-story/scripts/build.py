@@ -120,10 +120,8 @@ def resolve_code_target(target, card, ranges):
                 end=utf16_length(source[:start + len(target['text'])]))
 
 
-def build(review_path, audio_dir, output, source_pages=None, audio_format='wav'):
-    if audio_format not in ('wav', 'mp3'):
-        raise ValueError('Audio format must be wav or mp3')
-    review_path, audio_dir, output = Path(review_path), Path(audio_dir), Path(output)
+def validate_review(review_path):
+    review_path = Path(review_path)
     review = read_review(review_path)
     files = {card['file'] for card in review['cards'].values()}
     files.update(node['file'] for node in review['map']['nodes'])
@@ -147,11 +145,21 @@ def build(review_path, audio_dir, output, source_pages=None, audio_format='wav')
                         raise ValueError('Cue highlights lines outside its source card')
                 if 'codeTarget' in phase:
                     phase['codeTarget'] = resolve_code_target(phase['codeTarget'], card, phase['ranges'])
+    for file in sources:
+        source_url(review["source"], file)
+    return review, sources, cards
+
+
+def build(review_path, audio_dir, output, source_pages=None, audio_format='wav'):
+    if audio_format not in ('wav', 'mp3'):
+        raise ValueError('Audio format must be wav or mp3')
+    review_path, audio_dir, output = Path(review_path), Path(audio_dir), Path(output)
+    review, sources, cards = validate_review(review_path)
     expected = tracks(review)
     map_track = load_track(audio_dir, 'map', expected['map'])
     sequence_track = load_track(audio_dir, 'sequences', expected['sequences'])
     payload = dict(map=review['map'], legend=review['legend'], initialPage=review.get('initialPage', 'sequences'), playThrough=review.get('playThrough', False),
-                   sources={file: source_url(review['source'], file) for file in sorted(files)},
+                   sources={file: source_url(review['source'], file) for file in sorted(sources)},
                    mapTourData=map_track, sequenceTourData=sequence_track, sequenceSpecs=review['sequences'], codeCards=cards)
     replacements = {
         '__TITLE__': html.escape(review['title']), '__SUBTITLE__': html.escape(review['subtitle']),

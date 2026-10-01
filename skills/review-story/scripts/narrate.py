@@ -5,17 +5,19 @@ import json
 import wave
 from pathlib import Path
 
-from story import read_review, tracks, utf16_length
+from story import tracks, utf16_length
+from build import validate_review
 from speech_renderer import Renderer
 
 
 def narrate(review_path, output, voice='af_heart'):
+    review, _, _ = validate_review(review_path)
     import truststore
     truststore.inject_into_ssl()
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     renderer = Renderer(output / '.cache')
-    for name, beats in tracks(read_review(review_path)).items():
+    for name, beats in tracks(review).items():
         narration, words, timed_beats, audio_paths = [], [], [], []
         offset_ms = offset_chars = 0
         for beat in beats:

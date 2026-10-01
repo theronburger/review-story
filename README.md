@@ -16,11 +16,12 @@ https://github.com/user-attachments/assets/03d19cbf-868c-4b62-809f-c2aa50806035
 ## Install
 
 ```sh
-uh, hey, agent, I want this thing https://github.com/theronburger/review-story.git 
-Install the skill from skills/review-story/.
-If you need more words, look in INSTALL.md.
+npx skills add theronburger/review-story --skill review-story --global
 ```
 
+Pick your agent when prompted. Then ask it to use Review Story on a PR.
+Speech setup is automatic on first use; no system Python changes needed.
+[Setup, updates, and troubleshooting](INSTALL.md).
 
 ## Usage
 

@@ -8,9 +8,11 @@ description: Build narrated, interactive code reviews with an architecture map, 
 Produce a standalone HTML review. Write for a busy, tired reader: short sentences, concrete behavior, no storytelling.
 
 Resolve bundled paths relative to this `SKILL.md`. For installation-only requests,
-verify the installed `scripts/build.py --help` and stop; speech setup and review
-generation belong to a walkthrough request. Keep generated output and the speech
-environment in a writable work directory outside the installed skill.
+verify the installed `scripts/build.py --help` and stop; report “skill installed;
+speech prepares on first use.” For a walkthrough, run `scripts/setup.py` with
+Python 3.10+ before authoring. It provisions and verifies Python 3.12 speech; use
+the interpreter it prints. See [setup.md](references/setup.md) for recovery and updates.
+Keep generated output and the speech environment outside the installed skill.
 
 ## Review the code
 
@@ -29,6 +31,7 @@ Read [authoring.md](references/authoring.md) for the input format and commands.
 - Divide narration into short beats. Add phrase cues at meaningful changes in attention. Each cue selects a message, file, line ranges, and pointer destination.
 - Separate context from pointing. Highlight the relevant block; when narration discusses a particular name, value, operator, or expression, give that phrase an exact `codeTarget`. For example, keep the union expression highlighted while the pointer visits `sharedInputs`, `inputs`, and `derived` as each is explained. Retain block targets for block-level explanations and node targets for maps. Move at meaningful changes of attention, with time to read each target.
 - Author exact source text and a line for token targets; identify the occurrence when the same text appears more than once. The builder must reject missing, ambiguous, or out-of-context targets. Target the rendered text fragments across syntax spans and wrapping, never an estimated character position or the surrounding block as a silent fallback.
+- Run `scripts/validate.py review.json` before narration; it checks pinned source and targets without speech dependencies.
 - Generate speech from the final text with the bundled Kokoro renderer. Use measured word timings; do not estimate them from character counts. Audio time drives captions, highlighting, and movement.
 - If speech setup or rendering fails, stop narration and report the failing command and error. Do not substitute another speech engine or a system-installed phonemizer to work around the failure unless the user explicitly requests it.
 - Keep player controls and participants pinned. Reveal the whole active message and code block when they fit; in a long block, prioritize the exact code target, or the block's start for a block-level cue. Recompute pointer geometry after scrolling.
