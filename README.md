@@ -15,30 +15,17 @@ https://github.com/user-attachments/assets/03d19cbf-868c-4b62-809f-c2aa50806035
 
 ## Install
 
-This is a portable [Agent Skill](https://agentskills.io/specification).
-Install it for your coding agent with the [skills CLI](https://github.com/vercel-labs/skills)
-(requires Node.js/npm):
-
 ```sh
-npx skills add theronburger/review-story --skill review-story
+uh, hey, agent, I want this thing https://github.com/theronburger/review-story.git 
+Install the skill from skills/review-story/.
+If you need more words, look in INSTALL.md.
 ```
 
-Select your agent(s) when prompted; add `--global` for use across projects.
-Without npm, copy the entire [`skills/review-story/`](skills/review-story/) folder
-into your agent's supported skills directory. Keep its scripts, references, and
-assets together. The repository root is not the skill.
-
-Installation ends after checking the installed `scripts/build.py --help` with
-Python 3.10+. Do not run the repo's npm setup or download speech models just to
-install the skill. Generating new narration needs Python 3.12; follow the bundled
-[authoring guide](skills/review-story/references/authoring.md#generate-and-build)
-when making a walkthrough.
 
 ## Usage
 
 ```text
-Use review-story to make a narrated walkthrough of the changes between
-origin/main and HEAD in this repository.
+My gosh thats a lot of code. Use that review story thing or whatever to make it hurt less please
 ```
 
 ## Wow thats neat! Tell me more!
