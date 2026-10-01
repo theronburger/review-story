@@ -1,6 +1,12 @@
 # Authoring
 
-Paths below are relative to the skill folder. The repository includes `examples/checkout/review.json`, a short showcase; `examples/notices/review.json`, an extended fictional review; and `examples/catalog/review.json`, a small starter.
+Paths below are relative to the skill folder containing `SKILL.md`. A complete
+starter lives at [`../assets/starter/review.json`](../assets/starter/review.json),
+with its fictional source in `assets/starter/after/`. Copy the whole starter folder
+to your output directory, then adapt it. No files outside the installed skill are
+required. The starter's `source.root` is relative to its JSON file; for a real
+review replace the snapshot configuration with the pinned Git source described
+below.
 
 ## Source and structure
 
@@ -89,16 +95,29 @@ Motion is automatic. Nearby consecutive targets share a pointing direction and u
 
 ## Generate and build
 
-Building existing audio needs Python 3.10+ standard libraries only. New narration needs Python 3.12 and the speech dependencies. With `uv` installed:
+Building existing audio needs Python 3.10+ standard libraries only. New narration
+needs Python 3.12 and the speech dependencies. Check `python3 --version` and
+`uv --version` first. With `uv` installed, set `SKILL_DIR` to the absolute directory
+containing the installed `SKILL.md` and run from your writable output directory
+(containing the copied `review.json` and `after/`):
 
 ```sh
 uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -r scripts/requirements-speech.txt
-.venv/bin/python scripts/narrate.py review.json --out audio
-python3 scripts/build.py review.json --audio audio --out review.html
+uv pip install --python .venv/bin/python -r "$SKILL_DIR/scripts/requirements-speech.txt"
+.venv/bin/python "$SKILL_DIR/scripts/narrate.py" review.json --out audio
+.venv/bin/python "$SKILL_DIR/scripts/build.py" review.json --audio audio --out review.html --source-pages source
 ```
 
-Run these from the skill folder, or use absolute script/input paths. The first speech run downloads Kokoro and language models. Synthesis runs locally. Available voices: `af_heart` (default), `af_bella`, `af_nicole`, `bf_emma`, `bf_isabella`; select with `--voice`.
+Reuse that environment on later runs. If `uv` is unavailable but Python 3.12 is
+installed, use `python3.12 -m venv .venv` and
+`.venv/bin/python -m pip install -r "$SKILL_DIR/scripts/requirements-speech.txt"`.
+The first speech run downloads Kokoro and language models; it needs network access
+and can take longer than later cached runs. Synthesis runs locally. If setup fails,
+report the failing command and concrete missing prerequisite instead of cycling
+through package managers or substituting fabricated speech timings.
+
+Available voices: `af_heart` (default), `af_bella`, `af_nicole`, `bf_emma`,
+`bf_isabella`; select with `--voice`.
 
 To export browsable source pages, add `--source-pages source` and use matching relative source URLs. The HTML embeds its audio, timings, styles, runtime, and excerpts; playback needs no server. Full-source links may be separate files or remote URLs.
 
