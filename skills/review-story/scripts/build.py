@@ -27,10 +27,10 @@ def source_text(review_path, config, file):
         revision = config['revision']
         if len(revision) != 40 or any(char not in '0123456789abcdef' for char in revision):
             raise ValueError('Pin a full 40-character commit SHA')
-        return subprocess.check_output(['git', '-C', str(root), 'show', f'{revision}:{file}'], text=True)
+        return subprocess.check_output(['git', '-C', str(root), 'show', f'{revision}:{file}'], text=True, encoding='utf-8')
     if config['kind'] != 'snapshot':
         raise ValueError('Source kind must be git or snapshot')
-    return path.read_text()
+    return path.read_text(encoding="utf-8")
 
 
 def source_url(config, file, line='{line}'):
@@ -41,7 +41,7 @@ def source_url(config, file, line='{line}'):
 
 
 def load_track(directory, name, expected):
-    data = json.loads((directory / f'{name}.json').read_text())
+    data = json.loads((directory / f'{name}.json').read_text(encoding="utf-8"))
     if len(data['beats']) != len(expected):
         raise ValueError(f'{name}: narration does not match current beats')
     expected_text = ' '.join(beat['text'] for beat in expected)
@@ -99,7 +99,7 @@ def write_source_page(path, file, text):
     path.write_text('<!doctype html><meta charset="utf-8"><title>' + html.escape(file) + '</title>'
                     '<style>body{font:14px/1.7 ui-monospace,monospace;margin:28px;color:#26364d}'
                     '.line{display:block;white-space:pre-wrap}.line:target{background:#eee4fa}a{color:#8794a6;text-decoration:none;display:inline-block;width:32px}</style>'
-                    '<h2>' + html.escape(file) + '</h2><pre>' + lines + '</pre>')
+                    '<h2>' + html.escape(file) + '</h2><pre>' + lines + '</pre>', encoding="utf-8")
 
 
 def resolve_code_target(target, card, ranges):
@@ -165,9 +165,9 @@ def build(review_path, audio_dir, output, source_pages=None, audio_format='wav')
         '__TITLE__': html.escape(review['title']), '__SUBTITLE__': html.escape(review['subtitle']),
         '__PURPLE__': html.escape(review['legend']['changed']), '__BLUE__': html.escape(review['legend']['context']),
         '__REVISION__': html.escape(review['source']['revision']), '__MAP_WIDTH__': str(review['map']['width']),
-        '__MAP_HEIGHT__': str(review['map']['height']), '__CSS__': '\n'.join((ASSETS / (name + '.css')).read_text() for name in ('map', 'controls', 'sequences', 'code', 'workspace', 'viewport')),
+        '__MAP_HEIGHT__': str(review['map']['height']), '__CSS__': '\n'.join((ASSETS / (name + '.css')).read_text(encoding="utf-8") for name in ('map', 'controls', 'sequences', 'code', 'workspace', 'viewport')),
         '__REVIEW_DATA__': json.dumps(payload, ensure_ascii=False).replace('<', '\\u003c').replace('\u2028', '\\u2028').replace('\u2029', '\\u2029'),
-        '__GEOMETRY__': (ASSETS / 'geometry.js').read_text(), '__RUNTIME__': '\n'.join((ASSETS / (name + '.js')).read_text() for name in ('map', 'state', 'manual', 'visibility', 'code', 'sequences', 'proximity', 'pointer', 'player')),
+        '__GEOMETRY__': (ASSETS / 'geometry.js').read_text(encoding="utf-8"), '__RUNTIME__': '\n'.join((ASSETS / (name + '.js')).read_text(encoding="utf-8") for name in ('map', 'state', 'manual', 'visibility', 'code', 'sequences', 'proximity', 'pointer', 'player')),
     }
     for track in ('map', 'sequences'):
         key = '__MAP_AUDIO__' if track == 'map' else '__SEQUENCE_AUDIO__'
@@ -185,10 +185,10 @@ def build(review_path, audio_dir, output, source_pages=None, audio_format='wav')
             audio_bytes = audio_path.read_bytes()
             mime = 'audio/wav'
         replacements[key] = f'data:{mime};base64,' + base64.b64encode(audio_bytes).decode()
-    result = (ASSETS / 'shell.html').read_text()
+    result = (ASSETS / 'shell.html').read_text(encoding="utf-8")
     result = re.sub('|'.join(map(re.escape, replacements)), lambda match: replacements[match.group()], result)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(result)
+    output.write_text(result, encoding="utf-8")
     if source_pages:
         for file, text in sources.items():
             write_source_page(Path(source_pages) / (file + '.html'), file, text)

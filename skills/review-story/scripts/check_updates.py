@@ -15,7 +15,7 @@ def parse_version(text):
 
 
 def check():
-    local = (Path(__file__).resolve().parents[1] / 'VERSION').read_text().strip()
+    local = (Path(__file__).resolve().parents[1] / 'VERSION').read_text(encoding="utf-8").strip()
     try:
         request = urllib.request.Request(URL, headers={'User-Agent': 'review-story-update-check'})
         with urllib.request.urlopen(request, timeout=5) as response:

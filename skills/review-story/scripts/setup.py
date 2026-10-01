@@ -87,7 +87,7 @@ def setup(root, repair=False, offline=False):
         run(command)
         run([*uv, 'pip', 'check', '--python', python])
         run([python, SCRIPTS / 'check_speech.py'])
-        marker.write_text(json.dumps({'python': str(python), 'fingerprint': runtime_key()}) + '\n')
+        marker.write_text(json.dumps({'python': str(python), 'fingerprint': runtime_key()}) + '\n', encoding="utf-8")
         return python
     finally:
         lock.unlink(missing_ok=True)

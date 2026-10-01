@@ -50,7 +50,7 @@ class Renderer:
         manifest_path = self.directory / f"{key}.json"
         audio_path = self.directory / f"{key}.wav"
         if manifest_path.exists() and audio_path.exists():
-            return {**json.loads(manifest_path.read_text()), "cached": True}
+            return {**json.loads(manifest_path.read_text(encoding="utf-8")), "cached": True}
         import numpy as np
         import soundfile as sf
         from speech_runtime import configure_espeak
@@ -79,7 +79,7 @@ class Renderer:
         temporary = self.directory / f"{key}.{uuid.uuid4().hex}"
         try:
             sf.write(str(temporary) + ".wav", np.concatenate(pieces), RATE, subtype="PCM_16")
-            Path(str(temporary) + ".json").write_text(json.dumps(result))
+            Path(str(temporary) + ".json").write_text(json.dumps(result), encoding="utf-8")
             os.replace(str(temporary) + ".wav", audio_path)
             os.replace(str(temporary) + ".json", manifest_path)
         finally:

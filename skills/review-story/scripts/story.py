@@ -28,7 +28,7 @@ def validate_map_annotations(map_spec):
 
 
 def read_review(path):
-    review = json.loads(Path(path).read_text())
+    review = json.loads(Path(path).read_text(encoding="utf-8"))
     for key in ('title', 'subtitle', 'source', 'legend', 'map', 'sequences', 'cards'):
         if key not in review:
             raise ValueError(f'Missing review field: {key}')

@@ -38,7 +38,7 @@ class SetupTests(unittest.TestCase):
         python = setup.python_in(folder)
         python.parent.mkdir(parents=True)
         python.touch()
-        (folder / 'ready.json').write_text('{}')
+        (folder / 'ready.json').write_text('{}', encoding="utf-8")
         with patch.object(setup, 'run') as run, patch.object(setup, 'find_uv') as install:
             self.assertEqual(setup.setup(self.root, offline=True), python.resolve())
             run.assert_not_called()
@@ -57,10 +57,10 @@ class SetupTests(unittest.TestCase):
 
     def test_concurrent_setup_preserves_existing_lock(self):
         lock = self.root / 'setup.lock'
-        lock.write_text('another process')
+        lock.write_text('another process', encoding="utf-8")
         with self.assertRaisesRegex(ValueError, 'Another setup'):
             setup.setup(self.root)
-        self.assertEqual(lock.read_text(), 'another process')
+        self.assertEqual(lock.read_text(encoding="utf-8"), 'another process')
 
     def test_runtime_cannot_be_inside_installed_skill(self):
         with self.assertRaisesRegex(ValueError, 'outside'):
@@ -88,12 +88,12 @@ class SetupTests(unittest.TestCase):
 
     def test_invalid_source_is_rejected_before_speech_dependencies(self):
         example = SCRIPTS.parents[2] / 'examples/catalog'
-        review = json.loads((example / 'review.json').read_text())
+        review = json.loads((example / 'review.json').read_text(encoding="utf-8"))
         review['source']['root'] = str(example / 'after')
         card = next(iter(review['cards'].values()))
         card['context'] = [[card['end'] + 1, card['end'] + 1]]
         input_path = self.root / 'review.json'
-        input_path.write_text(json.dumps(review))
+        input_path.write_text(json.dumps(review), encoding="utf-8")
         with patch('narrate.Renderer') as renderer:
             with self.assertRaisesRegex(ValueError, 'Invalid context range'):
                 narrate(input_path, self.root / 'audio')

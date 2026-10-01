@@ -22,13 +22,19 @@ class BuildTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.folder = Path(self.temporary.name)
-        self.review = json.loads((EXAMPLE / 'review.json').read_text())
+        self.review = json.loads((EXAMPLE / 'review.json').read_text(encoding="utf-8"))
         self.review['source']['root'] = str(EXAMPLE / 'after')
         self.input = self.folder / 'review.json'
 
     def save(self):
-        self.input.write_text(json.dumps(self.review))
+        self.input.write_text(json.dumps(self.review), encoding="utf-8")
         return self.input
+
+    def test_build_preserves_unicode_independent_of_system_encoding(self):
+        self.review['title'] = 'Résumé — λ 😀'
+        output = self.folder / 'unicode.html'
+        build(self.save(), EXAMPLE / 'audio', output)
+        self.assertIn(self.review['title'], output.read_text(encoding='utf-8'))
 
     def test_build_extracts_real_lines_and_preserves_updated_cue_targets(self):
         row = self.review['sequences'][0]['rows'][0]
@@ -37,12 +43,12 @@ class BuildTests(unittest.TestCase):
         self.review['sequences'][0]['title'] = 'Updated title'
         payload = build(self.save(), EXAMPLE / 'audio', self.folder / 'review.html')
         card = payload['codeCards']['render']
-        self.assertEqual(card['lines'], (EXAMPLE / 'after/render.mjs').read_text().splitlines())
+        self.assertEqual(card['lines'], (EXAMPLE / 'after/render.mjs').read_text(encoding="utf-8").splitlines())
         beat = payload['sequenceTourData']['beats'][0]
         self.assertTrue(beat['title'].startswith('Updated title'))
         self.assertEqual(beat['phases'][0]['ranges'], [[5, 6]])
         self.assertEqual(beat['phases'][0]['point'], 'code')
-        self.assertNotIn('__REVIEW_DATA__', (self.folder / 'review.html').read_text())
+        self.assertNotIn('__REVIEW_DATA__', (self.folder / 'review.html').read_text(encoding="utf-8"))
 
     def test_pinned_git_source_ignores_working_tree_edits(self):
         repository = self.folder / 'source'
@@ -50,11 +56,11 @@ class BuildTests(unittest.TestCase):
         def git(*args):
             return subprocess.check_output(['git', '-C', str(repository), *args], text=True).strip()
         git('init', '-q')
-        (repository / 'main.js').write_text('committed source\n')
+        (repository / 'main.js').write_text('committed source\n', encoding="utf-8")
         git('add', '.')
         git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'Fixture')
         revision = git('rev-parse', 'HEAD')
-        (repository / 'main.js').write_text('uncommitted replacement\n')
+        (repository / 'main.js').write_text('uncommitted replacement\n', encoding="utf-8")
         config = dict(kind='git', root=str(repository), revision=revision)
         self.assertEqual(source_text(self.input, config, 'main.js'), 'committed source\n')
         with self.assertRaises(ValueError):
@@ -128,21 +134,21 @@ class BuildTests(unittest.TestCase):
 
     def test_invalid_cue_and_word_times_fail(self):
         shutil.copy(EXAMPLE / 'audio/sequences.wav', self.folder / 'sequences.wav')
-        original = json.loads((EXAMPLE / 'audio/sequences.json').read_text())
+        original = json.loads((EXAMPLE / 'audio/sequences.json').read_text(encoding="utf-8"))
         changed = copy.deepcopy(original)
         changed['beats'][0]['phases'][1]['start'] = original['beats'][1]['start'] + 1
         path = self.folder / 'sequences.json'
-        path.write_text(json.dumps(changed))
+        path.write_text(json.dumps(changed), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, 'outside'):
             load_track(self.folder, 'sequences', tracks(self.review)['sequences'])
         changed = copy.deepcopy(original)
         changed['beats'][0]['phases'][1]['start'] += .1
-        path.write_text(json.dumps(changed))
+        path.write_text(json.dumps(changed), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, 'spoken phrase'):
             load_track(self.folder, 'sequences', tracks(self.review)['sequences'])
         changed = copy.deepcopy(original)
         changed['clip']['words'][0]['endMs'] = original['clip']['durationMs'] + 1
-        path.write_text(json.dumps(changed))
+        path.write_text(json.dumps(changed), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, 'word timing'):
             load_track(self.folder, 'sequences', tracks(self.review)['sequences'])
 
@@ -150,10 +156,10 @@ class BuildTests(unittest.TestCase):
         source = self.folder / 'after'
         shutil.copytree(EXAMPLE / 'after', source)
         file = source / 'render.mjs'
-        file.write_text(file.read_text().replace("import { selectLayout } from './layouts.mjs'", '// </script><script> __RUNTIME__'))
+        file.write_text(file.read_text(encoding="utf-8").replace("import { selectLayout } from './layouts.mjs'", '// </script><script> __RUNTIME__'), encoding="utf-8")
         self.review['source']['root'] = str(source)
         build(self.save(), EXAMPLE / 'audio', self.folder / 'review.html')
-        output = (self.folder / 'review.html').read_text()
+        output = (self.folder / 'review.html').read_text(encoding="utf-8")
         self.assertEqual(output.count('<script>'), 1)
         self.assertIn('\\u003c/script>\\u003cscript> __RUNTIME__', output)
 
@@ -173,11 +179,11 @@ class BuildTests(unittest.TestCase):
     def test_mp3_export_embeds_smaller_audio_with_the_same_cues(self):
         output = self.folder / 'compressed.html'
         payload = build(self.save(), EXAMPLE / 'audio', output, audio_format='mp3')
-        self.assertEqual(output.read_text().count('data:audio/mpeg;base64,'), 2)
+        self.assertEqual(output.read_text(encoding="utf-8").count('data:audio/mpeg;base64,'), 2)
         pcm_size = sum((EXAMPLE / 'audio' / f'{name}.wav').stat().st_size
                        for name in ('map', 'sequences'))
         self.assertLess(output.stat().st_size, pcm_size)
-        original = json.loads((EXAMPLE / 'audio/sequences.json').read_text())
+        original = json.loads((EXAMPLE / 'audio/sequences.json').read_text(encoding="utf-8"))
         self.assertEqual(payload['sequenceTourData']['clip'], original['clip'])
 
 

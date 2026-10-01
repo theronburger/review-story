@@ -48,7 +48,7 @@ def narrate(review_path, output, voice='af_heart'):
                     combined.writeframes(audio.readframes(audio.getnframes()))
         manifest = {'text': ' '.join(narration), 'beats': timed_beats,
                     'clip': {'durationMs': offset_ms, 'voice': voice, 'words': words}}
-        (output / f'{name}.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+        (output / f'{name}.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding="utf-8")
         print(f'{name}: {offset_ms / 1000:.1f}s, {len(beats)} beats', flush=True)
 
 
