@@ -7,6 +7,11 @@ description: Build narrated, interactive code reviews with an architecture map, 
 
 Produce a standalone HTML review. Write for a busy, tired reader: short sentences, concrete behavior, no storytelling.
 
+Resolve bundled paths relative to this `SKILL.md`. For installation-only requests,
+verify the installed `scripts/build.py --help` and stop; speech setup and review
+generation belong to a walkthrough request. Keep generated output and the speech
+environment in a writable work directory outside the installed skill.
+
 ## Review the code
 
 - Resolve the requested base and head to full commit SHAs. For stacked PRs, compare the top head against the requested base. Record the resolved revisions.

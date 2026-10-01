@@ -17,7 +17,8 @@ https://github.com/user-attachments/assets/03d19cbf-868c-4b62-809f-c2aa50806035
 
 ```sh
 uh, hey, agent, I want this thing https://github.com/theronburger/review-story.git 
-make it so
+Install the skill from skills/review-story/.
+If you need more words, look in INSTALL.md.
 ```
 
 
