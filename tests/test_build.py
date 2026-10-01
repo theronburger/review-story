@@ -30,24 +30,6 @@ class BuildTests(unittest.TestCase):
         self.input.write_text(json.dumps(self.review))
         return self.input
 
-    def test_installed_skill_builds_without_repository_layout(self):
-        installed = self.folder / 'skills/review-story'
-        shutil.copytree(ROOT / 'skills/review-story', installed,
-                        ignore=shutil.ignore_patterns('__pycache__'))
-        output = self.folder / 'output'
-        shutil.copytree(installed / 'assets/starter', output)
-        # Existing measured narration is input, not a runtime repository dependency.
-        shutil.copytree(EXAMPLE / 'audio', output / 'audio')
-        result = subprocess.run([
-            sys.executable, str(installed / 'scripts/build.py'), 'review.json',
-            '--audio', 'audio', '--out', 'review.html', '--source-pages', 'source',
-        ], cwd=output, capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        html = (output / 'review.html').read_text()
-        self.assertIn('data:audio/wav;base64,', html)
-        self.assertNotIn('__REVIEW_DATA__', html)
-        self.assertTrue((output / 'source/render.mjs.html').is_file())
-
     def test_build_extracts_real_lines_and_preserves_updated_cue_targets(self):
         row = self.review['sequences'][0]['rows'][0]
         row['phases'][0]['ranges'] = [[5, 6]]

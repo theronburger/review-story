@@ -7,20 +7,10 @@ description: Build narrated, interactive code reviews with an architecture map, 
 
 Produce a standalone HTML review. Write for a busy, tired reader: short sentences, concrete behavior, no storytelling.
 
-## Start here
-
-This directory is the complete skill. Resolve scripts, references, and assets
-relative to this `SKILL.md`, not the user's working directory. For an installation
-request, verify this folder is in the host's skills directory and that
-`python3 scripts/build.py --help` succeeds, then stop. Generating a walkthrough is
-a separate task; installation does not require speech dependencies or npm.
-
-For a walkthrough, read [authoring.md](references/authoring.md) and copy
-[`assets/starter/`](assets/starter/) to a writable output directory as the starting
-input. It contains a complete fictional review and source files. Replace the
-fictional content with the requested review. Keep output and the speech environment
-outside the installed skill. Use the bundled builder; repository demos and video
-recording tools are not needed.
+Resolve bundled paths relative to this `SKILL.md`. For installation-only requests,
+verify the installed `scripts/build.py --help` and stop; speech setup and review
+generation belong to a walkthrough request. Keep generated output and the speech
+environment in a writable work directory outside the installed skill.
 
 ## Review the code
 

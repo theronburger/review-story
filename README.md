@@ -15,79 +15,31 @@ https://github.com/user-attachments/assets/03d19cbf-868c-4b62-809f-c2aa50806035
 
 ## Install
 
-Review Story uses the open [Agent Skills format](https://agentskills.io/specification):
-one `SKILL.md` with bundled scripts, references, and assets. The installable package
-is **[`skills/review-story/`](skills/review-story/)**. The same package works with
-Agent Skills-compatible coding agents, including Codex, Claude Code, Cursor, and
-Gemini CLI. It requires a shell and Python to generate the HTML; new narration
-also needs local speech dependencies and network access for the first model download.
-
-### Install with the multi-agent skills CLI
-
-Run from the project where you want to use the skill (requires Node.js/npm):
+This is a portable [Agent Skill](https://agentskills.io/specification).
+Install it for your coding agent with the [skills CLI](https://github.com/vercel-labs/skills)
+(requires Node.js/npm):
 
 ```sh
 npx skills add theronburger/review-story --skill review-story
 ```
 
-Select your agent or agents when prompted. Add `--global` to make it available
-across projects. For an unattended install, name the target agents explicitly:
+Select your agent(s) when prompted; add `--global` for use across projects.
+Without npm, copy the entire [`skills/review-story/`](skills/review-story/) folder
+into your agent's supported skills directory. Keep its scripts, references, and
+assets together. The repository root is not the skill.
 
-```sh
-npx skills add theronburger/review-story --skill review-story --agent codex claude-code --global --yes
-```
-
-The [skills CLI](https://github.com/vercel-labs/skills) handles each agent's discovery
-location. It is an installer for the shared format, not a runtime dependency.
-To list the available skill without installing it:
-
-```sh
-npx skills add theronburger/review-story --list
-```
-
-### Manual install or agent-assisted install
-
-Without Node/npm, clone this repository and copy the **entire**
-`skills/review-story/` folder into your agent's documented skills directory.
-Keep `SKILL.md`, `scripts/`, `references/`, and `assets/` together. The optional
-`agents/openai.yaml` provides Codex UI metadata; the workflow does not depend on it.
-
-Discovery paths differ by host even though the skill format is shared. For example,
-[Codex](https://developers.openai.com/codex/skills/) reads project skills under
-`.agents/skills/review-story/`, while
-[Claude Code](https://code.claude.com/docs/en/skills) reads
-`.claude/skills/review-story/`. Use your host's supported location or its built-in
-skill installer. The repository root is not the skill folder.
-
-If asking an agent to install it, use this request:
-
-```text
-Install the review-story Agent Skill from https://github.com/theronburger/review-story.
-The skill is in skills/review-story/. Install that entire folder into this
-agent's supported skills directory, including its scripts, references, and assets.
-If it already exists, inspect it before updating. Verify SKILL.md exists and run
-the installed scripts/build.py --help with Python 3.10+.
-Stop after installation; don't generate a review or install speech dependencies yet.
-```
-
-Installation does not require running this repository's npm development setup,
-downloading speech models, or generating a demo. New narration uses Python 3.12;
-setup is described in the bundled
-[authoring guide](skills/review-story/references/authoring.md#generate-and-build).
+Installation ends after checking the installed `scripts/build.py --help` with
+Python 3.10+. Do not run the repo's npm setup or download speech models just to
+install the skill. Generating new narration needs Python 3.12; follow the bundled
+[authoring guide](skills/review-story/references/authoring.md#generate-and-build)
+when making a walkthrough.
 
 ## Usage
-
-Ask your agent:
 
 ```text
 Use review-story to make a narrated walkthrough of the changes between
 origin/main and HEAD in this repository.
 ```
-
-You can also select the skill using your agent's skill picker or invocation syntax.
-The skill contains a complete starter input and fictional source files. The agent
-adapts those to your code, generates local narration, and builds a standalone HTML
-file. The generated viewer works offline in a browser.
 
 ## Wow thats neat! Tell me more!
 Think what you may of vibe coding it's very hard to justify rolling every line by hand when modern LLMs can produce pretty reasonable code at scale. 
