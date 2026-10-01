@@ -3,12 +3,38 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 import uuid
 
 VOICES = {"af_heart": "Heart", "af_bella": "Bella", "af_nicole": "Nicole", "bf_emma": "Emma", "bf_isabella": "Isabella"}
 VERSION = "kokoro-0.9.4-timings-1"
 RATE = 24_000
+
+
+def _prefer_system_espeak_on_macos():
+    # espeakng-loader's macOS wheel bakes in its CI runner's build path as the
+    # espeak-ng data directory; espeak_Initialize aborts the process (not a
+    # catchable exception) when that path is missing, which it always is on
+    # end-user machines. A Homebrew/system espeak-ng install has no such
+    # mismatch, so prefer it here, after misaki.espeak has already pointed
+    # EspeakWrapper at the bundled copy. Linux/Windows wheels are unaffected.
+    if sys.platform != "darwin":
+        return
+    import shutil
+
+    binary = shutil.which("espeak-ng")
+    if not binary:
+        return
+    # ctypes.util.find_library only searches the dyld shared cache, not
+    # Homebrew prefixes, so derive the dylib path from the CLI binary instead.
+    system_library = Path(binary).resolve().parent.parent / "lib" / "libespeak-ng.dylib"
+    if not system_library.is_file():
+        return
+    from phonemizer.backend.espeak.wrapper import EspeakWrapper
+
+    EspeakWrapper.set_library(str(system_library))
+    EspeakWrapper.set_data_path(None)
 
 
 def utf16_length(text: str) -> int:
@@ -54,6 +80,8 @@ class Renderer:
         import numpy as np
         import soundfile as sf
         from kokoro import KPipeline
+
+        _prefer_system_espeak_on_macos()
 
         language = voice[0]
         if language not in self.pipelines:

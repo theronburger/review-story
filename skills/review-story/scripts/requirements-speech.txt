@@ -3,4 +3,10 @@ numpy==2.2.6
 soundfile==0.13.1
 torch==2.7.1
 truststore>=0.10,<0.11
+# Floor, not a pin: kokoro itself leaves transformers unbounded, but with no
+# floor the resolver can settle on ancient transformers==4.12.2, which drags
+# in tokenizers==0.10.3 (2021) with no prebuilt wheels for current platforms
+# and no Cargo.lock, so pip tries and fails to compile it from source. 4.40+
+# resolves to transformers/tokenizers versions that ship prebuilt wheels.
+transformers>=4.40
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
