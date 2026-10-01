@@ -13,12 +13,6 @@ RATE = 24_000
 
 
 def _prefer_system_espeak_on_macos():
-    # espeakng-loader's macOS wheel bakes in its CI runner's build path as the
-    # espeak-ng data directory; espeak_Initialize aborts the process (not a
-    # catchable exception) when that path is missing, which it always is on
-    # end-user machines. A Homebrew/system espeak-ng install has no such
-    # mismatch, so prefer it here, after misaki.espeak has already pointed
-    # EspeakWrapper at the bundled copy. Linux/Windows wheels are unaffected.
     if sys.platform != "darwin":
         return
     import shutil
@@ -26,8 +20,6 @@ def _prefer_system_espeak_on_macos():
     binary = shutil.which("espeak-ng")
     if not binary:
         return
-    # ctypes.util.find_library only searches the dyld shared cache, not
-    # Homebrew prefixes, so derive the dylib path from the CLI binary instead.
     system_library = Path(binary).resolve().parent.parent / "lib" / "libespeak-ng.dylib"
     if not system_library.is_file():
         return
