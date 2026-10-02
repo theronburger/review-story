@@ -194,7 +194,7 @@ for (const example of [
                 path.join(fixture, example.source, spec.file),
                 "utf8",
               )
-              .split("\n");
+              .split(/\r?\n/);
             for (const line of card.querySelectorAll(".code-line"))
               assert.equal(
                 line.querySelector("code").textContent,

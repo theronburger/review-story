@@ -23,6 +23,8 @@ For real reviews, use `source.kind: "git"`, a full head SHA in `revision`, and t
 
 Use a commit-pinned source URL such as `https://github.com/OWNER/REPO/blob/{revision}/{file}#L{line}`. For fictional fixtures, `kind: "snapshot"` reads local files. Relative URLs support offline source pages: `source/{file}.html#L{line}`.
 
+Node, sequence, and card IDs use lowercase letters, digits, and hyphens (no underscores).
+
 Map nodes require `id`, `x`, `y`, `w`, `h`, `label`, `subtitle`, `side`, `description`, `boundary`, and `file`. `side` is `changed` or `context`. Edges use node IDs in `from`/`to`, an SVG path in `d`, and optional `label`, `x`, `y`, `secondary`. Beats use `target` (node ID), `title`, and `text`.
 
 Map the behavior that matters to the review: state changes, branch conditions, success and failure outcomes, and recovery or repair loops. Label relationships with what they do. Distinguish automatic execution from human actions and separate runs. Use `secondary: true` for supporting relationships so the main route stays readable. Keep a high-level overview when the number of components is itself the point; there is no required node count.
@@ -39,7 +41,7 @@ Optional map annotations restore structure without adding fake components:
 
 Coordinates use the map's SVG view box. Text anchors are `start` (default), `middle`, or `end`. Keep annotations clear of node boxes and paths. Node `boundary` text remains the detailed contract shown on selection; `map.boundaries` draws boundaries on the diagram itself.
 
-Source cards specify `file`, inclusive one-based `start`/`end`, `label`, and `context` line ranges. The builder extracts the lines; never paste hand-edited source into the review data.
+Source cards specify `file`, inclusive one-based `start`/`end`, `label`, and `context` line ranges. Context ranges must lie entirely within that card’s `start`/`end`. The builder extracts the lines; never paste hand-edited source into the review data.
 
 ## Sequence cues
 
@@ -91,18 +93,29 @@ Motion is automatic. Nearby consecutive targets share a pointing direction and u
 
 ## Generate and build
 
-Building existing audio needs Python 3.10+ standard libraries only. New narration needs Python 3.12 and the speech dependencies. With `uv` installed, set `SKILL_DIR` to the absolute installed skill path and run from
-your writable work directory containing `review.json`:
+Building existing audio needs Python 3.10+ standard libraries only. Run setup once
+before authoring, using the absolute installed skill path as `SKILL_DIR`:
 
 ```sh
-uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -r "$SKILL_DIR/scripts/requirements-speech.txt"
-.venv/bin/python "$SKILL_DIR/scripts/narrate.py" review.json --out audio
-.venv/bin/python "$SKILL_DIR/scripts/build.py" review.json --audio audio --out review.html
+python3 "$SKILL_DIR/scripts/setup.py"
+python3 "$SKILL_DIR/scripts/validate.py" review.json
 ```
 
-Reuse the environment on later runs. If setup fails, report the failing command and
-missing prerequisite instead of cycling through package managers. The first speech run downloads Kokoro and language models. Synthesis runs locally. Available voices: `af_heart` (default), `af_bella`, `af_nicole`, `bf_emma`, `bf_isabella`; select with `--voice`.
+Setup prints the verified Python executable and narration command. Use that
+executable to run `narrate.py review.json --out audio`, then build:
+
+```sh
+python3 "$SKILL_DIR/scripts/build.py" review.json --audio audio --out review.html
+```
+
+Reuse the runtime on later reviews. Setup detects dependency changes after skill
+updates and prepares a separate environment. See [setup.md](setup.md) for custom
+runtime locations, offline use, repairs, and missing prerequisites. Do not create
+ad hoc virtual environments or substitute system eSpeak.
+
+The first setup downloads dependencies and speech models. Synthesis runs locally.
+Available voices: `af_heart` (default), `af_bella`, `af_nicole`, `bf_emma`,
+`bf_isabella`; select with `--voice`.
 
 To export browsable source pages, add `--source-pages source` and use matching relative source URLs. The HTML embeds its audio, timings, styles, runtime, and excerpts; playback needs no server. Full-source links may be separate files or remote URLs.
 

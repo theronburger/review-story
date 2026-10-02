@@ -28,7 +28,7 @@ def validate_map_annotations(map_spec):
 
 
 def read_review(path):
-    review = json.loads(Path(path).read_text())
+    review = json.loads(Path(path).read_text(encoding="utf-8"))
     for key in ('title', 'subtitle', 'source', 'legend', 'map', 'sequences', 'cards'):
         if key not in review:
             raise ValueError(f'Missing review field: {key}')
@@ -46,8 +46,9 @@ def read_review(path):
     if len(set(node_ids)) != len(node_ids):
         raise ValueError('Duplicate map node IDs')
     ids = node_ids + [sequence['id'] for sequence in review['sequences']] + list(review['cards'])
-    if any(not re.fullmatch(r'[a-z0-9-]+', value) for value in ids):
-        raise ValueError('IDs must use lowercase letters, digits and hyphens')
+    for value in ids:
+        if not isinstance(value, str) or not re.fullmatch(r'[a-z0-9-]+', value):
+            raise ValueError(f'Invalid ID {value!r}: use lowercase letters, digits and hyphens')
     for edge in review['map']['edges']:
         if edge['from'] not in node_ids or edge['to'] not in node_ids:
             raise ValueError('Map edge has an unknown endpoint')
