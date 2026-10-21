@@ -1,6 +1,33 @@
 @media (min-width: 1101px) {
-  body:has(main.sequence-page) {
+  body:has(#operations-map) {
     overflow: hidden;
+  }
+  main:not(.sequence-page) {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px;
+  }
+  main:not(.sequence-page) > :is(header, .tour, .page-tabs) {
+    flex-shrink: 0;
+  }
+  #page-map:not([hidden]) {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) 110px auto;
+  }
+  #page-map .diagram {
+    min-height: 0;
+    overflow: hidden;
+  }
+  #page-map .diagram > svg {
+    width: 100%;
+    height: 100%;
+  }
+  #page-map .detail-slot {
+    height: 110px;
   }
   main.sequence-page {
     height: 100vh;
@@ -59,9 +86,6 @@
   background: #fff;
   box-shadow: 0 2px 5px #2330460c;
 }
-.sequence-participants .seq-actor text {
-  font-size: 13px;
-}
 #cross-pane-cursor {
   position: fixed;
   inset: 0;
@@ -74,12 +98,32 @@
   opacity: 0;
   filter: drop-shadow(0 2px 3px #20317f30);
 }
-@media (max-height: 740px) and (min-width: 1101px) {
-  main.sequence-page {
+@media (max-height: 900px) and (min-width: 1101px) {
+  #operations-map {
     padding: 12px 18px;
   }
-  .sequence-page > header p {
+  #operations-map > header p {
     display: none;
+  }
+  main:not(.sequence-page) > .tour {
+    margin-top: 12px;
+    padding: 12px 14px;
+  }
+  main:not(.sequence-page) .tour-heading {
+    margin-top: 8px;
+  }
+  main:not(.sequence-page) #tour-caption {
+    min-height: 0;
+  }
+  main:not(.sequence-page) > .page-tabs {
+    margin-top: 12px;
+    padding-bottom: 8px;
+  }
+  #page-map:not([hidden]) {
+    grid-template-rows: minmax(0, 1fr) 90px auto;
+  }
+  #page-map .detail-slot {
+    height: 90px;
   }
   .sequence-page > .tour {
     margin-top: 10px;
@@ -102,7 +146,7 @@
   .sequence-page #tour-caption {
     height: 3.2em;
   }
-  .sequence-page > header h1 {
+  #operations-map > header h1 {
     font-size: 20px;
   }
 }

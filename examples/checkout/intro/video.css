@@ -8,14 +8,5 @@
 .demo-video-error { position: fixed; z-index: 21; bottom: 80px; left: 50%; transform: translateX(-50%); margin: 0; padding: 10px 16px; border-radius: 10px; background: #fff; color: #933; font-size: 14px; }
 #demo-intro.demo-clean .demo-transport { display: none; }
 #demo-intro.demo-clean .demo-skip { visibility: hidden; }
-@media (min-width: 1101px) {
-  .demo-video-page { overflow: hidden; }
-  .demo-video-page main:not(.sequence-page) { height: 100dvh; display: flex; flex-direction: column; padding: 24px 32px 18px; }
-  .demo-video-page main:not(.sequence-page) > :is(header,.tour,.page-tabs) { flex-shrink: 0; }
-  .demo-video-page #page-map:not([hidden]) { flex: 1; min-height: 0; display: grid; grid-template-rows: minmax(0,1fr) 110px auto; }
-  .demo-video-page #page-map .diagram { min-height: 0; overflow: hidden; }
-  .demo-video-page #page-map .diagram > svg { width: 100%; height: 100%; }
-  .demo-video-page #page-map .detail-slot { height: 110px; }
-}
 @keyframes video-dot { 0%,70%,100% { opacity: .4; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-3px); } }
 @media (max-width: 700px) { .demo-ready-text { font-size: 17px; } .demo-video-ready { padding: 16px; max-width: 90%; } }

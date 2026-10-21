@@ -107,6 +107,6 @@ detail.querySelector(".close").addEventListener("click", clear);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") clear();
 });
-root.querySelector("svg").addEventListener("click", (event) => {
+root.querySelector("#page-map svg").addEventListener("click", (event) => {
   if (!event.target.closest(".node")) clear();
 });

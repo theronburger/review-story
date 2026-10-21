@@ -47,7 +47,7 @@ button {
   font: inherit;
 }
 main {
-  max-width: 1600px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 32px 28px 18px;
 }
@@ -354,11 +354,6 @@ svg text {
     height: 240px;
   }
 }
-@media (min-width: 1550px) {
-  main {
-    max-width: 1800px;
-  }
-}
 
 .tour {
   margin: 20px 0 4px;
@@ -663,7 +658,6 @@ svg text {
 }
 
 main.sequence-page {
-  max-width: none;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   column-gap: 28px;
@@ -875,15 +869,6 @@ main.sequence-page {
 .sequence-page .sequence-canvas svg {
   min-width: 650px;
 }
-.sequence-page .seq-actor text {
-  font-size: 13px;
-}
-.sequence-page .seq-row text {
-  font-size: 12.5px;
-}
-.sequence-page .seq-row .seq-number {
-  font-size: 10px;
-}
 .seq-row.in-beat .seq-hit {
   fill: #faf7fe;
 }
@@ -963,8 +948,35 @@ main.sequence-page {
 }
 
 @media (min-width: 1101px) {
-  body:has(main.sequence-page) {
+  body:has(#operations-map) {
     overflow: hidden;
+  }
+  main:not(.sequence-page) {
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px;
+  }
+  main:not(.sequence-page) > :is(header, .tour, .page-tabs) {
+    flex-shrink: 0;
+  }
+  #page-map:not([hidden]) {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) 110px auto;
+  }
+  #page-map .diagram {
+    min-height: 0;
+    overflow: hidden;
+  }
+  #page-map .diagram > svg {
+    width: 100%;
+    height: 100%;
+  }
+  #page-map .detail-slot {
+    height: 110px;
   }
   main.sequence-page {
     height: 100vh;
@@ -1023,9 +1035,6 @@ main.sequence-page {
   background: #fff;
   box-shadow: 0 2px 5px #2330460c;
 }
-.sequence-participants .seq-actor text {
-  font-size: 13px;
-}
 #cross-pane-cursor {
   position: fixed;
   inset: 0;
@@ -1038,12 +1047,32 @@ main.sequence-page {
   opacity: 0;
   filter: drop-shadow(0 2px 3px #20317f30);
 }
-@media (max-height: 740px) and (min-width: 1101px) {
-  main.sequence-page {
+@media (max-height: 900px) and (min-width: 1101px) {
+  #operations-map {
     padding: 12px 18px;
   }
-  .sequence-page > header p {
+  #operations-map > header p {
     display: none;
+  }
+  main:not(.sequence-page) > .tour {
+    margin-top: 12px;
+    padding: 12px 14px;
+  }
+  main:not(.sequence-page) .tour-heading {
+    margin-top: 8px;
+  }
+  main:not(.sequence-page) #tour-caption {
+    min-height: 0;
+  }
+  main:not(.sequence-page) > .page-tabs {
+    margin-top: 12px;
+    padding-bottom: 8px;
+  }
+  #page-map:not([hidden]) {
+    grid-template-rows: minmax(0, 1fr) 90px auto;
+  }
+  #page-map .detail-slot {
+    height: 90px;
   }
   .sequence-page > .tour {
     margin-top: 10px;
@@ -1066,7 +1095,7 @@ main.sequence-page {
   .sequence-page #tour-caption {
     height: 3.2em;
   }
-  .sequence-page > header h1 {
+  #operations-map > header h1 {
     font-size: 20px;
   }
 }
@@ -1128,6 +1157,12 @@ body.demo-intro-visible #operations-map { visibility: hidden; }
 .demo-topbar { position: absolute; z-index: 10; top: 0; left: 0; right: 0; display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 28px 38px; gap: 16px; }
 .demo-brand { display: inline-flex; align-items: center; color: #24292f; text-decoration: none; }
 #demo-intro .demo-brand > svg { width: 28px; height: 28px; fill: currentColor; }
+.demo-review-header, .sequence-page > .demo-review-header { display: grid; grid-template-columns: 28px minmax(0,1fr) auto; align-items: start; gap: 12px; }
+.demo-repository { display: inline-flex; color: #24292f; border-radius: 4px; }
+.demo-repository > svg { width: 28px; height: 28px; min-width: 0; fill: currentColor; }
+.demo-repository:hover { color: #54318b; }
+.demo-repository:focus-visible { outline: 3px solid #bba2ee; outline-offset: 5px; }
+.sequence-page > .demo-review-header { grid-template-columns: 28px minmax(0,1fr); }
 .demo-skip { border: 0; background: none; color: #84848b; font-size: 13px !important; padding: 8px 0 8px 12px; }
 .demo-skip:hover { color: var(--demo-ink); }
 .demo-skip span { margin-left: 6px; }
@@ -1158,6 +1193,10 @@ body.demo-intro-visible #operations-map { visibility: hidden; }
 #demo-replay { padding: 7px 11px; font-size: 12px; white-space: nowrap; }
 @keyframes demo-blink { 50% { opacity: 0; } }
 @keyframes demo-review-enter { from { opacity: 0; transform: translateY(14px) scale(.992); } to { opacity: 1; transform: none; } }
+@media (max-width: 1100px) {
+  .demo-review-header { grid-template-columns: 28px minmax(0,1fr); }
+  .demo-review-header > .legend { grid-column: 2; }
+}
 @media (max-width: 700px) {
   .demo-topbar { padding: 22px; }
   .demo-stage { width: calc(100% - 36px); margin-top: max(120px, 17dvh); }
@@ -1304,15 +1343,6 @@ body.demo-intro-visible #operations-map { visibility: hidden; }
 .demo-video-error { position: fixed; z-index: 21; bottom: 80px; left: 50%; transform: translateX(-50%); margin: 0; padding: 10px 16px; border-radius: 10px; background: #fff; color: #933; font-size: 14px; }
 #demo-intro.demo-clean .demo-transport { display: none; }
 #demo-intro.demo-clean .demo-skip { visibility: hidden; }
-@media (min-width: 1101px) {
-  .demo-video-page { overflow: hidden; }
-  .demo-video-page main:not(.sequence-page) { height: 100dvh; display: flex; flex-direction: column; padding: 24px 32px 18px; }
-  .demo-video-page main:not(.sequence-page) > :is(header,.tour,.page-tabs) { flex-shrink: 0; }
-  .demo-video-page #page-map:not([hidden]) { flex: 1; min-height: 0; display: grid; grid-template-rows: minmax(0,1fr) 110px auto; }
-  .demo-video-page #page-map .diagram { min-height: 0; overflow: hidden; }
-  .demo-video-page #page-map .diagram > svg { width: 100%; height: 100%; }
-  .demo-video-page #page-map .detail-slot { height: 110px; }
-}
 @keyframes video-dot { 0%,70%,100% { opacity: .4; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-3px); } }
 @media (max-width: 700px) { .demo-ready-text { font-size: 17px; } .demo-video-ready { padding: 16px; max-width: 90%; } }
 
@@ -1916,7 +1946,7 @@ detail.querySelector(".close").addEventListener("click", clear);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") clear();
 });
-root.querySelector("svg").addEventListener("click", (event) => {
+root.querySelector("#page-map svg").addEventListener("click", (event) => {
   if (!event.target.closest(".node")) clear();
 });
 
@@ -4309,6 +4339,11 @@ function createDemoTutorial() {
     duration = video?.duration ?? 18,
     tutorial = createDemoTutorial();
   let frame, timer, startedAt = 0, position = 0, paused = false, active = false, pausedAnimations = [], playbackVersion = 0;
+  const repository = intro.querySelector(".demo-brand").cloneNode(true),
+    header = review.querySelector(":scope > header");
+  repository.className = "demo-repository";
+  header.classList.add("demo-review-header");
+  header.prepend(repository);
   slider.max = String(duration);
 
   function updateTransport() {

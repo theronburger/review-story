@@ -52,6 +52,11 @@ which retains those controls for editing. Keep using
 share the review and guide, while `intro/video.js`, `intro/video.css`, and
 `intro/video-narration.*` preserve the video-specific dialogue and timing.
 
+The GitHub logo links to the repository in both the intro and the review header.
+Both review views are centered within a 1440-pixel maximum width. Desktop maps
+fit the remaining viewport height, with compact controls on shorter screens;
+sequence diagrams and source retain their own scrolling areas for longer content.
+
 The root URL serves the interactive demo itself. `npm run build` adds the public
 share metadata from `intro/share-head.html`, including a project title and
 description rather than the opening chat text. The Open Graph type is `website`;

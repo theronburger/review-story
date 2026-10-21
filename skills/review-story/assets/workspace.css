@@ -1,5 +1,4 @@
 main.sequence-page {
-  max-width: none;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   column-gap: 28px;
@@ -210,15 +209,6 @@ main.sequence-page {
 }
 .sequence-page .sequence-canvas svg {
   min-width: 650px;
-}
-.sequence-page .seq-actor text {
-  font-size: 13px;
-}
-.sequence-page .seq-row text {
-  font-size: 12.5px;
-}
-.sequence-page .seq-row .seq-number {
-  font-size: 10px;
 }
 .seq-row.in-beat .seq-hit {
   fill: #faf7fe;

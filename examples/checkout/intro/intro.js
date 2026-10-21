@@ -15,6 +15,11 @@
     duration = video?.duration ?? 18,
     tutorial = createDemoTutorial();
   let frame, timer, startedAt = 0, position = 0, paused = false, active = false, pausedAnimations = [], playbackVersion = 0;
+  const repository = intro.querySelector(".demo-brand").cloneNode(true),
+    header = review.querySelector(":scope > header");
+  repository.className = "demo-repository";
+  header.classList.add("demo-review-header");
+  header.prepend(repository);
   slider.max = String(duration);
 
   function updateTransport() {
