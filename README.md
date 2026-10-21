@@ -4,12 +4,12 @@ A skill for turning piles of incomprencible AI babble into nice narrated easy to
 
 It outputs simple HTML pages with narrated stories. The paradigm is well thought through but the review is up to you. This is just for the viewer. BYO review ideology. 
 
-### [👉 Here is a live demo of what it outputs](https://theronburger.github.io/review-story/demo.html)
+### [👉 Here is a live demo of what it outputs](https://theronburger.github.io/review-story/)
 
 
 https://github.com/user-attachments/assets/03d19cbf-868c-4b62-809f-c2aa50806035
 
-[Watch the video](https://theronburger.github.io/review-story/) · [Download the 1080p video](https://github.com/theronburger/review-story/releases/download/demo-2026-09-30/review-story-1080p.mp4) · [Try it yourself](https://theronburger.github.io/review-story/demo.html)
+[Download the 1080p video](https://github.com/theronburger/review-story/releases/download/demo-2026-09-30/review-story-1080p.mp4) · [Try it yourself](https://theronburger.github.io/review-story/)
 
 
 
@@ -53,6 +53,6 @@ https://huggingface.co/spaces/hexgrad/Kokoro-TTS has a preview of the other voic
 
 ## Demo source and recordings
 
-The [video page](https://theronburger.github.io/review-story/), [interactive demo](https://theronburger.github.io/review-story/demo.html), and [editable video preview](https://theronburger.github.io/review-story/video.html) are kept in this repo, including narration and timing data. [Editing and recording instructions](examples/checkout/README.md#recording-and-editing-the-video).
+The [interactive demo](https://theronburger.github.io/review-story/) and [editable video preview](https://theronburger.github.io/review-story/video.html) are both kept in this repo, including narration and timing data. [Editing and recording instructions](examples/checkout/README.md#recording-and-editing-the-video).
 
 The [September 30 recording](https://github.com/theronburger/review-story/releases/tag/demo-2026-09-30) preserves the 98-second, 1920×1080 video and its matching source revision, so later demo changes won't replace it.

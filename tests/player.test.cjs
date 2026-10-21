@@ -912,9 +912,9 @@ test("page tabs preserve independent positions and map selection works", () => {
   }
 });
 
-test("the interactive demo runs without intro editing controls; playback resources and source links are present", () => {
+test("the root page is the interactive demo with share metadata; playback resources and source links are present", () => {
   const demo = new JSDOM(
-    fs.readFileSync(path.join(repo, "docs/demo.html"), "utf8"),
+    fs.readFileSync(path.join(repo, "docs/index.html"), "utf8"),
   );
   const demoDocument = demo.window.document;
   assert.equal(demoDocument.querySelector("iframe"), null);
@@ -922,6 +922,24 @@ test("the interactive demo runs without intro editing controls; playback resourc
   assert(demoDocument.querySelector("#operations-map"));
   assert(demoDocument.querySelector(".demo-transport").hidden);
   assert(!demoDocument.querySelector(".demo-skip").hidden);
+  assert.match(demoDocument.title, /Review Story/);
+  assert.equal(
+    demoDocument.querySelector('meta[property="og:type"]').content,
+    "website",
+  );
+  const imageUrl = new URL(
+    demoDocument.querySelector('meta[name="image"][property="og:image"]').content,
+  );
+  assert.equal(imageUrl.origin, "https://theronburger.github.io");
+  assert(
+    fs.existsSync(
+      path.join(repo, "docs", imageUrl.pathname.replace("/review-story/", "")),
+    ),
+  );
+  assert.equal(
+    demoDocument.querySelector('meta[property="og:url"]').content,
+    "https://theronburger.github.io/review-story/",
+  );
   const preview = new JSDOM(
     fs.readFileSync(path.join(repo, "docs/review.html"), "utf8"),
   );

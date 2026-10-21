@@ -45,31 +45,37 @@ npm run build
 
 ## Recording and editing the video
 
-The interactive Pages demo fills `docs/demo.html` directly, with no frame or
+The interactive Pages demo fills `docs/index.html` directly, with no frame or
 intro editing controls. The build generates it alongside `docs/review.html`,
 which retains those controls for editing. Keep using
 `docs/video.html` to preview the narrated video opening at 1920×1080. Both versions
 share the review and guide, while `intro/video.js`, `intro/video.css`, and
 `intro/video-narration.*` preserve the video-specific dialogue and timing.
 
-The public homepage, `docs/index.html`, plays the archived MP4 in a native video
-player and links to the interactive demo. Share the homepage URL on LinkedIn.
-Its Open Graph image is a 1200×630 JPEG of the review at **00:01:20**, showing the
-sequence diagram, highlighted source, and pointer. The player uses the same
-frame as its 1920×1080 poster, so the chat intro is not the preview image.
-`npm run build` updates the interactive demo and leaves the video homepage alone.
+The root URL serves the interactive demo itself. `npm run build` adds the public
+share metadata from `intro/share-head.html`, including a project title and
+description rather than the opening chat text. The Open Graph type is `website`;
+the interactive HTML is not an embeddable MP4.
+
+The share image is a 1200×630 RGB PNG of the recording at **00:01:20**, showing
+the sequence diagram, highlighted source, and pointer. The 1920×1080 JPEG of the
+same frame is also available as a thumbnail for a video uploaded to LinkedIn.
+LinkedIn creates a preview image for a website URL; to play a video in its feed,
+[upload the MP4 and select a thumbnail](https://www.linkedin.com/help/linkedin/answer/a7486279).
 
 To replace these images after publishing a new recording, extract the chosen
 frame and make a social image without cropping the review:
 
 ```sh
 ffmpeg -ss 00:01:20 -i review-story-1080p.mp4 -frames:v 1 -q:v 2 docs/assets/review-story-poster.jpg
-ffmpeg -i docs/assets/review-story-poster.jpg -vf 'scale=-2:630,pad=1200:630:(ow-iw)/2:0:white' -frames:v 1 -q:v 2 docs/assets/review-story-social.jpg
+ffmpeg -i docs/assets/review-story-poster.jpg -vf 'scale=-2:630,pad=1200:630:(ow-iw)/2:0:white' -frames:v 1 -pix_fmt rgb24 docs/assets/review-story-preview.png
 ```
 
-Update the homepage's video URLs and metadata for the new recording. After
-deploying, inspect the homepage in [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/)
-to refresh its cached preview before sharing it again.
+Use a new image filename and update `intro/share-head.html` when replacing the
+preview, then rebuild. After deploying, inspect the root URL in
+[LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) to refresh its
+cached preview before sharing it again. This check requires a LinkedIn sign-in;
+a successful local image fetch does not confirm LinkedIn accepted the image.
 
 The [September 30 recording](https://github.com/theronburger/review-story/releases/tag/demo-2026-09-30)
 archives the 98-second, 1080p/30 fps MP4 and the exact source revision used for it.

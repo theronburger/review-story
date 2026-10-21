@@ -3,6 +3,7 @@
 import argparse
 import base64
 import json
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -19,7 +20,7 @@ def embedded_audio(name):
         return 'data:audio/mpeg;base64,' + base64.b64encode(compressed.read_bytes()).decode()
 
 
-def add_intro(output, demo=None):
+def add_intro(output, home=None):
     page = Path(output).read_text()
     if 'id="demo-intro"' in page:
         raise ValueError('Build the base review before adding the intro.')
@@ -36,14 +37,17 @@ def add_intro(output, demo=None):
     page = page.replace('<body>', '<body class="demo-intro-visible">\n' + markup)
     page = page.replace('</body>', '<script>\n' + script + '\n</script>\n</body>')
     Path(output).write_text(page)
-    if demo:
-        Path(demo).write_text(page.replace('<div class="demo-transport"', '<div hidden class="demo-transport"', 1))
+    if home:
+        homepage = page.replace('<div class="demo-transport"', '<div hidden class="demo-transport"', 1)
+        share_head = (INTRO / 'share-head.html').read_text(encoding='utf-8').strip()
+        homepage = re.sub(r'<title>[^<]*</title>', share_head, homepage, count=1)
+        Path(home).write_text(homepage, encoding='utf-8')
     print('Added silent RFC and PR intro with click-to-start narration')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output')
-    parser.add_argument('--demo', help='Write the public interactive demo without intro editing controls')
+    parser.add_argument('--home', help='Write the public homepage with share metadata and no intro editing controls')
     args = parser.parse_args()
-    add_intro(args.output, args.demo)
+    add_intro(args.output, args.home)
