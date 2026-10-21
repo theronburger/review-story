@@ -19,7 +19,7 @@ def embedded_audio(name):
         return 'data:audio/mpeg;base64,' + base64.b64encode(compressed.read_bytes()).decode()
 
 
-def add_intro(output, home=None):
+def add_intro(output, demo=None):
     page = Path(output).read_text()
     if 'id="demo-intro"' in page:
         raise ValueError('Build the base review before adding the intro.')
@@ -36,14 +36,14 @@ def add_intro(output, home=None):
     page = page.replace('<body>', '<body class="demo-intro-visible">\n' + markup)
     page = page.replace('</body>', '<script>\n' + script + '\n</script>\n</body>')
     Path(output).write_text(page)
-    if home:
-        Path(home).write_text(page.replace('<div class="demo-transport"', '<div hidden class="demo-transport"', 1))
+    if demo:
+        Path(demo).write_text(page.replace('<div class="demo-transport"', '<div hidden class="demo-transport"', 1))
     print('Added silent RFC and PR intro with click-to-start narration')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output')
-    parser.add_argument('--home', help='Write the public homepage without intro editing controls')
+    parser.add_argument('--demo', help='Write the public interactive demo without intro editing controls')
     args = parser.parse_args()
-    add_intro(args.output, args.home)
+    add_intro(args.output, args.demo)
