@@ -11,8 +11,8 @@
     "build:extended": "python3 skills/review-story/scripts/build.py examples/notices/review.json --audio examples/notices/audio --out docs/notices.html --source-pages docs/source --audio-format mp3"
   },
   "devDependencies": {
-    "@primer/octicons": "^19.38.0",
-    "jsdom": "^26.1.0",
-    "prettier": "^3.6.2"
+    "@primer/octicons": "^19.42.0",
+    "jsdom": "^30.1.3",
+    "prettier": "^3.9.10"
   }
 }
